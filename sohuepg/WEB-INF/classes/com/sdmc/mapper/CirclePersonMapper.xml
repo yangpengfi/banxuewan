@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sdmc.dao.CircleDao" > 
+	<select id="getCircleStars" parameterType="map" resultType="com.sdmc.bean.CirclePerson" >
+		SELECT
+			p1.id,p1.name,
+			p1.status,
+			IF(ISNULL(p2.icon) or p2.icon='',p1.icon,p2.icon) icon,
+			p2.circle_id circleId,
+			p2.sort
+		FROM
+		ott_person_property p1
+		LEFT JOIN ott_circle_person p2 ON p1.id = p2.actor_id
+		<where>
+		 	and p2.circle_id = #{circleId}  and  p1.`status`=0
+		</where>
+		ORDER BY p2.sort ASC
+		<if test="index != null and rows != null">
+		    limit #{index},#{rows}   
+        </if>
+	</select>
+	
+	<select id="getCircleVideosCount" parameterType="map" resultType="Integer" >
+		SELECT COUNT(*) FROM(
+			SELECT	*	FROM v_vod_content a
+			WHERE
+				actor LIKE 
+				CONCAT('%',trim((SELECT name FROM ott_person_property	WHERE id = ${actorId})),'%')
+	            AND a.level=1 AND a.status=2
+	            GROUP BY id
+		)a
+	</select>
+	
+	<!-- 获取明星相关影片列表 -->
+	<select id="getCircleVideos" parameterType="map" resultType="com.sdmc.bean.CircleVideo" >
+		SELECT
+			a.id,
+			a.title,
+			a.title subTitle,
+			a.type,
+			a.template_model templateModel,
+			a.album_verpic albumVerpic,
+			a.mark mark 
+		FROM
+			v_vod_content a
+		WHERE
+			actor LIKE 
+			CONCAT('%',trim((SELECT name FROM ott_person_property	WHERE id = ${actorId})),'%')
+            AND a.level=1 AND a.status=2
+            GROUP BY id
+		<if test="index != null and rows != null">
+		    limit #{index},#{rows}   
+        </if>
+	</select>
+</mapper>   

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="page-view-size" content="1280*720">
+    <title>政府信息</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        #news-content{
+            left:115px;top:140px;position:absolute;color: white; font-family: 微软雅黑;font-size: 20px;width: 1050px;line-height: 30px;height: 530px;overflow: hidden;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var accessToken="526f2792f1bed15b683a989abcdac675";
+        var focused;
+        var stop=0;
+        var top = 0;
+        var ctop=3000;
+        var vvv1;
+
+
+        window.onload = function() {
+             document.getElementById("back").focus();
+             var Request = new Object();  //取值时使用无需更改
+             Request = GetRequest();  //取值时使用无需更改 需保证GetRequest()存在;
+             vvv1 = Request['from'];    
+   
+        }
+
+        function gotoindex(){
+ if(vvv1=='shanghaiEstate'){
+                    window.location.href = '../../../../shanghaiEstate/index.html';
+                }
+                else{
+                    window.location.href = '../../../index.html';
+                }
+             }
+
+        function GetRequest(){    
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++){
+                theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    } 
+
+        function getNewsContentHeight(){
+            //setTimeout(function(){
+                ctop=document.getElementById("newscontent").clientHeight;
+               // document.getElementById("date").innerHTML=""+ctop+"";
+                ctop-=350;
+                ctop = 530;
+            //}, 0);
+            return ctop;
+        }
+document.onsystemevent = grabEvent;
+document.onkeypress = grabEvent;
+document.onirkeypress = grabEvent;
+document.onkeydown = grabEvent;
+//var E = iPanel.eventFrame;
+//var user = E.user;
+function grabEvent(event) {
+    var key_code = event.which;
+    switch(key_code)
+    {
+        case 1:
+        case 38:
+            if(stop>=200){
+                stop-=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 372://shang yi ye
+        case 33:
+                if(stop>=400){
+                    stop-=400;
+                }else{
+                	stop = 0;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 2:
+        case 40:
+		    //document.getElementById("date").innerHTML = document.getElementById("newscontent").clientHeight;
+            if(stop<5000){
+                stop+=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 373://xia yi ye
+        case 34:
+                if(stop<4800){
+                    stop+=400;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//          document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 3:
+        case 37:
+            if(focused==1){
+                return false;
+            }
+            else{
+                document.getElementById("shouye").focus();
+            }
+              
+          stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;    
+            break;
+        case 4:
+        case 39:
+            if(focused==1){
+                document.getElementById("back").focus();
+            }
+            else{return false;}
+             stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;
+            break;
+        case 340:	
+			case 8:  //返回
+//			history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+			break;
+			case 4096:
+//          history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+            break;
+    }
+
+}
+function init(){
+    document.getElementById("shouyeF").style.display="none";
+    document.getElementById("backF").style.display="none";
+}
+    function over1(){
+        init();
+        focused=1;
+        document.getElementById("shouyeF").style.display="block";
+    }
+function over2(){
+    init();
+    focused=2;
+    document.getElementById("backF").style.display="block";
+}
+function fanhui(){
+	window.location.href = "../../index.html?from="+vvv1;
+}
+    </script>
+</head>
+<body style="width: 1280px;height: 720px;">
+<a id="shouye" href="javascript:gotoindex();" style="left: 100px;top: 100px;position: absolute;width: 5px" onfocus="over1()">&nbsp </a>
+<a id="back" href="javascript:fanhui()" style="left: 150px;top: 100px;position: absolute;width: 5px" onfocus="over2()">&nbsp </a>
+<div>
+    <div id="title" style="left:115px;top: 50px;position:absolute;color: white; font-family: 微软雅黑;font-size: 28px"></div>
+    <div id="date" style="right: 95px;top: 50px;position:absolute;color: white;opacity: 0.6;font-family: 微软雅黑;"></div>
+	<img src="img/bg.png" style="width:1280px;height:720px;left:0px;top:0px;position: absolute">
+	<img src="img/index.png" alt="" id="indexBg" style="position: absolute;left:90px;top:100px;"/>
+    <img id="shouyeF" src="img/newFo.png" style="top:96px;left:86px;position: absolute;display: none">
+    <img id="backF" src="img/newFo.png" style="top:96px;left:147px;position: absolute;display: none">
+    <!--<div id="test" style="left: 50px;top: 100px;position: absolute">21341</div>-->
+</div>
+<div id="news-content">
+ 
+
+
+<p align="center">
+    太平财产保险有限公司
+</p>
+<p align="center">
+    附加旅行个人行李及随身物品保险条款（2011版）
+</p>
+<p align="center">
+    总则
+</p>
+<p>
+    <strong>第一条 </strong>
+    本附加保险合同（以下简称附加险合同）依主险合同投保人的申请，经保险人同意而订立。本附加险合同作为主险合同的组成部分，主险合同效力终止，本附加险合同效力亦同时终止；主险合同无效，本附加险合同亦无效。本附加险合同与主险合同相抵触之处，以本附加险合同为准，本附加险合同未约定事项，以主险合同为准。
+</p>
+<p>
+    本保险合同由保险条款、投保单、保险单或其他保险凭证、批单等组成。凡涉及本保险合同的约定，均应采用书面形式。
+</p>
+<p>
+    <strong>第二条 </strong>
+    除另有约定外，本附加险合同保险金的受益人为被保险人本人。
+</p>
+<p align="center">
+    保险责任
+</p>
+<p>
+    <strong>第三条 </strong>
+    在本附加险合同的保险期限内，被保险人持有有效证件在境内或境外旅行期间，因任何第三方盗窃、抢劫、企图盗窃行为，承运人或任何其他第三方的责任而遗失或意外损坏被保险人合法拥有的个人行李、行李中的个人物品及随身携带的物品，并于自知道或应当知道保险事故发生之时起的二十四小时内向保险事故发生地海关、警方或其他有关部门报案并领取其出具的保险事故证明，保险人在扣除本附加险合同中约定的免赔额后，按照本附加险合同的约定，负责赔偿有关修理费用或其实际价值。
+</p>
+<p>
+    （一）对于被保险人个人行李、物品及随身携带物品的损失，保险人有权选择采用下列方式赔偿：
+</p>
+<p>
+    1、 货币赔偿：根据受损标的的实际损失，按照保险合同的约定，以支付保险金的方式赔偿。
+</p>
+<p>
+    2、 实物赔偿：保险人以实物替换受损保险标的。
+</p>
+<p>
+    3、 实际修复：保险人自行或委托他人修复受损保险标的。
+</p>
+<p>
+    （二）<strong>对受损保险标的在替换或修复过程中，被保险人进行的任何不合理变更、性能增加或改进所产生的额外费用，保险人不负责赔偿。</strong>
+</p>
+<p>
+    （三）若被保险人遗失或损坏的个人行李或随身物品购买已超过一年的，保险人可根据其磨损及折旧程度自行做出适当赔偿或进行修复。
+</p>
+<p>
+    （四）若被保险人的损失已从公共交通工具承运人、酒店、旅行社、其它途径或其他保险公司获得付赔偿的，保险人可根据有关单位或保险公司出具的相关单证或给付保险金证明，在本保险合同的保险金额内仅承担被保险人除前述赔偿额之外剩余部分的赔偿责任。如果遗失、被盗窃或被抢劫的物件被发现或归还，被保险人应立即通知保险人并向保险人退回已领取的保险金。
+</p>
+<p align="center">
+    责任免除
+</p>
+<p>
+    <strong>第四条 </strong>
+    <strong>主保险合同列明的各项责任免除条款均适用于本附加险合同，若主险合同中责任免除条款与本条款有相抵触之处，则应以本条款为准。</strong>
+</p>
+<p>
+    <strong>第五条 </strong>
+    <strong>因下列情形之一，直接或间接导致被保险人个人及随身物品遗失或损坏的，保险人不承担赔偿责任：</strong>
+</p>
+<p>
+    <strong>（一） </strong>
+    <strong>被保险人的故意制造本附加条款的保险事故行为或隐瞒、欺诈行为，违反保险事故发生地法律的非法行为；</strong>
+</p>
+<p>
+    <strong>（二） </strong>
+    <strong>海关或其他政府机关的没收、扣留、隔离、检疫、征收或销毁行为；</strong>
+</p>
+<p>
+    <strong>（三） </strong>
+    <strong>被保险人行李物品正常的磨损、折旧、发霉、虫蛀、</strong>
+    <strong>腐烂、侵蚀、老化、光照、加热处理、干燥、染色、更换或因被保险人企图维修、</strong>
+    <strong>清洗或翻新过程中或空气转变引致的损坏、或</strong>
+    <strong>因刮损、出现凹痕、</strong>
+    <strong>机械性或电气性损坏、</strong>
+    <strong>使用不当、工艺或设计缺陷、使用有缺陷材料引起的损失和损坏；</strong>
+    <strong> </strong>
+</p>
+<p>
+    <strong>（四） </strong>
+    <strong>被保险人行李物品自身缺陷、包装不善、保管不善、缺乏看管、使用不当造成的损失以及被保险人挑衅造成的损失；</strong>
+</p>
+<p>
+    <strong>（五） </strong>
+    <strong>由于抓刮、撕裂或污渍等原因造成的损失</strong>
+    <strong>；</strong>
+</p>
+<p>
+    <strong>（六） </strong>
+    <strong>被保险人的商业合作伙伴、亲属或旅行同伴行窃导致物品损失；</strong>
+    <strong></strong>
+</p>
+<p>
+    <strong>（七） </strong>
+    <strong>在公共场所无人照看或被保险人没有尽到看管义务或被保险人自行遗失的行李及物品的损失；</strong>
+</p>
+<p>
+    <strong>（八） </strong>
+    <strong>行李或物品的神秘失踪；</strong>
+</p>
+<p>
+    <strong>（九） </strong>
+    <strong>非被保险人保管的贵重物品发生失窃、丢失或损坏，除非贵重物品保存于被保险人的住处、保险箱或其它安全保存箱内，并且有证据证明他人通过暴力手段进入窃取或劫取贵重物品；</strong>
+</p>
+<p>
+    <strong>（十） </strong>
+    <strong>被保险人在任何宾馆或汽车旅馆结帐离开时，遗忘于该酒店或汽车旅馆的随身行李或贵重物品丢失、失窃 或损坏；或者遗忘于任何空中交通工具、船只、列车、出租车或公共汽车中的物品丢失、失窃或损坏；</strong>
+</p>
+<p>
+    <strong>（十一） </strong>
+    <strong>走私、非法的运输或贸易；</strong>
+</p>
+<p>
+    <strong>（十二） </strong>
+    <strong>经承运人、酒店或任何其他责任方修理后能正常运行或恢复其正常功能的物品；</strong>
+</p>
+<p>
+    <strong>（十三） </strong>
+    <strong>自被保险人知道或应当知道保险事故发生之时起二十四小时内被保险人未向保险事故发生地海关、警方或其他有关部门报案并领取其出具的保险事故证明；</strong>
+</p>
+<p>
+    <strong>（十四） </strong>
+    <strong>可以从公共交通工具承运人、旅行社、酒店或其他保险单获得赔偿的损失；</strong>
+</p>
+<p>
+    <strong>（十五） </strong>
+    <strong>因贬值导致的损失。</strong>
+</p>
+<p>
+    <strong>第六条 </strong>
+    <strong>以下财产损失保险人也不承担赔偿责任：</strong>
+</p>
+<p>
+    <strong>（一） </strong>
+    <strong>金银、珠宝首饰或饰物、已镶嵌或未经镶嵌的宝石或半宝石；</strong>
+</p>
+<p>
+    <strong>（二） </strong>
+    <strong>手提电脑、便携式数码产品、移动电话及其附件（合同约定承保的除外）；</strong>
+</p>
+<p>
+    <strong>（三） </strong>
+    <strong>玻璃制品、瓷器、陶具及其他易碎品、家具、古董、艺术品；</strong>
+</p>
+<p>
+    <strong>（四） </strong>
+    <strong>音像制品、电脑软件、图章、文件；</strong>
+</p>
+<p>
+    <strong>（五） </strong>
+    <strong>易碎物品或眼镜的损坏；</strong>
+</p>
+<p>
+    <strong>（六） </strong>
+    <strong>易燃、易爆、危险品；</strong>
+</p>
+<p>
+    <strong>（七） </strong>
+    <strong>日用消耗品、动物、植物、食品；</strong>
+</p>
+<p>
+    <strong>（八） </strong>
+    <strong>用于商业活动的物品、样品、邮件；</strong>
+</p>
+<p>
+    <strong>（九） </strong>
+    <strong>现金（含钞票），旅行支票、支票、债券或证券、票据、邮票、印花、息票、地契、股票等有价证券，代币卡（包括信用卡）及其他付款工具，旅行证件； </strong>
+</p>
+<p>
+    <strong>（十） </strong>
+    <strong>录制于磁带、存储卡、磁盘CD、DVD光碟、软件、记忆棒或其他类似设备上的数据的遗失； </strong>
+</p>
+<p>
+    <strong>（十一） </strong>
+    <strong>事先托运的行李；另行邮寄或船运的纪念品或物品的遗失或损坏；</strong>
+</p>
+<p>
+    <strong>（十二） </strong>
+    <strong>各种自行车、机动车辆（及其附件）、摩托车、船、发动机或其他运输工具； </strong>
+</p>
+<p>
+    <strong>（十三） </strong>
+    <strong>租赁的设备。</strong>
+</p>
+<p align="center">
+    保险金额和保险费
+</p>
+<p>
+    <strong>第七条 </strong>
+    保险金额是保险人承担给付保险金责任的最高限额。保险金额由投保人、保险人双方约定，并在保险单中载明。投保人应该按照合同约定向保险人交纳保险费。
+</p>
+<p>
+    本附加险合同的保险金额分每件、每套或每对物品的限额和累计赔偿限额两种。每件、每套或每对物品的限额是保险人对每件、每套或每对物品承担赔偿责任的最高限额。累计赔偿限额是保险人在保险期间内累计承担遗失或受损的行李物品赔偿责任的最高限额。
+</p>
+<p align="center">
+    投保人、被保险人义务
+</p>
+<p>
+    <strong>第八条 </strong>
+被保险人应在旅途中妥善照管其行李物品，使之始终在被保险人的视线范围内或与被保险人身体有直接接触。如本附加险合同项下承保的行李及随身物品发生丢失或损坏，被保险人必须立即采取措施查寻、保护或挽救该行李或物品，使损失减少至最低程度。    <strong>被保险人违反前述义务因此而扩大的损失，保险人不承担赔偿责任。</strong>
+</p>
+<p>
+    被保险人需于知道或应当知道保险事故发生之日起二十四小时内向保险事故发生地海关、警方或其他有关部门报案并取得有关部门出具的书面保险事故证明。
+</p>
+<p>
+    如被保险人的行李及物品在公共交通工具、酒店或旅行社丢失或损坏的，被保险人需提供对方为其出具的书面保险事故证明。
+</p>
+<p align="center">
+    保险金申请与给付
+</p>
+<p>
+    <strong>第九条 </strong>
+    发生保险责任范围内的事故，保险金申请人请求赔偿时，应向保险人提供以下证明和资料。保险金申请人因特殊原因不能提供以下材料的，应提供其他合法有效的材料。<strong>保险金申请人未能提供有关材料，导致保险人无法核实的，保险人对无法核实部分不承担给付保险金的责任。</strong>
+</p>
+<p>
+    （1） 保险金申请人填具的索赔申请书；
+</p>
+<p>
+    （2） 保险单或其他保险凭证正本；
+</p>
+<p>
+    （3） 被保险人身份证明；
+</p>
+<p>
+    （4） 被保险人行李及随身物品损失清单及其发票原件；
+</p>
+<p>
+    （5） 被保险人向保险事故发生地海关、警方或其他有关部门报案并出具的保险事故证明文件正本；
+</p>
+<p>
+    （6） 如被保险人的个人行李及随身物品在酒店、公共交通工具或旅行社安排的交通工具内损失的，该酒店、公共交通工具承运人或旅行社出具的保险事故证明文件正本，包括保险事故日期及经过；
+</p>
+<p>
+    （7） 修理、修复的发票原件；
+</p>
+<p>
+    （8） 若是商务旅行，需被保险人的雇主提供的被保险人商务旅行的证明；
+</p>
+<p>
+    （9） 保险金申请人所能提供的与确认保险事故的性质、原因、损失程度等有关的其他证明和资料。
+</p>
+<p align="center">
+    其他事项
+</p>
+<p>
+    <strong>第十条 </strong>
+    发生保险责任范围内的损失，应由有关责任方负责赔偿的，保险人自向被保险人赔偿保险金之日起，在赔偿金额范围内代位行使被保险人对有关责任方请求赔偿的权利，被保险人应当向保险人提供必要的文件和所知道的有关情况。
+</p>
+<p>
+    被保险人已经从有关责任方取得赔偿的，保险人赔偿保险金时，可以相应扣减被保险人已从有关责任方取得的赔偿金额。
+</p>
+<p>
+    <strong>保险事故发生后，在保险人未赔偿保险金之前，被保险人放弃对有关责任方请求赔偿权利的，保险人不承担赔偿责任</strong>
+    ；保险人向被保险人赔偿保险金后，被保险人未经保险人同意放弃对有关责任方请求赔偿权利的，该行为无效；由于被保险人故意或者因重大过失致使保险人不能行使代位请求赔偿的权利的，保险人可以扣减或者要求返还相应的保险金。
+</p>
+<p align="center">
+    <strong>释义</strong>
+</p>
+<p>
+    <strong>1、 </strong>
+    <strong>行李：</strong>
+</p>
+<p>
+    指被保险人在旅行中为了穿着、使用或者便利而携带的必要及适量的物品和其他个人财物。
+</p>
+<p>
+    <strong>2、 </strong>
+    <strong>手提电脑：</strong>
+</p>
+<p>
+    指手提电脑或笔记本型电脑。
+</p>
+<p>
+    <strong>3、 </strong>
+    <strong>托运行李：</strong>
+</p>
+<p>
+    指被保险人搭乘公共交通工具时交由承运人负责照管和运输、并已经填妥行李票的行李，不包括托运的商业货物。
+</p>
+<p>
+    <strong>4、 </strong>
+    <strong>公共交通工具:</strong>
+</p>
+<p>
+    指领有当地政府主管部分依法颁发的公共交通营运执照，以收费方式合法载客的以下交通工具：
+</p>
+<p>
+    1） 公共汽车、长途汽车 、出租车、渡船、气垫船、水翼船、轮船、火车、有轨电车、轨道列车（包括地铁、轻轨及磁悬浮列车）；
+</p>
+<p>
+    2） 经营固定航班的航空公司经营的来往商业客运机场的定翼飞机<strong>；</strong>
+</p>
+<p>
+    3） 航空公司所经营的且往来商业客运机场之间或有营运执照的直升机站之间营运的直升飞机；
+</p>
+<p>
+    4） 按固定路线和时间表营运的固定机场客车。
+</p>
+<p>
+    若上述所列的各种公共交通工具用于非公共交通工具的目的和用途，均不符合本附加条款中“公共交通工具”的定义。另政府、企业及私人包机亦不在公共交通工具定义之内。
+</p>
+<p>
+    <strong>本附加条款的未解释名词，均以主险的名词解释为准。</strong>
+</p>
+
+
+
+</div>
+<!--<div id="test" style="position: absolute;left:200px;top:40px">1</div>-->
+</body>
+</html>

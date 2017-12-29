@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="page-view-size" content="1280*720">
+
+<title></title>
+
+<style>
+
+.c1 {
+
+	border:1px solid #000000;
+
+}
+
+.page{width:1280px;height:720px;position:absolute;top:0px;left:0px;}
+#indexBg{position: absolute;top:100px;left:91px;}
+#index_f{position:absolute;top:96px;left:85px;display:none;z-index:inherit;}
+#back_f{position:absolute;top:96px;left:148px;display:none;z-index:inherit;}
+#index{position:absolute;top:50px;left:0px;}
+#back{position:absolute;top:50px;left:100px;}
+
+</style>
+
+<script type="text/javascript" src="../../common.js"></script>
+<script type="text/javascript">
+var partnow;
+var submitnow=0;
+var addressnow=0;
+var vvv1;
+
+function partNow(id){ //标记位置
+    partnow = id;	
+}
+
+function gotoindex(){
+	if(vvv1=='shanghaiEstate'){
+   		window.location.href = '../../../shanghaiEstate/index.html';
+   	}
+   	else{
+   		window.location.href = '../../index.html';
+   	}
+//window.location.href = "../index.html"
+ }
+
+</script>
+
+</head>
+
+<body style="background-color:transparent;"  leftmargin="0" topmargin="0">
+
+	 <script type="text/javascript">
+ 	function kpress(){
+        document.onkeypress = grabEvent1;
+        document.onirkeypress = grabEvent1; 
+		document.onkeydown = grabEvent1;
+        function grabEvent1(event){
+	        var val = event || window.event || arguments.callee.caller.arguments[0];
+	        switch(val.keyCode){	
+	        	case 1:
+	            case 38:        
+		        	if(partnow==100){document.getElementById('index').focus();return false;}
+					if(partnow==101){document.getElementById('back').focus();return false;}			   
+	            break;
+	
+			    case 2:
+			    case 40:   
+				if(partnow==100){document.getElementById('index').focus();return false;}
+				if(partnow==101){document.getElementById('back').focus();return false;}
+	            break;
+				
+				case 3:
+				case 37:   
+				if(partnow==100){document.getElementById('index').focus();return false;}
+				if(partnow==101){document.getElementById('index').focus();return false;}
+				break;
+				
+				case 4:
+				case 39:   			
+				if(partnow==100){document.getElementById('back').focus();return false;}
+				if(partnow==101){document.getElementById('back').focus();return false;}
+				break;	
+				case 8:  //返回
+				case 340:
+				history.go(-1);
+	//			window.location.href = "../index.html";
+				return false;
+				break;
+				case 4096:
+	            history.go(-1);
+	//			window.location.href = "../index.html";
+				return false;
+	            break;
+	        }
+		}
+    }
+    
+ 
+window.onload = function(){
+//	 ntv.key.keypress_handle = set_listen_handle;
+	 kpress()
+     document.getElementById('back').focus();  
+     var Request = new Object();  //取值时使用无需更改
+     Request = GetRequest();  //取值时使用无需更改 需保证GetRequest()存在;
+     vvv1 = Request['from'];       
+}
+
+function fanhui(){
+	window.location.href = "../index.html?from="+vvv1;
+}
+
+</script>
+
+<div class="page">
+
+
+<a id="index" href="javascript:gotoindex();"      onfocus="partNow(100);overdisplay('index_f');"  onblur="outdisplay('index_f')">index </a>  
+<a id="back" href="javascript:fanhui();"  onfocus="partNow(101);overdisplay('back_f');"  onblur="outdisplay('back_f')">back </a>
+
+
+<img class="page"   src="images/031.png">
+<img src="images/index.png" alt="" id="indexBg" />
+<img id="index_f"   src="../images/iabf_agent.png"><!--首页按钮外发光-->
+<img id="back_f"    src="../images/iabf_agent.png"><!--返回按钮外发光-->
+
+
+
+</div>	
+
+
+</body>
+
+</html>
+

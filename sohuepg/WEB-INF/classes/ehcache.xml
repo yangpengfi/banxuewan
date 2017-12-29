@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false">
+    <diskStore path="java.io.tmpdir" />
+    <defaultCache
+            maxElementsInMemory="5000"
+            eternal="false"
+            timeToIdleSeconds="180"
+            timeToLiveSeconds="360"
+            overflowToDisk="false"
+            memoryStoreEvictionPolicy="LRU"
+            />
+    <cache name="tenMCache" maxElementsInMemory="20000"  eternal="false"  overflowToDisk="false"  diskPersistent="false"
+           timeToIdleSeconds="300"  timeToLiveSeconds="300"  memoryStoreEvictionPolicy="LRU">
+    </cache>
+     <cache name="CategoryMCache" maxElementsInMemory="20000"  eternal="false"  overflowToDisk="false"  diskPersistent="false"
+           timeToIdleSeconds="360"  timeToLiveSeconds="360"  memoryStoreEvictionPolicy="LRU">
+    </cache>
+     <cache name="ContentMCache" maxElementsInMemory="20000"  eternal="false"  overflowToDisk="false"  diskPersistent="false"
+           timeToIdleSeconds="360"  timeToLiveSeconds="360"  memoryStoreEvictionPolicy="LRU">
+    </cache>
+     <cache name="RecordCache" maxElementsInMemory="20000"  eternal="false"  overflowToDisk="false"  diskPersistent="false"
+           timeToIdleSeconds="360"  timeToLiveSeconds="3600"  memoryStoreEvictionPolicy="LRU">
+    </cache>
+</ehcache>

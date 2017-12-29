@@ -1,0 +1,276 @@
+*{
+	font-family: "Microsoft YaHei";
+   	vertical-align: middle;
+	
+}
+span{
+	color: white;
+	font-size: 20px;
+	text-align:center;
+}
+.movieDetail {
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	width: 1280px;
+	height: 720px;
+}
+.movieDetail-title-img {
+    position: absolute;
+    top: 40px;
+    left: 85px;
+}
+.movieDetail-header {
+	position: absolute;
+	top: 50px;
+	width: 100%;
+}
+
+.movieDetail-main {
+	width: 105px;
+	height: 105px;
+	position: absolute;
+	left: 1065px;
+	background: url(../images/header/main.png) no-repeat !important;
+}
+
+.movieDetail-main-on {
+	width: 105px;
+	height: 105px;
+	position: absolute;
+	left: 1065px;
+	background: url(../images/header/main_f.png) no-repeat !important;
+}
+
+.movieDetail-back {
+	width: 105px;
+	height: 105px;
+	position: absolute;
+	left: 1125px;
+	background: url(../images/header/back.png) no-repeat !important;
+}
+
+.movieDetail-back-on {
+	width: 105px;
+	height: 105px;
+	position: absolute;
+	left: 1125px;
+	background: url(../images/header/back_f.png) no-repeat !important;
+}
+
+.movieDetail-title {
+    font-size: 36px;
+    position: absolute;
+    top: 25px;
+    left: 90px;
+    letter-spacing: 5px;
+}
+
+.movieDetail-poster{
+    width: 222px;
+    height: 306px;
+    position: absolute;
+    top: 80px;
+    left:86px;
+}
+.movieDetail-videoList{
+  	float: left;
+    width: 191px;
+    height: 260px;
+}
+.movieDetail-profile{
+    line-height: 34px;
+    position: absolute;
+    top: 95px;
+    left: 350px;
+    width: 850px;
+}
+
+.movieDetail-info{
+    color: rgb(236,240,241);
+    font-size: 28px;
+}
+
+.movieDetail-description {
+    margin-top: 6px;
+    line-height: 27px;
+    font-size: 24px;
+    color: rgb(188,193,199);
+    overflow: hidden;
+    text-indent: 2em;
+}
+.movieDetail-buts{
+    position: absolute;
+    top: 122px;
+    left: 303px;
+}
+.movieDetail-but{
+	top: 214px;
+	position: absolute;
+	width: 116px;
+	height: 49px;
+	font-size: 20px;
+	color: #ecf0f1;
+	text-align: center;
+	line-height: 49px;
+	background-repeat: no-repeat;
+}
+
+.but {
+	background: url("../images/tvseries/butBg.png");
+}
+
+.but-on {
+	background: url("../images/tvseries/butBgFocus.png");
+}
+
+.but-play {
+	left:50px;
+}
+
+.but-collect {
+	left:191px;
+}
+
+.but-brief {
+	left:332px;
+}
+
+.movieDetail-bottom {
+    width: 1184px;
+    height: 250px;
+    position: absolute;
+    left: 87px;
+    top: 449px;
+}
+.top-span {
+	position: absolute;
+	left: 18px;
+	top: 0px;
+}
+
+.top-img {
+	position: absolute;
+	top: 9px;
+	left: 65px;
+}
+
+.movieDetail-line {
+    width: 1100px;
+    height: 23px;
+    background: url("../images/movie/line.png");
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 417px;
+    left: 176px;
+}
+.movieDetail-bottom-logo {
+    width: 121px;
+    height: 29px;
+    background: url("../images/movie/suggest_logo.png");
+    color: #ffffff;
+    font-size: 24px;
+    line-height: 25px;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 403px;
+    left: 86px;
+    text-indent: 0.3em;
+}
+
+.movieDetail-movieDetail{
+    float: left;
+    width: 168px;
+    height: 230px;
+}
+
+.movieDetail-video-poster{
+    width: 148px;
+    height: 206px;;
+}
+.movieDetail-video-poster-on {
+    width: 148px;
+    height: 206px;
+}
+.movieDetail-video-title{
+    color: white;
+    font-size: 25px;
+    width: 148px;
+    height: 37px;
+    line-height: 37px;
+    overflow: hidden;
+    text-align: center;
+    font-family: "Microsoft YaHei";
+}
+
+.movieDetail-mark{
+ 	position: absolute;
+    top: 0px;
+    width:50px;
+    height:50px;
+    z-index:3;
+}
+
+.movieDetail-mark-fee{
+ 	position: absolute;
+    top: 0px;
+    width: 49px;
+	height: 27px;
+    z-index:3;
+}
+
+.movieDetail-border {
+    top: 444px;
+    position: absolute;
+    display: none;
+}
+.movieDetail-border-on {
+    top: 443px;
+    display: block;
+    position: absolute;
+}
+.movieDetail-border0{
+	left:80px;
+}
+.movieDetail-border1 {
+	left:272px;
+}
+.movieDetail-border2 {
+	left:463px;
+}
+.movieDetail-border3 {
+	left:654px;
+}
+.movieDetail-border4 {
+	left:845px;
+}
+.movieDetail-border5 {
+	left:1036px;
+}
+
+.alert-container {
+	width: 1280px;
+	height: 720px;
+	top: 0px;
+	position: absolute;
+	background: url("../images/movie/detailback.png") no-repeat;
+	z-index: 4;
+}
+
+.alert-header {
+	font-size: 22px;
+	color: #EAEBEC;
+	line-height: 26px;
+	margin-top: 162px;
+	margin-left: 220px;
+	margin-right: 220px;
+}
+
+.alert-text {
+	font-size: 18px;
+	color: #EAEBEC;
+	line-height: 26px;
+	height: 36px;
+	margin-top: 15px;
+	margin-left: 220px;
+	margin-right: 220px;
+}

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="page-view-size" content="1280*720">
+    <title>政府信息</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        #news-content{
+            left:115px;top:140px;position:absolute;color: white; font-family: 微软雅黑;font-size: 20px;width: 1050px;line-height: 30px;height: 530px;overflow: hidden;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var accessToken="526f2792f1bed15b683a989abcdac675";
+        var focused;
+        var stop=0;
+        var top = 0;
+        var ctop=3000;
+        var vvv1;
+
+
+        window.onload = function() {
+             document.getElementById("back").focus();
+             var Request = new Object();  //取值时使用无需更改
+             Request = GetRequest();  //取值时使用无需更改 需保证GetRequest()存在;
+             vvv1 = Request['from'];    
+   
+        }
+
+        function gotoindex(){
+ 			if(vvv1=='shanghaiEstate'){
+                    window.location.href = '../../../../shanghaiEstate/index.html';
+                }
+                else{
+                    window.location.href = '../../../index.html';
+                }
+             }
+
+        function GetRequest(){    
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++){
+                theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    } 
+
+        function getNewsContentHeight(){
+            //setTimeout(function(){
+                ctop=document.getElementById("newscontent").clientHeight;
+               // document.getElementById("date").innerHTML=""+ctop+"";
+                ctop-=350;
+                ctop = 530;
+            //}, 0);
+            return ctop;
+        }
+document.onsystemevent = grabEvent;
+document.onkeypress = grabEvent;
+document.onirkeypress = grabEvent;
+document.onkeydown = grabEvent;
+//var E = iPanel.eventFrame;
+//var user = E.user;
+function grabEvent(event) {
+    var key_code = event.which;
+    switch(key_code)
+    {
+        case 1:
+        case 38:
+            if(stop>=200){
+                stop-=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 372://shang yi ye
+        case 33:
+                if(stop>=400){
+                    stop-=400;
+                }else{
+                	stop = 0;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 2:
+        case 40:
+		    //document.getElementById("date").innerHTML = document.getElementById("newscontent").clientHeight;
+            if(stop<2400){
+                stop+=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 373://xia yi ye
+        case 34:
+                if(stop<2200){
+                    stop+=400;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//          document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 3:
+        case 37:
+            if(focused==1){
+                return false;
+            }
+            else{
+                document.getElementById("shouye").focus();
+            }
+              
+          stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;    
+            break;
+        case 4:
+        case 39:
+            if(focused==1){
+                document.getElementById("back").focus();
+            }
+            else{return false;}
+             stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;
+            break;
+        case 340:	
+			case 8:  //返回
+//			history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+			break;
+			case 4096:
+//          history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+            break;
+    }
+
+}
+function init(){
+    document.getElementById("shouyeF").style.display="none";
+    document.getElementById("backF").style.display="none";
+}
+    function over1(){
+        init();
+        focused=1;
+        document.getElementById("shouyeF").style.display="block";
+    }
+function over2(){
+    init();
+    focused=2;
+    document.getElementById("backF").style.display="block";
+}
+function fanhui(){
+	window.location.href = "../../index.html?from="+vvv1;
+}
+    </script>
+</head>
+<body style="width: 1280px;height: 720px;">
+<a id="shouye" href="javascript:gotoindex();" style="left: 100px;top: 100px;position: absolute;width: 5px" onfocus="over1()">&nbsp </a>
+<a id="back" href="javascript:fanhui();" style="left: 150px;top: 100px;position: absolute;width: 5px" onfocus="over2()">&nbsp </a>
+<div>
+    <div id="title" style="left:115px;top: 50px;position:absolute;color: white; font-family: 微软雅黑;font-size: 28px"></div>
+    <div id="date" style="right: 95px;top: 50px;position:absolute;color: white;opacity: 0.6;font-family: 微软雅黑;"></div>
+	<img src="img/bg.png" style="width:1280px;height:720px;left:0px;top:0px;position: absolute">
+	<img src="img/index.png" alt="" id="indexBg" style="position: absolute;left:90px;top:100px;"/>
+    <img id="shouyeF" src="img/newFo.png" style="top:96px;left:86px;position: absolute;display: none">
+    <img id="backF" src="img/newFo.png" style="top:96px;left:147px;position: absolute;display: none">
+    <!--<div id="test" style="left: 50px;top: 100px;position: absolute">21341</div>-->
+</div>
+<div id="news-content">
+ 
+
+
+<p align="center">
+    太平财产保险有限公司
+</p>
+<p align="center">
+    附加旅行个人钱财保险条款（2011版）
+</p>
+<p align="center">
+    总则
+</p>
+<p>
+    <strong>第一条 </strong>
+    本附加保险合同（以下简称附加险合同）依主险合同投保人的申请，经保险人同意而订立。本附加险合同作为主险合同的组成部分，主险合同效力终止，本附加险合同效力亦同时终止；主险合同无效，本附加险合同亦无效。本附加险合同与主险合同相抵触之处，以本附加险合同为准，本附加险合同未约定事项，以主险合同为准。
+</p>
+<p>
+    本保险合同由保险条款、投保单、保险单或其他保险凭证、批单等组成。凡涉及本保险合同的约定，均应采用书面形式。
+</p>
+<p>
+    <strong>第二条 </strong>
+    除另有约定外，本附加险合同保险金的受益人为被保险人本人。
+</p>
+<p align="center">
+    保险责任
+</p>
+<p>
+    <strong>第三条 </strong>
+    在本附加险合同的保险期限内，被保险人持有有效证件在境内或境外旅行期间，因下列情形之一造成其损失现金、旅行支票或汇票，保险人对其实际损失的钱财，在扣除本附加险合同中约定的免赔额后，按照本附加险合同约定负赔偿责任:
+</p>
+<p>
+    （1） 被保险人寄存于登记入住酒店内的，由酒店提供的上锁保险箱内的钱财因被盗窃而遗失，在被保险人取得酒店管理部门的书面遗失证明后；
+</p>
+<p>
+    （2） 被保险人随身携带的钱财被盗窃或被抢劫而遗失，并于自知道或应当知道保险事故发生之时起的二十四小时内向保险事故发生地警方或其他有关部门报案并领取其出具的保险事故证明和个人现金损失报告。
+</p>
+<p>
+    若被保险人的损失已从酒店、其它途径或其他保险公司获得赔偿的，保险人可根据有关单位或保险公司出具的相关单证或给付保险金证明，在本保险合同的保险金额内仅承担被保险人除前述赔偿额之外剩余部分的赔偿责任。如果被盗窃或被抢劫的钱财被发现或归还，被保险人应立即通知保险人并向保险人退回已领取的保险金。
+</p>
+<p align="center">
+    责任免除
+</p>
+<p>
+    <strong>第四条 </strong>
+    <strong>主保险合同列明的各项责任免除条款均适用于本附加险合同，若主险合同中责任免除条款与本条款有相抵触之处，则应以本条款为准。</strong>
+</p>
+<p>
+    <strong>第五条 </strong>
+    <strong>因下列情形之一，直接或间接导致被保险人个人钱财遗失的，保险人不承担赔偿责任：</strong>
+</p>
+<p>
+    <strong>（一） </strong>
+    <strong>由于被保险人遗漏或疏忽；</strong>
+</p>
+<p>
+    <strong>（二） </strong>
+    <strong>由于汇兑、货币贬值等因素引起的损失；</strong>
+</p>
+<p>
+    <strong>（三） </strong>
+    <strong>任何信用卡、代币卡或旅行支票丢失；</strong>
+</p>
+<p>
+    <strong>（四） </strong>
+    <strong>被保险人未积极调查或寻找失窃的个人钱财；</strong>
+</p>
+<p>
+    <strong>（五） </strong>
+    <strong>可以从酒店、其他途径或其他保险公司获得赔偿的损失；</strong>
+</p>
+<p>
+    <strong>（六） </strong>
+    <strong>被保险人个人钱财在公共场所无人照看或被保险人没有尽到看管义务；</strong>
+</p>
+<p>
+    <strong>（七） </strong>
+    <strong>非随身携带或未存放于上锁保险箱；</strong>
+</p>
+<p>
+    <strong>（八） </strong>
+    <strong>随身携带的个人钱财神秘失踪；</strong>
+</p>
+<p>
+    <strong>（九） </strong>
+    <strong>旅行支票遗失后，未及时向签发行在当地分支机构或代理机构挂失的。</strong>
+</p>
+<p align="center">
+    投保人、被保险人义务
+</p>
+<p>
+    <strong>第六条 </strong>
+    被保险人应在旅途中妥善照管其个人钱财。如本附加险合同项下承保的个人钱财遗失，被保险人必须立即采取措施查寻。
+</p>
+<p>
+    被保险人需于知道或应当知道保险事故发生之日起二十四小时内向保险事故发生地警方或其他有关部门报案并取得有关部门出具的书面保险事故证明。
+</p>
+<p>
+    如被保险人的个人现金在酒店遗失的，被保险人需提供酒店出具的保险事故证明。
+</p>
+<p align="center">
+    保险金申请与给付
+</p>
+<p>
+    <strong>第七条 </strong>
+    发生保险责任范围内的事故，保险金申请人请求赔偿时，应向保险人提供以下证明和资料。保险金申请人因特殊原因不能提供以下材料的，应提供其他合法有效的材料。<strong>保险金申请人未能提供有关材料，导致保险人无法核实的，保险人对无法核实部分不承担给付保险金的责任。</strong>
+</p>
+<p>
+    （1） 保险金申请人填具的索赔申请书；
+</p>
+<p>
+    （2） 保险单或其他保险凭证正本；
+</p>
+<p>
+    （3） 被保险人身份证明；
+</p>
+<p>
+    （4） 被保险人向保险事故发生地警方或其他有关部门报案并出具的保险事故证明文件正本；
+</p>
+<p>
+    （5） 如被保险人的个人钱财在酒店内遗失的，该酒店出具的保险事故证明文件正本，包括保险事故日期及经过；
+</p>
+<p>
+    （6） 若是商务旅行，需被保险人的雇主提供的被保险人商务旅行的证明；
+</p>
+<p>
+    （7） 保险金申请人所能提供的与确认保险事故的性质、原因、损失程度等有关的其他证明和资料。
+</p>
+<p align="center">
+    其他事项
+</p>
+<p>
+    <strong>第八条 </strong>
+    发生保险责任范围内的损失，应由有关责任方负责赔偿的，保险人自向被保险人赔偿保险金之日起，在赔偿金额范围内代位行使被保险人对有关责任方请求赔偿的权利，被保险人应当向保险人提供必要的文件和所知道的有关情况。
+</p>
+<p>
+    被保险人已经从有关责任方取得赔偿的，保险人赔偿保险金时，可以相应扣减被保险人已从有关责任方取得的赔偿金额。
+</p>
+<p>
+    <strong>保险事故发生后，在保险人未赔偿保险金之前，被保险人放弃对有关责任方请求赔偿权利的，保险人不承担赔偿责任</strong>
+    ；保险人向被保险人赔偿保险金后，被保险人未经保险人同意放弃对有关责任方请求赔偿权利的，该行为无效；由于被保险人故意或者因重大过失致使保险人不能行使代位请求赔偿的权利的，保险人可以扣减或者要求返还相应的保险金。
+</p>
+<p align="center">
+    <strong>释义</strong>
+</p>
+<p>
+    <strong>个人钱财：</strong>
+</p>
+<p>
+    指发生保险事故时，被保险人私人所有的现金、旅行支票或汇票，但暂由被保险人保管的投保人或其他人的钱财以及被保险人将用于公务支出的现金、旅行支票或汇票除外。
+</p>
+<p>
+    <strong>本附加条款的未解释名词，均以主险的名词解释为准。</strong>
+</p>
+
+
+
+</div>
+<!--<div id="test" style="position: absolute;left:200px;top:40px">1</div>-->
+</body>
+</html>

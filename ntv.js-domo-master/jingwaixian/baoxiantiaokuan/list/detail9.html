@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="page-view-size" content="1280*720">
+    <title>政府信息</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        #news-content{
+            left:115px;top:140px;position:absolute;color: white; font-family: 微软雅黑;font-size: 20px;width: 1050px;line-height: 30px;height: 530px;overflow: hidden;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var accessToken="526f2792f1bed15b683a989abcdac675";
+        var focused;
+        var stop=0;
+        var top = 0;
+        var ctop=3000;
+        var vvv1;
+
+
+        window.onload = function() {
+             document.getElementById("back").focus();
+             var Request = new Object();  //取值时使用无需更改
+             Request = GetRequest();  //取值时使用无需更改 需保证GetRequest()存在;
+             vvv1 = Request['from'];    
+   
+        }
+
+        function gotoindex(){
+ if(vvv1=='shanghaiEstate'){
+                    window.location.href = '../../../../shanghaiEstate/index.html';
+                }
+                else{
+                    window.location.href = '../../../index.html';
+                }
+             }
+
+        function GetRequest(){    
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++){
+                theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    } 
+
+        function getNewsContentHeight(){
+            //setTimeout(function(){
+                ctop=document.getElementById("newscontent").clientHeight;
+               // document.getElementById("date").innerHTML=""+ctop+"";
+                ctop-=350;
+                ctop = 530;
+            //}, 0);
+            return ctop;
+        }
+document.onsystemevent = grabEvent;
+document.onkeypress = grabEvent;
+document.onirkeypress = grabEvent;
+document.onkeydown = grabEvent;
+//var E = iPanel.eventFrame;
+//var user = E.user;
+function grabEvent(event) {
+    var key_code = event.which;
+    switch(key_code)
+    {
+        case 1:
+        case 38:
+            if(stop>=200){
+                stop-=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 372://shang yi ye
+        case 33:
+                if(stop>=400){
+                    stop-=400;
+                }else{
+                	stop = 0;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 2:
+        case 40:
+		    //document.getElementById("date").innerHTML = document.getElementById("newscontent").clientHeight;
+            if(stop<1800){
+                stop+=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 373://xia yi ye
+        case 34:
+                if(stop<1600){
+                    stop+=400;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//          document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 3:
+        case 37:
+            if(focused==1){
+                return false;
+            }
+            else{
+                document.getElementById("shouye").focus();
+            }
+              
+          stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;    
+            break;
+        case 4:
+        case 39:
+            if(focused==1){
+                document.getElementById("back").focus();
+            }
+            else{return false;}
+             stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;
+            break;
+        case 340:	
+			case 8:  //返回
+//			history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+			break;
+			case 4096:
+//          history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+            break;
+    }
+
+}
+function init(){
+    document.getElementById("shouyeF").style.display="none";
+    document.getElementById("backF").style.display="none";
+}
+    function over1(){
+        init();
+        focused=1;
+        document.getElementById("shouyeF").style.display="block";
+    }
+function over2(){
+    init();
+    focused=2;
+    document.getElementById("backF").style.display="block";
+}
+function fanhui(){
+	window.location.href = "../../index.html?from="+vvv1;
+}
+    </script>
+</head>
+<body style="width: 1280px;height: 720px;">
+<a id="shouye" href="javascript:gotoindex();" style="left: 100px;top: 100px;position: absolute;width: 5px" onfocus="over1()">&nbsp </a>
+<a id="back" href="javascript:fanhui()" style="left: 150px;top: 100px;position: absolute;width: 5px" onfocus="over2()">&nbsp </a>
+<div>
+    <div id="title" style="left:115px;top: 50px;position:absolute;color: white; font-family: 微软雅黑;font-size: 28px"></div>
+    <div id="date" style="right: 95px;top: 50px;position:absolute;color: white;opacity: 0.6;font-family: 微软雅黑;"></div>
+	<img src="img/bg.png" style="width:1280px;height:720px;left:0px;top:0px;position: absolute">
+	<img src="img/index.png" alt="" id="indexBg" style="position: absolute;left:90px;top:100px;"/>
+    <img id="shouyeF" src="img/newFo.png" style="top:96px;left:86px;position: absolute;display: none">
+    <img id="backF" src="img/newFo.png" style="top:96px;left:147px;position: absolute;display: none">
+    <!--<div id="test" style="left: 50px;top: 100px;position: absolute">21341</div>-->
+</div>
+<div id="news-content">
+ 
+
+<p align="center">
+    太平财产保险有限公司
+</p>
+<p align="center">
+    附加行李延误保险条款（2011版）
+</p>
+<p align="center">
+    总则
+</p>
+<p>
+    <strong>第一条 </strong>
+    本附加保险合同（以下简称附加险合同）依主险合同投保人的申请，经保险人同意而订立。本附加险合同作为主险合同的组成部分，主险合同效力终止，本附加险合同效力亦同时终止；主险合同无效，本附加险合同亦无效。本附加险合同与主险合同相抵触之处，以本附加险合同为准，本附加险合同未约定事项，以主险合同为准。
+</p>
+<p>
+    本保险合同由保险条款、投保单、保险单或其他保险凭证、批单等组成。凡涉及本保险合同的约定，均应采用书面形式。
+</p>
+<p>
+    <strong>第二条 </strong>
+    除另有约定外，本附加险合同保险金的受益人为被保险人本人。
+</p>
+<p align="center">
+    保险责任
+</p>
+<p>
+    <strong>第三条 </strong>
+    在本附加险合同保险期间内，被保险人持有有效证件在境内或境外旅行时，随行托运行李在被保险人所搭乘的公共交通工具抵达目的地后，未在本附加险合同中约定的时间限度内到达，保险人按照本附加险合同约定承担赔偿责任。
+</p>
+<p align="center">
+    责任免除
+</p>
+<p>
+    <strong>第四条 </strong>
+    <strong>主保险合同列明的各项责任免除条款均适用于本附加险合同，若主险合同中责任免除条款与本条款有相抵触之处，则应以本条款为准。</strong>
+</p>
+<p>
+    <strong>第五条 </strong>
+    <strong>由于下列原因直接或间接导致被保险人行李延误或造成任何下列损失，保险人不承担给付保险金责任：</strong>
+</p>
+<p>
+    <strong>（一） </strong>
+    <strong>被保险人旅行出发前已意识到任何将可能导致行李延误的情况；</strong>
+</p>
+<p>
+    <strong>（二） </strong>
+    <strong>海关或其他政府机关的没收、扣留、检疫、隔离、征收或销毁行为；</strong>
+</p>
+<p>
+    <strong>（三） </strong>
+    <strong>被保险人托运的个人行李置留在公共交通工具承运人或其代理人处；</strong>
+</p>
+<p>
+    <strong>（四） </strong>
+    <strong>被保险人抵达预定目的地后未及时通知目的地的公共交通工具承运人托运行李延误情况并取得有关行李延误的证明文件；</strong>
+</p>
+<p>
+    <strong>（五） </strong>
+    <strong>非该次旅行时托运的个人行李；</strong>
+</p>
+<p>
+    <strong>（六） </strong>
+    <strong>被保险人的行李中含有禁止托运物品；</strong>
+</p>
+<p>
+    <strong>（七） </strong>
+    <strong>被保险人办理完登记手续后，未能准时登乘公共交通工具，导致的行李延误。</strong>
+</p>
+<p align="center">
+    保险金申请与给付
+</p>
+<p>
+    <strong>第六条 </strong>
+    发生保险责任范围内的事故，保险金申请人请求赔偿时，应向保险人提交以下证明和资料。保险金申请人因特殊原因不能提供以下材料的，应提供其他合法有效的材料。<strong>保险金申请人未能提供有关材料，导致保险人无法核实的，保险人对无法核实部分不承担给付保险金的责任。</strong>
+</p>
+<p>
+    （1) 保险金申请人填具的索赔申请书；
+</p>
+<p>
+    （2) 保险单原件或其他保险凭证正本；
+</p>
+<p>
+    （3) 被保险人身份证明；
+</p>
+<p>
+    （4) 公共交通工具承运人或其代理人出具的保险事故证明文件正本，包括事故发生日期、行李延误的原因以及领回托运行李的时间等信息；
+</p>
+<p>
+    （5) 公共交通工具票据的原件；
+</p>
+<p>
+    （6) 托运行李的凭证原件；
+</p>
+<p>
+    （7) 若是商务旅行，需被保险人的雇主提供的被保险人公务出差旅行的证明；
+</p>
+<p>
+    （8) 保险金申请人所能提供的的与确认保险事故的性质、原因、损失程度等有关的其他证明和资料。
+</p>
+<p align="center">
+    <strong>释义</strong>
+</p>
+<p>
+    <strong>1、 </strong>
+    <strong>托运行李：</strong>
+</p>
+<p>
+    指被保险人搭乘公共交通工具时交由承运人负责照管和运输、并已经填妥行李票的行李，<strong>但不包括托运的商业货物</strong>。行李指旅客在旅行中为了穿着、使用或者便利而携带的必要及适量的物品和其他个人财物。
+</p>
+<p>
+    <strong>2、 </strong>
+    <strong>公共交通工具:</strong>
+</p>
+<p>
+    指领有当地政府主管部分依法颁发的公共交通营运执照，以收费方式合法载客的以下交通工具：
+</p>
+<p>
+    1） 公共汽车、长途汽车 、出租车、渡船、气垫船、水翼船、轮船、火车、有轨电车、轨道列车（包括地铁、轻轨及磁悬浮列车）；
+</p>
+<p>
+    2） 经营固定航班的航空公司经营的来往商业客运机场的定翼飞机<strong>；</strong>
+</p>
+<p>
+    3） 航空公司所经营的且往来商业客运机场之间或有营运执照的直升机站之间营运的直升飞机；
+</p>
+<p>
+    4） 按固定路线和时间表营运的固定机场客车。
+</p>
+<p>
+    若上述所列的各种公共交通工具用于非公共交通工具的目的和用途，均不符合本附加条款中“公共交通工具”的定义。另政府、企业及私人包机亦不在公共交通工具定义之内。
+</p>
+<p>
+    <strong></strong>
+</p>
+<p>
+    <strong>本附加条款的未解释名词，均以主险的名词解释为准。</strong>
+    <strong></strong>
+</p>
+
+
+
+
+</div>
+<!--<div id="test" style="position: absolute;left:200px;top:40px">1</div>-->
+</body>
+</html>

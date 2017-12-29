@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="page-view-size" content="1280*720">
+    <title>政府信息</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        #news-content{
+            left:115px;top:140px;position:absolute;color: white; font-family: 微软雅黑;font-size: 20px;width: 1050px;line-height: 30px;height: 530px;overflow: hidden;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var accessToken="526f2792f1bed15b683a989abcdac675";
+        var focused;
+        var stop=0;
+        var top = 0;
+        var ctop=3000;
+        var vvv1;
+
+
+        window.onload = function() {
+             document.getElementById("back").focus();
+             var Request = new Object();  //取值时使用无需更改
+             Request = GetRequest();  //取值时使用无需更改 需保证GetRequest()存在;
+             vvv1 = Request['from'];    
+   
+        }
+
+        function gotoindex(){
+ if(vvv1=='shanghaiEstate'){
+                    window.location.href = '../../../../shanghaiEstate/index.html';
+                }
+                else{
+                    window.location.href = '../../../index.html';
+                }
+             }
+
+        function GetRequest(){    
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++){
+                theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    } 
+
+        function getNewsContentHeight(){
+            //setTimeout(function(){
+                ctop=document.getElementById("newscontent").clientHeight;
+               // document.getElementById("date").innerHTML=""+ctop+"";
+                ctop-=350;
+                ctop = 530;
+            //}, 0);
+            return ctop;
+        }
+document.onsystemevent = grabEvent;
+document.onkeypress = grabEvent;
+document.onirkeypress = grabEvent;
+document.onkeydown = grabEvent;
+//var E = iPanel.eventFrame;
+//var user = E.user;
+function grabEvent(event) {
+    var key_code = event.which;
+    switch(key_code)
+    {
+        case 1:
+        case 38:
+            if(stop>=200){
+                stop-=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 372://shang yi ye
+        case 33:
+                if(stop>=400){
+                    stop-=400;
+                }else{
+                	stop = 0;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 2:
+        case 40:
+		    //document.getElementById("date").innerHTML = document.getElementById("newscontent").clientHeight;
+            if(stop<1800){
+                stop+=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 373://xia yi ye
+        case 34:
+                if(stop<1600){
+                    stop+=400;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//          document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 3:
+        case 37:
+            if(focused==1){
+                return false;
+            }
+            else{
+                document.getElementById("shouye").focus();
+            }
+              
+          stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;    
+            break;
+        case 4:
+        case 39:
+            if(focused==1){
+                document.getElementById("back").focus();
+            }
+            else{return false;}
+             stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;
+            break;
+        case 340:	
+			case 8:  //返回
+//			history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+			break;
+			case 4096:
+//          history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+            break;
+    }
+
+}
+function init(){
+    document.getElementById("shouyeF").style.display="none";
+    document.getElementById("backF").style.display="none";
+}
+    function over1(){
+        init();
+        focused=1;
+        document.getElementById("shouyeF").style.display="block";
+    }
+function over2(){
+    init();
+    focused=2;
+    document.getElementById("backF").style.display="block";
+}
+function fanhui(){
+	window.location.href = "../../index.html?from="+vvv1;
+}
+    </script>
+</head>
+<body style="width: 1280px;height: 720px;">
+<a id="shouye" href="javascript:gotoindex();" style="left: 100px;top: 100px;position: absolute;width: 5px" onfocus="over1()">&nbsp </a>
+<a id="back" href="javascript:fanhui();" style="left: 150px;top: 100px;position: absolute;width: 5px" onfocus="over2()">&nbsp </a>
+<div>
+    <div id="title" style="left:115px;top: 50px;position:absolute;color: white; font-family: 微软雅黑;font-size: 28px"></div>
+    <div id="date" style="right: 95px;top: 50px;position:absolute;color: white;opacity: 0.6;font-family: 微软雅黑;"></div>
+	<img src="img/bg.png" style="width:1280px;height:720px;left:0px;top:0px;position: absolute">
+	<img src="img/index.png" alt="" id="indexBg" style="position: absolute;left:90px;top:100px;"/>
+    <img id="shouyeF" src="img/newFo.png" style="top:96px;left:86px;position: absolute;display: none">
+    <img id="backF" src="img/newFo.png" style="top:96px;left:147px;position: absolute;display: none">
+    <!--<div id="test" style="left: 50px;top: 100px;position: absolute">21341</div>-->
+</div>
+<div id="news-content">
+ 
+<p align="center">
+    太平财产保险有限公司
+</p>
+<p align="center">
+    附加旅行绑架及非法拘禁慰问补偿保险条款（2014版）
+</p>
+<p align="center">
+    总则
+</p>
+<p>
+    <strong>第一条 </strong>
+    本附加保险合同（以下简称附加险合同）依主险合同投保人的申请，经保险人同意而订立。本附加险合同作为主险合同的组成部分，主险合同效力终止，本附加险合同效力亦同时终止；主险合同无效，本附加险合同亦无效。本附加险合同与主险合同相抵触之处，以本附加险合同为准，本附加险合同未约定事项，以主险合同为准。
+</p>
+<p>
+    本保险合同由保险条款、投保单、保险单或其他保险凭证、批单等组成。凡涉及本保险合同的约定，均应采用书面形式。
+</p>
+<p>
+    <strong>第二条 </strong>
+    除另有约定外，本附加险合同保险金的受益人为被保险人本人。若被保险人在绑架或非法拘禁事故中身故，则本附加险合同保险金的受益人同主险合同。
+</p>
+<p align="center">
+    保险责任
+</p>
+<p>
+    <strong>第三条 </strong>
+    在本附加险合同保险期间内，被保险人在旅行期间遭受绑架或非法拘禁事故超过二十四小时（含二十四小时,下同）者，保险人在被保险人遭受绑架或非法拘禁期间按照本附加险合同中列明的每日慰问补偿金额向被保险人给付保险金，直至脱离被绑架或被非法拘禁状况之日，但最高累计赔偿日数不超过保险单或保险凭证中载明的赔偿日数限额。
+</p>
+<p align="center">
+    责任免除
+</p>
+<p>
+    <strong>第四条 </strong>
+    <strong>主保险合同列明的各项责任免除条款均适用于本附加险合同，若主险合同中责任免除条款与本条款有相抵触之处，则应以本条款为准。</strong>
+</p>
+<p>
+    <strong>第五条 </strong>
+    <strong>因下列原因或于下列期间所遭受的绑架或非法拘禁或发生下列情形的，保险人不承担给付保险金责任：</strong>
+</p>
+<p>
+    <strong>（一） </strong>
+    <strong>投保人或被保险人出发前已知且已存在的可能导致绑架或非法拘禁的情况或条件，包括但不限于当时已经宣布或已经发生的任何罢工或暴乱；</strong>
+</p>
+<p>
+    <strong>（二） </strong>
+    <strong>投保人、被保险人或其家属未在获知绑架或非法拘禁事件发生后二十四小时内向事发当地警方报告；</strong>
+</p>
+<p>
+    <strong>（三） </strong>
+    <strong>投保人或被保险人的故意行为或犯罪行为或故意扩大损失的行为；</strong>
+</p>
+<p>
+    <strong>（四） </strong>
+    <strong>被保险人非法滞留境外期间；</strong>
+</p>
+<p>
+    <strong>（五） </strong>
+    <strong>政府的强制拘禁期间。</strong>
+</p>
+<p align="center">
+    投保人及被保险人义务
+</p>
+<p>
+    <strong>第六条 </strong>
+    若在本附加险合同保险期间内，被保险人遭受绑架或非法拘禁，投保人，被保险人或其家属应在获知事故发生后二十四小时内向事发当地警方报案，取得警方、使领馆或有关当局出具的书面证明, 并通知保险人或保险人委托的救援机构或其授权代表。
+</p>
+<p align="center">
+    保险金申请与给付
+</p>
+<p>
+    <strong>第七条 </strong>
+    发生保险责任范围内的事故，保险金申请人请求赔偿时，应向保险人提交以下证明和资料。保险金申请人因特殊原因不能提供以下材料的，应提供其他合法有效的材料。<strong>保险金申请人未能提供有关材料，导致保险人无法核实的，保险人对无法核实部分不承担给付保险金的责任。</strong>
+</p>
+<p>
+    （1) 保险金申请人填具的索赔申请书；
+</p>
+<p>
+    （2) 保险单原件或其他保险凭证正本；
+</p>
+<p>
+    （3) 被保险人身份证明；
+</p>
+<p>
+    （4) 当地警方、使领馆或有关当局出具的注明被保险人被绑架或非法拘禁日数的书面证明材料；
+</p>
+<p>
+    （5) 保险金申请人所能提供的的与确认保险事故的性质、原因、损失程度等有关的其他证明和资料。
+</p>
+<p align="center">
+    <strong>释义</strong>
+</p>
+<p>
+    <strong>1、 </strong>
+    <strong>绑架</strong>
+</p>
+<p>
+    是指任何以勒索财物为目的，通过使用暴力、胁迫或者其他方法劫持、羁押或扣留被保险人作为人质的行为。
+</p>
+<p>
+    <strong>2、 </strong>
+    <strong>非法拘禁</strong>
+</p>
+<p>
+    是指任何以拘押、禁闭或者以其他强制方法，违反被保险人意愿，非法剥夺被保险人人身自由的行为（政府的强制拘禁除外）。
+</p>
+<p>
+    <strong>3、 </strong>
+    <strong>遭受绑架或非法拘禁期间</strong>
+</p>
+<p>
+    是指被保险人实际被绑架或被非法拘禁的时间持续达到二十四小时或以上，每满二十四小时为一日。以绑架或拘禁当地警方、使领馆或有关当局出具的证明文件为准。
+</p>
+<p>
+    <strong>4、 </strong>
+    <strong>非法滞留境外期间</strong>
+</p>
+<p>
+    是指被保险人未获得某国家合法许可而进入停留该国期间，或者其所获得的合法停留该国期限届满停后仍滞留于该国的期间。
+</p>
+<p>
+    <strong></strong>
+</p>
+<p>
+    <strong>本附加条款的未解释名词，均以主险的名词解释为准。</strong>
+    <strong></strong>
+</p>
+
+
+
+
+
+</div>
+<!--<div id="test" style="position: absolute;left:200px;top:40px">1</div>-->
+</body>
+</html>

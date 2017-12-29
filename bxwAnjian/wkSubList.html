@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title> 同步知识点微课 </title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <link rel="stylesheet" href="css/ntv.css">
+</head>
+<body>
+<div class="container pos-abs">
+    <img src="img/index/TVlogo.png"  id="leftLogo"/>
+    <span class="title" id="title">微课</span>
+    <div id="subCenterList">
+        <ul>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="js/ntv.js"></script>
+<script type="text/javascript" src="js/myFunction.js"></script>
+<script type="text/javascript">
+
+    (function(){
+        //ntv.log.debug = true;   // 是否开启调试模式。
+
+        /*获取content二级列表*/
+        banxue('#subCenterList ul').empty().append(sessionStorage.getItem('subList'));
+        /*标题获取*/
+        banxue("#title").text(sessionStorage.getItem('title'));
+        /**
+         * 微课点击事件
+         * */
+        banxue('#subCenterList>ul').on('click','li',function(){
+            var resourceId=banxue(this).attr('data-resourceId');
+            banxue(this).addClass('select').siblings().removeClass();
+            var params={
+                token:token,
+                resourceId:resourceId
+            };
+            banxue.ajax({
+                url:hostIp+'/app/microcourse/a/getResourceDetail.do',
+                type:'POST',
+                data:params,
+                success:function(data){
+                    console.log(data)
+                    location.href="details.html";
+                    sessionStorage.setItem("data",JSON.stringify(data.data));
+                }
+            });
+        })
+    })();
+</script>
+</body>
+</html>

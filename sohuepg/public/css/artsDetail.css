@@ -1,0 +1,414 @@
+.top-span {
+	position: absolute;
+	left: 18px;
+	top: 0px;
+}
+
+.top-img {
+	position: absolute;
+	top: 10px;
+	left: 65px;
+}
+
+.artsDetail{
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	width: 1280px;
+	height: 720px;
+}
+
+.artsDetail-header {
+	position: absolute;
+	top: 50px;
+	width: 100%;
+}
+
+.artsDetail-main {
+	width: 105px;
+	height: 105px;
+	position: absolute;
+	left: 1065px;
+	background: url(../images/header/main.png) no-repeat !important;
+}
+
+.artsDetail-main-on {
+	width: 105px;
+	height: 105px;
+	position: absolute;
+	left: 1065px;
+	background: url(../images/header/main_f.png) no-repeat !important;
+}
+
+.artsDetail-back {
+	width: 105px;
+	height: 105px;
+	position: absolute;
+	left: 1125px;
+	background: url(../images/header/back.png) no-repeat !important;
+}
+
+.artsDetail-back-on {
+	width: 105px;
+	height: 105px;
+	position: absolute;
+	left: 1125px;
+	background: url(../images/header/back_f.png) no-repeat !important;
+}
+.artsDetail-title-img {
+    position: absolute;
+    top: 40px;
+    left: 85px;
+}
+.artsDetail-title {
+	font-size: 36px;
+    position: absolute;
+    top: 35px;
+    left: 90px;
+    letter-spacing: 5px;
+    width:1100px;
+    text-align: left;
+}
+
+.artsDetail-poster{
+    width: 222px;
+    height: 306px;
+    position: absolute;
+    top: 100px;
+    left: 86px;
+}
+.artsDetail-profile{
+    line-height: 34px;
+    position: absolute;
+    top: 95px;
+    left: 350px;
+    width: 850px;
+}
+
+.artsDetail-info{
+    color: rgb(236,240,241);
+    font-size: 28px;
+}
+
+.artsDetail-description {
+	font-family: "Microsoft YaHei";
+    margin-top: 10px;
+    line-height: 27px;
+    font-size: 24px;
+    color: rgb(188,193,199);
+    overflow: hidden;
+    text-indent: 2em;
+}
+.artsDetail-buts{
+    position: absolute;
+    top: 142px;
+    left: 303px;
+}
+.artsDetail-but{
+	top: 214px;
+	position: absolute;
+	width: 116px;
+	height: 49px;
+	font-size: 20px;
+	color: #ecf0f1;
+	text-align: center;
+	line-height: 49px;
+	background-repeat: no-repeat;
+}
+
+.but {
+	background: url("../images/tvseries/butBg.png");
+}
+
+.but-on {
+	background: url("../images/tvseries/butBgFocus.png");
+}
+
+.but-play {
+	left:50px;
+}
+
+.but-collect {
+	left:191px;
+}
+
+.but-brief {
+	left:332px;
+}
+
+
+.artsDetail-center-bg {
+    position: absolute;
+    top: 445px;
+    left:0px;
+    width: 1280px;
+    height: 243px;
+    padding-top:30px;
+    z-index:0;
+}
+.artsDetail-center {
+    position: absolute;
+    top: 478px;
+    left: 0px;
+    width: 1280px;
+    height: 180px;
+    background: url("../images/arts/bottomBg.png");
+   /*  width: 1100px;
+    height: 200px; */
+}
+.artsDetail-center-bg0 {
+    position: absolute;
+    top: 500px;
+    left: 80px;
+    width:538px;
+    height:38px;
+}
+.artsDetail-center-bg2 {
+    position: absolute;
+    top: 550px;
+    left: 80px;
+    width:538px;
+    height:38px;
+}
+.artsDetail-center-bg4 {
+    position: absolute;
+    top: 600px;
+    left: 80px;
+    width:538px;
+    height:38px;
+}
+.artsDetail-center-bg6 {
+    position: absolute;
+    top: 650px;
+    left: 80px;
+    width:538px;
+    height:38px;
+}
+
+.artsDetail-center-bg1 {
+    position: absolute;
+    top: 500px;
+    left: 642px;
+    width:538px;
+    height:38px;
+}
+.artsDetail-center-bg3 {
+    position: absolute;
+    top: 550px;
+    left: 642px;
+    width:538px;
+    height:38px;
+}
+.artsDetail-center-bg5 {
+    position: absolute;
+    top: 600px;
+    left: 642px;
+    width:538px;
+    height:38px;
+}
+.artsDetail-center-bg7 {
+    position: absolute;
+    top: 650px;
+    left: 642px;
+    width:538px;
+    height:38px;
+}
+
+.video{
+	background:url();
+}
+marquee {}
+.video-on{
+	background: url("../images/arts/contentBg.png") no-repeat !important;
+}
+
+.artsDetail-video-title {
+	position: absolute;
+    font-size: 25px;
+    color: rgb(188,193,199);
+    overflow: hidden;
+    line-height: 50px;
+    font-family: "Microsoft YaHei";
+	width: 538px;
+    height:50px;
+    background-repeat: no-repeat;
+}
+    
+
+.artsDetail-turn-left {
+    position: absolute;
+    left: 50px;
+    top: 555px;
+    width: 15px;
+    height: 28px;
+	background: url("../images/arts/turnLeft.png");
+	display: none;
+}
+
+.artsDetail-turn-right {
+    position: absolute;
+    top: 555px;
+    left: 1190px;
+    width: 15px;
+    height: 28px;
+	background: url("../images/arts/turnRight.png");
+	display: none;
+}
+
+.content-video-wrap {
+	position: absolute;
+	background: url("../images/arts/content_bg_actived.png");
+	width: 537px;
+	height: 53px;
+	display: none;
+}
+
+#content-video-1 {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+#content-video-2 {
+	position: absolute;
+	left: 557px;
+	top: 0px;
+}
+
+#content-video-3 {
+	position: absolute;
+	left: 0px;
+	top: 50px;
+}
+
+#content-video-4 {
+	position: absolute;
+	left: 557px;
+	top: 50px;
+}
+
+#content-video-5 {
+	position: absolute;
+	left: 0px;
+	top: 100px;
+}
+
+#content-video-6 {
+	position: absolute;
+	left: 557px;
+	top: 100px;
+}
+
+#content-video-7 {
+	position: absolute;
+	left: 0px;
+	top: 150px;
+}
+
+#content-video-8 {
+	position: absolute;
+	left: 557px;
+	top: 150px;
+}
+
+
+
+.hide {
+	display: none;
+}
+
+.alert-container {
+	width: 1280px;
+	height: 720px;
+	top: 0px;
+	position: absolute;
+	background: url("../images/movie/detailback.png") no-repeat;
+	z-index: 4;
+}
+
+.alert-header {
+	font-size: 22px;
+	color: #EAEBEC;
+	line-height: 26px;
+	margin-top: 162px;
+	margin-left: 220px;
+	margin-right: 220px;
+}
+
+.alert-text {
+	font-size: 18px;
+	color: #EAEBEC;
+	line-height: 26px;
+	height: 36px;
+	margin-top: 15px;
+	margin-left: 220px;
+	margin-right: 220px;
+}
+
+.artsDetail-bottom-logo {
+    width: 1180px;
+    height: 29px;
+    background: url("../images/tvseries/recommendLine.png");
+    color: #ffffff;
+    font-size: 24px;
+    line-height: 29px;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 660px;
+    left: 86px;
+    text-indent: 0.3em;
+}
+.artsDetail-border {
+	position: absolute;
+	display: none;
+}
+.artsDetail-video {
+	float: left;
+	/* padding-right: 23px; */
+	width: 191px;
+	height: 250px;
+}
+.artsDetail-poster-r {
+	width: 148px;
+	height: 206px;
+/* 	padding: 10px 10px 0px 10px;
+ */}
+.artsDetail-mark {
+	position: absolute;
+	width: 52px;
+	height: 52px;
+}
+
+.artsDetail-mark-fee {
+	position: absolute;
+	width: 49px;
+	height: 27px;
+}
+
+.artsDetail-bottom {
+    position: absolute;
+    top: 715px;
+    left: 85px;
+    height: 470px;
+    width: 1170px;
+}
+.artsDetail-video-title-r {
+	color: white;
+	font-size: 25px;
+	width: 148px;
+	height: 32px;
+	line-height: 32px;
+	overflow: hidden;
+	text-align: center;
+	font-family: "Microsoft YaHei";
+}
+
+
+.content-up{
+	position: absolute;
+	top:0px;
+}
+
+.content-up_on{
+	position: absolute;
+	top:-600px;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title> 同步知识点微课 </title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <link rel="stylesheet" href="css/ntv.css">
+</head>
+<body>
+<div class="container pos-abs">
+    <span class="title" id="title">微课</span>
+    <ul id="asideList">
+        <li data-id="1" data-gradeid="6" style="text-align:left;">语文&nbsp;<span>人教新课标</span></li>
+        <li data-id="2" data-gradeid="6" style="text-align:left;">数学&nbsp;<span>人教新课标</span></li>
+        <li data-id="3" data-gradeid="6" style="text-align:left;">英语&nbsp;<span>人教PEP</span></li>
+        <li data-id="3" data-gradeid="6" style="text-align:left;">英语&nbsp;<span>译林(三起)</span></li>
+    </ul>
+    <div id="centerList">
+        <ul>
+            <li data-topicid="150" data-subjectid="1" data-gradeid="8"><p>课外古诗词诵读</p><img src="img/index/sub_chinesesmall.png" alt="mathLogo" /></li>
+            <li data-topicid="151" data-subjectid="1" data-gradeid="8"><p>阅读鉴赏上</p><img src="img/index/sub_chinesesmall.png" alt="mathLogo" /></li>
+            <li data-topicid="152" data-subjectid="1" data-gradeid="8"><p>阅读鉴赏下</p><img src="img/index/sub_chinesesmall.png" alt="mathLogo" /></li>
+        </ul>
+    </div>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="js/ntv.js"></script>
+<script type="text/javascript" src="js/myFunction.js"></script>
+<script type="text/javascript">
+
+    (function(){
+        var list=sessionStorage.getItem('list');
+        banxue("#asideList").empty().append(list);
+        var contentLi=sessionStorage.getItem('contentLi');
+        banxue('#centerList ul').empty().append(contentLi);
+        banxue("#title").text(sessionStorage.getItem('title'));
+       /**
+         * 测导航点击事件
+         * */
+        banxue("#asideList").on("click","li",function(){
+            banxue(this).addClass("active").siblings().removeClass();
+            localStorage.setItem("liIdexs",banxue(this).index());
+            var subjectId=banxue(this).attr('data-subjectId');
+            var gradeId=banxue(this).attr('data-gradeId');
+            var themeId=banxue(this).attr('data-themeId');
+            var params={
+                token:token,
+                gradeId:gradeId,
+                subjectId:subjectId,
+                themeId:themeId,
+                pageSize:100
+            };
+            getOtherList(params);
+        });
+        /**
+         * 微课点击事件
+         * */
+        banxue('#centerList>ul').on('click','li',function(){
+            if(banxue(this).attr('data-resourceId')!=undefined){
+                var resourceId=banxue(this).attr('data-resourceId');
+                banxue(this).addClass('select').siblings().removeClass();
+                var params={
+                    token:token,
+                    resourceId:resourceId
+                };
+                banxue.ajax({
+                    url:hostIp+'/app/microcourse/a/getResourceDetail.do',
+                    type:'POST',
+                    data:params,
+                    success:function(data){
+                        console.log(data)
+                        location.href="details.html";
+                        sessionStorage.setItem("data",JSON.stringify(data.data));
+                    }
+                });
+            }else{
+                var gradeId=banxue(this).attr('data-gradeId');
+                var subjectId=banxue(this).attr('data-subjectId');
+                var topicId=banxue(this).attr('data-topicid');
+                banxue(this).addClass('select').siblings().removeClass();
+                var params={
+                    token:token,
+                    gradeId:gradeId,
+                    subjectId:subjectId,
+                    topicId:topicId
+                };
+                getSubList(params);
+            }
+        })
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="page-view-size" content="1280*720">
+    <title>政府信息</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        #news-content{
+            left:115px;top:140px;position:absolute;color: white; font-family: 微软雅黑;font-size: 20px;width: 1050px;line-height: 30px;height: 530px;overflow: hidden;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var accessToken="526f2792f1bed15b683a989abcdac675";
+        var focused;
+        var stop=0;
+        var top = 0;
+        var ctop=3000;
+        var vvv1;
+
+
+        window.onload = function() {
+             document.getElementById("back").focus();
+             var Request = new Object();  //取值时使用无需更改
+             Request = GetRequest();  //取值时使用无需更改 需保证GetRequest()存在;
+             vvv1 = Request['from'];    
+   
+        }
+
+        function gotoindex(){
+ if(vvv1=='shanghaiEstate'){
+                    window.location.href = '../../../../shanghaiEstate/index.html';
+                }
+                else{
+                    window.location.href = '../../../index.html';
+                }
+             }
+
+        function GetRequest(){    
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++){
+                theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    } 
+
+        function getNewsContentHeight(){
+            //setTimeout(function(){
+                ctop=document.getElementById("newscontent").clientHeight;
+               // document.getElementById("date").innerHTML=""+ctop+"";
+                ctop-=350;
+                ctop = 530;
+            //}, 0);
+            return ctop;
+        }
+document.onsystemevent = grabEvent;
+document.onkeypress = grabEvent;
+document.onirkeypress = grabEvent;
+document.onkeydown = grabEvent;
+//var E = iPanel.eventFrame;
+//var user = E.user;
+function grabEvent(event) {
+    var key_code = event.which;
+    switch(key_code)
+    {
+        case 1:
+        case 38:
+            if(stop>=200){
+                stop-=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 372://shang yi ye
+        case 33:
+                if(stop>=400){
+                    stop-=400;
+                }else{
+                	stop = 0;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 2:
+        case 40:
+		    //document.getElementById("date").innerHTML = document.getElementById("newscontent").clientHeight;
+            if(stop<4200){
+                stop+=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 373://xia yi ye
+        case 34:
+                if(stop<4000){
+                    stop+=400;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//          document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 3:
+        case 37:
+            if(focused==1){
+                return false;
+            }
+            else{
+                document.getElementById("shouye").focus();
+            }
+              
+          stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;    
+            break;
+        case 4:
+        case 39:
+            if(focused==1){
+                document.getElementById("back").focus();
+            }
+            else{return false;}
+             stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;
+            break;
+        case 340:	
+			case 8:  //返回
+//			history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+			break;
+			case 4096:
+//          history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+            break;
+    }
+
+}
+function init(){
+    document.getElementById("shouyeF").style.display="none";
+    document.getElementById("backF").style.display="none";
+}
+    function over1(){
+        init();
+        focused=1;
+        document.getElementById("shouyeF").style.display="block";
+    }
+function over2(){
+    init();
+    focused=2;
+    document.getElementById("backF").style.display="block";
+}
+function fanhui(){
+	window.location.href = "../../index.html?from="+vvv1;
+}
+    </script>
+</head>
+<body style="width: 1280px;height: 720px;">
+<a id="shouye" href="javascript:gotoindex();" style="left: 100px;top: 100px;position: absolute;width: 5px" onfocus="over1()">&nbsp </a>
+<a id="back" href="javascript:fanhui();" style="left: 150px;top: 100px;position: absolute;width: 5px" onfocus="over2()">&nbsp </a>
+<div>
+    <div id="title" style="left:115px;top: 50px;position:absolute;color: white; font-family: 微软雅黑;font-size: 28px"></div>
+    <div id="date" style="right: 95px;top: 50px;position:absolute;color: white;opacity: 0.6;font-family: 微软雅黑;"></div>
+	<img src="img/bg.png" style="width:1280px;height:720px;left:0px;top:0px;position: absolute">
+	<img src="img/index.png" alt="" id="indexBg" style="position: absolute;left:90px;top:100px;"/>
+    <img id="shouyeF" src="img/newFo.png" style="top:96px;left:86px;position: absolute;display: none">
+    <img id="backF" src="img/newFo.png" style="top:96px;left:147px;position: absolute;display: none">
+    <!--<div id="test" style="left: 50px;top: 100px;position: absolute">21341</div>-->
+</div>
+<div id="news-content">
+ 
+
+<p align="center">
+    太平财产保险有限公司
+</p>
+<p align="center">
+    附加旅行移动电话损失保险条款（2014版）
+</p>
+<p align="center">
+    总则
+</p>
+<p>
+    <strong>第一条 </strong>
+    本附加保险合同（以下简称附加险合同）依主险合同投保人的申请，经保险人同意而订立。本附加险合同作为主险合同的组成部分，主险合同效力终止，本附加险合同效力亦同时终止；主险合同无效，本附加险合同亦无效。本附加险合同与主险合同相抵触之处，以本附加险合同为准，本附加险合同未约定事项，以主险合同为准。
+</p>
+<p>
+    本保险合同由保险条款、投保单、保险单或其他保险凭证、批单等组成。凡涉及本保险合同的约定，均应采用书面形式。
+</p>
+<p>
+    <strong>第二条 </strong>
+    除另有约定外，本附加险合同保险金的受益人为被保险人本人。
+</p>
+<p align="center">
+    保险责任
+</p>
+<p>
+    <strong>第三条 </strong>
+    在本附加险合同的保险期限内，被保险人持有有效证件在境内或境外旅行期间，因任何第三方盗窃、抢劫、企图盗窃行为，而导致被保险人合法拥有的移动电话毁损或灭失，并于被保险人知道或应当知道保险事故发生之时起的二十四小时内向保险事故发生地海关、警方或其他有关部门报案并领取其出具的保险事故证明的，保险人按下列约定给付移动电话损失保险金：
+</p>
+<p>
+    （一） 保险人在扣除本附加险合同中约定的免赔额后，承担被保险人的移动电话的修补费用或重新购置价并扣除折旧，但保险人承担的赔偿限额不超过以下金额中的较少者：
+</p>
+<p>
+    （1）损失发生当时移动电话的全部修补费用；
+</p>
+<p>
+    （2）损失发生当时的重新购置价，并扣除折旧；
+    <br/>
+    （3）保险单或保险凭证中约定的本责任项下该被保险人的保险金额。
+</p>
+<p>
+    （二） 如果因上述原因导致被保险人的移动电话损坏，且可以合理经济的修复，则保险人负责承担相关的修复费用；如果因上述原因导致被保险人的移动电话损坏，且无法合理经济的修复，则视为该移动电话灭失，保险人按照该移动电话的重新购置价承担赔偿责任，并扣除折旧。
+</p>
+<p>
+    （三） 当按损失发生当时的重新购置价计算应付的赔偿数额时，保险人将根据受损移动电话的使用时间和磨损情况进行折旧处理。折旧的数额由保险人决定或双方约定，折旧数额将以财产的全部使用年限为基础。折旧计算扣除比例为每年30%，或者可参考同一型号产品当时的实际价格进行赔付，以价格较低者为准。
+</p>
+<p>
+    <strong>（四） </strong>
+    <strong>对受损移动电话在替换或修复过程中，被保险人进行的任何不合理变更、性能增加或改进所产生的额外费用，保险人不负责赔偿。</strong>
+</p>
+<p>
+    （五）
+    若被保险人的损失已从公共交通工具承运人、酒店、旅行社、其它途径或其他保险公司获得付赔偿的，保险人可根据有关单位或保险公司出具的相关单证或给付保险金证明，在本保险合同的保险金额内仅承担被保险人除前述赔偿额之外剩余部分的赔偿责任。如果被盗窃或被抢劫的移动电话被发现或归还，被保险人应立即通知保险人并向保险人退回已领取的保险金。
+</p>
+<p align="center">
+    责任免除
+</p>
+<p>
+    <strong>第四条 </strong>
+    <strong>主保险合同列明的各项责任免除条款均适用于本附加险合同，若主险合同中责任免除条款与本条款有相抵触之处，则应以本条款为准。</strong>
+</p>
+<p>
+    <strong>第五条 </strong>
+    <strong>因下列情形之一，直接或间接导致被保险人移动电话遗失或损坏的，保险人不承担赔偿责任：</strong>
+</p>
+<p>
+    <strong>（一） </strong>
+    <strong>被保险人的故意制造本附加条款的保险事故行为或隐瞒、欺诈行为，违反保险事故发生地法律的非法行为；</strong>
+</p>
+<p>
+    <strong>（二） </strong>
+    <strong>海关或其他政府机关的没收、扣留、隔离、检疫、征收或销毁行为；</strong>
+</p>
+<p>
+    <strong>（三） </strong>
+    <strong>被保险人移动电话正常的磨损、折旧、发霉、虫蛀、</strong>
+    <strong>腐烂、侵蚀、老化、光照、加热处理、干燥、染色、更换或因被保险人企图维修、</strong>
+    <strong>清洗或翻新过程中或空气转变引致的损坏、或</strong>
+    <strong>因刮损、出现凹痕、</strong>
+    <strong>机械性或电气性损坏、</strong>
+    <strong>使用不当、工艺或设计缺陷、使用有缺陷材料引起的损失和损坏；</strong>
+    <strong> </strong>
+</p>
+<p>
+    <strong>（四） </strong>
+    <strong>被保险人移动电话自身缺陷、包装不善、保管不善、缺乏看管、使用不当造成的损失以及被保险人挑衅造成的损失；</strong>
+</p>
+<p>
+    <strong>（五） </strong>
+    <strong>由于抓刮、撕裂或污渍等原因造成的损失</strong>
+    <strong>；</strong>
+</p>
+<p>
+    <strong>（六） </strong>
+    <strong>被保险人的商业合作伙伴、亲属或旅行同伴行窃导致物品损失；</strong>
+    <strong></strong>
+</p>
+<p>
+    <strong>（七） </strong>
+    <strong>在公共场所无人照看或被保险人没有尽到看管义务或被保险人自行遗失的移动电话的损失；</strong>
+</p>
+<p>
+    <strong>（八） </strong>
+    <strong>任何来自外部异常电流所造成的机械性故障及干扰；</strong>
+</p>
+<p>
+    <strong>（九） </strong>
+    <strong>电脑病毒或具有危险性的程式码；</strong>
+</p>
+<p>
+    <strong>（十） </strong>
+    <strong>一般故障所致的维修或维护保养所生的费用及其置换的零件；</strong>
+</p>
+<p>
+    <strong>（十一） </strong>
+    <strong>保险标的制造商或供应商依法或依约提供的保固修复服务；</strong>
+</p>
+<p>
+    <strong>（十二） </strong>
+    <strong>任何性质的附带损失；</strong>
+</p>
+<p>
+    <strong>（十三） </strong>
+    <strong>电池单独毁损或灭失，但与保险标的本体同时受损者，不在此限；</strong>
+</p>
+<p>
+    <strong>（十四） </strong>
+    <strong>移动电话的神秘失踪，或非因盗窃或抢劫而导致的遗失；</strong>
+</p>
+<p>
+    <strong>（十五） </strong>
+    <strong>被保险人将毁损或灭失的移动电话送至非指定维修中心修复；</strong>
+</p>
+<p>
+    <strong>（十六） </strong>
+    <strong>非原厂零配件的损毁或灭失；</strong>
+</p>
+<p>
+    <strong>（十七） </strong>
+    <strong>自被保险人知道或应当知道保险事故发生之时起二十四小时内被保险人未向保险事故发生地海关、警方或其他有关部门报案并领取其出具的保险事故证明；</strong>
+</p>
+<p>
+    <strong>（十八） </strong>
+    <strong>可以从公共交通工具承运人、旅行社、酒店或其他保险单获得赔偿的损失；</strong>
+</p>
+<p>
+    <strong>（十九） </strong>
+    <strong>因贬值导致的损失。</strong>
+</p>
+<p align="center">
+    投保人、被保险人义务
+</p>
+<p>
+    <strong>第六条 </strong>
+被保险人应在旅途中妥善照管其移动电话，使之始终在被保险人的视线范围内或与被保险人身体有直接接触。如本附加险合同项下承保的移动电话发生丢失或损坏，被保险人必须立即采取措施查寻、保护或挽救该移动电话，使损失减少至最低程度。    <strong>被保险人违反前述义务因此而扩大的损失，保险人不承担赔偿责任。</strong>
+</p>
+<p>
+    被保险人需于知道或应当知道保险事故发生之日起二十四小时内向保险事故发生地海关、警方或其他有关部门报案并取得有关部门出具的书面保险事故证明。
+</p>
+<p>
+    如被保险人的移动电话在公共交通工具、酒店或旅行社丢失或损坏的，被保险人需提供对方为其出具的书面保险事故证明。
+</p>
+<p align="center">
+    保险金申请与给付
+</p>
+<p>
+    <strong>第七条 </strong>
+    发生保险责任范围内的事故，保险金申请人请求赔偿时，应向保险人提供以下证明和资料。保险金申请人因特殊原因不能提供以下材料的，应提供其他合法有效的材料。<strong>保险金申请人未能提供有关材料，导致保险人无法核实的，保险人对无法核实部分不承担给付保险金的责任。</strong>
+</p>
+<p>
+    （1） 保险金申请人填具的索赔申请书；
+</p>
+<p>
+    （2） 保险单或其他保险凭证正本；
+</p>
+<p>
+    （3） 被保险人身份证明；
+</p>
+<p>
+    （4） 被保险人移动电话损失清单及其发票原件；
+</p>
+<p>
+    （5） 被保险人向保险事故发生地海关、警方或其他有关部门报案并出具的保险事故证明文件正本；
+</p>
+<p>
+    （6） 如被保险人的移动电话在酒店、公共交通工具或旅行社安排的交通工具内损失的，该酒店、公共交通工具承运人或旅行社出具的保险事故证明文件正本，包括保险事故日期及经过；
+</p>
+<p>
+    （7） 修理、修复的发票原件；
+</p>
+<p>
+    （8） 若是商务旅行，需被保险人的雇主提供的被保险人商务旅行的证明；
+</p>
+<p>
+    （9） 保险金申请人所能提供的与确认保险事故的性质、原因、损失程度等有关的其他证明和资料。
+</p>
+<p align="center">
+    其他事项
+</p>
+<p>
+    <strong>第八条 </strong>
+    发生保险责任范围内的损失，应由有关责任方负责赔偿的，保险人自向被保险人赔偿保险金之日起，在赔偿金额范围内代位行使被保险人对有关责任方请求赔偿的权利，被保险人应当向保险人提供必要的文件和所知道的有关情况。
+</p>
+<p>
+    被保险人已经从有关责任方取得赔偿的，保险人赔偿保险金时，可以相应扣减被保险人已从有关责任方取得的赔偿金额。
+</p>
+<p>
+    <strong>保险事故发生后，在保险人未赔偿保险金之前，被保险人放弃对有关责任方请求赔偿权利的，保险人不承担赔偿责任</strong>
+    ；保险人向被保险人赔偿保险金后，被保险人未经保险人同意放弃对有关责任方请求赔偿权利的，该行为无效；由于被保险人故意或者因重大过失致使保险人不能行使代位请求赔偿的权利的，保险人可以扣减或者要求返还相应的保险金。
+</p>
+<p>
+    <strong>第九条 </strong>
+    被保险人的移动电话发生本保险合同承保范围内的盗窃损失，经保险人理赔后，被保险人有协助寻回保险标的的义务。如果被保险人接到寻回保险标的的通知，则被保险人应于其接到该通知之日起七日内以书面形式通知保险人。被保险人可选择领回移动电话并退还已领取的保险赔偿金额，或选择将移动电话交由保险人处理。被保险人选择将移动电话交由保险人处理的，保险人可据此办理标售寻回的移动电话，其所得的价款中，被保险人的享有比例为免赔额占理赔当时重新购置价的比例，剩于价款归保险人所有。
+</p>
+<p align="center">
+    <strong>释义</strong>
+</p>
+<p>
+    <strong>1、 </strong>
+    <strong>第三方：</strong>
+</p>
+<p>
+    指除本保险合同项下当事人双方以外的具有民事行为能力的自然人、法人或其他组织。
+</p>
+<p>
+    <strong>2、 </strong>
+    <strong>移动电话：</strong>
+</p>
+<p>
+    指利用任一种类无线电话网路系统，供用户在移动中与其他电话用户通话的设备，包含iphone等智能手机。
+</p>
+<p>
+    <strong>3、 </strong>
+    <strong>毁损：</strong>
+</p>
+<p>
+    指保险标的本体受损而无法正常使用，包含本体的零配件，但不包括内建资料及单独零配件的毁损。
+</p>
+<p>
+    <strong>4、 </strong>
+    <strong>灭失：</strong>
+</p>
+<p>
+    指保险标的本体已达毁坏殆尽，或遭遇盗窃或抢劫的损失。
+</p>
+<p>
+    <strong>5、 </strong>
+    <strong>重新购置价：</strong>
+</p>
+<p>
+    指移动电话重新置换同一厂牌、型号、规格、性能或相类似机型或功能的移动电话所需的当时的实际市场价格。
+</p>
+<p>
+    <strong>本附加条款的未解释名词，均以主险的名词解释为准。</strong>
+</p>
+
+
+
+
+</div>
+<!--<div id="test" style="position: absolute;left:200px;top:40px">1</div>-->
+</body>
+</html>

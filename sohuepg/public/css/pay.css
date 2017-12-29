@@ -1,0 +1,42 @@
+.heard-img{
+    position: absolute;
+    left: 352px;
+    top: 96px;
+}
+.left-div{
+	position: absolute;
+    left: 152px;
+    top: 261px;
+}
+.right-div{
+    position: absolute;
+    top: 261px;
+    left: 720px;
+}
+.div-sp{
+    padding-left: 20px;
+}
+.font{
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Microsoft YaHei;
+}
+.header-font{
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Microsoft YaHei;
+    position: absolute;
+    top: 50px;
+    left: 80px;
+}
+.font-sp{
+    padding-bottom: 49px;
+}
+.span1{
+	color:#ffffff;
+	padding-left: 70px;
+}
+.span2{
+	color:#ffffff;
+	padding-left: 30px;
+}

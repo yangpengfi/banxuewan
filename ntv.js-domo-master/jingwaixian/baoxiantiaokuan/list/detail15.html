@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="page-view-size" content="1280*720">
+    <title>政府信息</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        #news-content{
+            left:115px;top:140px;position:absolute;color: white; font-family: 微软雅黑;font-size: 20px;width: 1050px;line-height: 30px;height: 530px;overflow: hidden;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var accessToken="526f2792f1bed15b683a989abcdac675";
+        var focused;
+        var stop=0;
+        var top = 0;
+        var ctop=3000;
+        var vvv1;
+
+
+        window.onload = function() {
+             document.getElementById("back").focus();
+             var Request = new Object();  //取值时使用无需更改
+             Request = GetRequest();  //取值时使用无需更改 需保证GetRequest()存在;
+             vvv1 = Request['from'];    
+   
+        }
+
+        function gotoindex(){
+ if(vvv1=='shanghaiEstate'){
+                    window.location.href = '../../../../shanghaiEstate/index.html';
+                }
+                else{
+                    window.location.href = '../../../index.html';
+                }
+             }
+
+        function GetRequest(){    
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++){
+                theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    } 
+
+        function getNewsContentHeight(){
+            //setTimeout(function(){
+                ctop=document.getElementById("newscontent").clientHeight;
+               // document.getElementById("date").innerHTML=""+ctop+"";
+                ctop-=350;
+                ctop = 530;
+            //}, 0);
+            return ctop;
+        }
+document.onsystemevent = grabEvent;
+document.onkeypress = grabEvent;
+document.onirkeypress = grabEvent;
+document.onkeydown = grabEvent;
+//var E = iPanel.eventFrame;
+//var user = E.user;
+function grabEvent(event) {
+    var key_code = event.which;
+    switch(key_code)
+    {
+        case 1:
+        case 38:
+            if(stop>=200){
+                stop-=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 372://shang yi ye
+        case 33:
+                if(stop>=400){
+                    stop-=400;
+                }else{
+                	stop = 0;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 2:
+        case 40:
+		    //document.getElementById("date").innerHTML = document.getElementById("newscontent").clientHeight;
+            if(stop<5000){
+                stop+=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 373://xia yi ye
+        case 34:
+                if(stop<4800){
+                    stop+=400;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//          document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 3:
+        case 37:
+            if(focused==1){
+                return false;
+            }
+            else{
+                document.getElementById("shouye").focus();
+            }
+              
+          stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;    
+            break;
+        case 4:
+        case 39:
+            if(focused==1){
+                document.getElementById("back").focus();
+            }
+            else{return false;}
+             stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;
+            break;
+        case 340:	
+			case 8:  //返回
+//			history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+			break;
+			case 4096:
+//          history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+            break;
+    }
+
+}
+function init(){
+    document.getElementById("shouyeF").style.display="none";
+    document.getElementById("backF").style.display="none";
+}
+    function over1(){
+        init();
+        focused=1;
+        document.getElementById("shouyeF").style.display="block";
+    }
+function over2(){
+    init();
+    focused=2;
+    document.getElementById("backF").style.display="block";
+}
+function fanhui(){
+	window.location.href = "../../index.html?from="+vvv1;
+}
+    </script>
+</head>
+<body style="width: 1280px;height: 720px;">
+<a id="shouye" href="javascript:gotoindex();" style="left: 100px;top: 100px;position: absolute;width: 5px" onfocus="over1()">&nbsp </a>
+<a id="back" href="javascript:fanhui();" style="left: 150px;top: 100px;position: absolute;width: 5px" onfocus="over2()">&nbsp </a>
+<div>
+    <div id="title" style="left:115px;top: 50px;position:absolute;color: white; font-family: 微软雅黑;font-size: 28px"></div>
+    <div id="date" style="right: 95px;top: 50px;position:absolute;color: white;opacity: 0.6;font-family: 微软雅黑;"></div>
+	<img src="img/bg.png" style="width:1280px;height:720px;left:0px;top:0px;position: absolute">
+	<img src="img/index.png" alt="" id="indexBg" style="position: absolute;left:90px;top:100px;"/>
+    <img id="shouyeF" src="img/newFo.png" style="top:96px;left:86px;position: absolute;display: none">
+    <img id="backF" src="img/newFo.png" style="top:96px;left:147px;position: absolute;display: none">
+    <!--<div id="test" style="left: 50px;top: 100px;position: absolute">21341</div>-->
+</div>
+<div id="news-content">
+ 
+
+<p align="center">
+    太平财产保险有限公司
+</p>
+<p align="center">
+    附加旅行个人第三者责任保险条款（2011版）
+</p>
+<p align="center">
+    总则
+</p>
+<p>
+    <strong>第一条 </strong>
+    本附加保险合同（以下简称附加险合同）依主险合同投保人的申请，经保险人同意而订立。本附加险合同作为主险合同的组成部分，主险合同效力终止，本附加险合同效力亦同时终止；主险合同无效，本附加险合同亦无效。本附加险合同与主险合同相抵触之处，以本附加险合同为准，本附加险合同未约定事项，以主险合同为准。
+</p>
+<p>
+    本保险合同由保险条款、投保单、保险单或其他保险凭证、批单等组成。凡涉及本保险合同的约定，均应采用书面形式。
+</p>
+<p align="center">
+    保险责任
+</p>
+<p>
+    <strong>第二条 </strong>
+    在本附加险合同的保险期间内，保险人承担下列保险责任：
+</p>
+<p>
+    （一）被保险人持有有效证件在境内、外旅行期间，因意外事故造成第三方的人身伤亡或直接财产损毁，依照事故发生地法律应由被保险人向第三方（不包括与被保险人有抚养、扶养及赡养关系的人）承担赔偿责任，保险人按照本附加险合同的约定负赔偿责任。
+</p>
+<p>
+    （二）保险事故发生后，被保险人因保险事故而被提起仲裁或者诉讼的，对应由被保险人支付的仲裁或者诉讼费用以及事先经保险人书面同意而支付的其他必要的、合理的费用（以下简称“法律费用”），保险人按照本附加险合同约定也负责赔偿。
+</p>
+<p>
+    （三）保险人对每次保险事故引起的赔偿金额在任何情况下，均不得超过本附加险合同中列明的每次事故赔偿限额。在本附加险合同的保险期限内，保险人在本附加险合同项下的最高赔偿金额不得超过本附加险合同列明的累计事故赔偿限额。
+</p>
+<p align="center">
+    责任免除
+</p>
+<p>
+    <strong>第三条 </strong>
+    <strong>主保险合同列明的各项责任免除条款均适用于本附加险合同，若主险合同中责任免除条款与本条款有相抵触之处，则应以本条款为准。</strong>
+</p>
+<p>
+    <strong>第四条 </strong>
+    <strong>因下列情形之一，直接或间接导致被保险人第三者责任的，保险人不承担赔偿责任：</strong>
+</p>
+<p>
+    <strong>（一） </strong>
+    <strong>投保人、被保险人及其代理人以及第三者的故意行为、重大过失行为、违法行为、犯罪行为；</strong>
+    <strong></strong>
+</p>
+<p>
+    <strong>（二） </strong>
+    <strong>被保险人或其他人由被保险人指使、同意或默许的人员实施了企图导致第三方人身损害、财产损失或疏忽大意引起有关后果的行为。</strong>
+</p>
+<p>
+    <strong>第五条 </strong>
+    <strong>对于下列各项损失、责任和费用，保险人不承担赔偿责任：</strong>
+</p>
+<p>
+    <strong>（一） </strong>
+    <strong>任何直接或间接由于性骚扰、性侵犯或性冲突而引起的责任；</strong>
+</p>
+<p>
+    <strong>（二） </strong>
+    <strong>被保险人在精神错乱、神智不清、意识不清或智障状态下所造成的第三者人身伤亡、财产损失，不论该状态由何原因（包括但不限于疾病、服用药品或毒品、醉酒等）引起；</strong>
+</p>
+<p>
+    <strong>（三） </strong>
+    <strong>被保险人履行雇主或合同约定责任或贸易、商业或职业行为或行政行为或司法行为所导致的损失、费用和责任；</strong>
+</p>
+<p>
+    <strong>（四） </strong>
+    <strong>被保险人所有、占有、使用、租借、保管下的任何土地、房屋建筑、财产的损坏。但被保险人租用的酒店房间或度假屋（不包括其中的家具和设备）的损坏不在此限；</strong>
+</p>
+<p>
+    <strong>（五） </strong>
+    <strong>在被保险人所有或在其监管、控制下的动物所引起的责任；</strong>
+</p>
+<p>
+    <strong>（六） </strong>
+    <strong>被保险人使用、拥有、租用或操作海、陆、空运输工具（无论有无营运执照）导致的责任；</strong>
+</p>
+<p>
+    <strong>（七） </strong>
+    <strong>被保险人参加高风险运动、使用手枪或其它武器、或者参与其它危险活动而引起的损失；</strong>
+</p>
+<p>
+    <strong>（八） </strong>
+    <strong>任何对被保险人的直系亲属、兄弟姐妹、（外）祖父母、（外）孙子女、与被保险人有抚养、扶养及赡养关系的人、或被保险人的雇主、雇员造成的人身损害或财产损失；</strong>
+</p>
+<p>
+    <strong>（九） </strong>
+    <strong>由被保险人所传染的疾病引起的损失；</strong>
+</p>
+<p>
+    <strong>（十） </strong>
+    <strong>第三者向被保险人提起法律索赔时，被保险人未及时通知保险人，从而导致损失的产生；</strong>
+</p>
+<p>
+    <strong>（十一） </strong>
+    <strong>罚款、罚金、惩罚性赔款；精神损害赔偿；除金钱以外的其他救济或补偿。</strong>
+</p>
+<p>
+    <strong></strong>
+</p>
+<p align="center">
+    赔偿限额及免赔额（率）
+</p>
+<p>
+    <strong>第六条 </strong>
+    本附加险的赔偿限额包括累计事故赔偿限额、每次事故赔偿限额、医疗费用赔偿限额、财产损失赔偿限额。对于每次事故，保险人的赔偿金额最高不超过本附加险合同上载明的“每次事故赔偿限额”，保险人的赔偿金额之和最高不超过本附加险合同上载明的“累计赔偿限额”。
+</p>
+<p>
+    <strong>第七条 </strong>
+    除合同另有约定外，法律费用在每次事故赔偿限额、累计赔偿限额之内计算。保险人对每次事故承担的法律费用的赔偿金额不超过每次事故责任限额的10％，在保险期间内对法律费用的累计赔偿金额不超过累计责任限额的10％。
+</p>
+<p>
+    <strong>第八条 </strong>
+    每次事故免赔额（率）由投保人与保险人在签订保险合同时协商确定，并在保险合同中载明。
+</p>
+<p align="center">
+    投保人、被保险人义务
+</p>
+<p>
+    <strong>第九条 </strong>
+    被保险人在进行旅行前应当尽力了解旅行目的地的法律、风俗等，在旅行期间应当谨慎行事，尽量避免意外事故的发生。
+</p>
+<p>
+    <strong>第十条 </strong>
+    知道保险事故发生后，被保险人应该：
+</p>
+<p>
+    （一）尽力采取必要、合理的措施，防止或减少损失，<strong>否则，对因此扩大的损失，保险人不承担赔偿责任；</strong>
+</p>
+<p>
+    （二）及时通知保险人，并书面说明事故发生的原因、经过和损失情况；<strong>故意或者因重大过失未及时通知，致使保险事故的性质、原因、损失程度等难以确定的，保险人对无法确定的部分，不承担赔偿责任，</strong>但保险人通过其他途径已经及时知道或者应当及时知道保险事故发生的除外；
+</p>
+<p>
+    （三）保护事故现场，允许并且协助保险人进行事故调查；<strong>对于拒绝或者妨碍保险人进行事故调查导致无法确定事故原因或核实损失情况的，保险人对无法确定或核实的部分，不承担赔偿责任；</strong>
+</p>
+<p>
+    （四）涉及违法、犯罪的，应立即向公安部门报案，<strong>否则，对因此扩大的损失，保险人不承担赔偿责任。</strong>
+</p>
+<p>
+    <strong>第十一条 </strong>
+被保险人收到第三者提出的损害赔偿请求时，应立即通知保险人。    <strong>未经保险人书面同意，被保险人对受害人及其代理人做出的任何承诺、拒绝、出价、约定、付款或赔偿，保险人不受其约束。对于被保险人自行承诺或支付的赔偿金额，保险人有权重新核定，不属于本附加险合同保险责任范围或超出应赔偿限额的，保险人不承担赔偿责任。</strong>
+    在处理索赔过程中，保险人有权自行处理由其承担最终赔偿责任的任何索赔案件，被保险人有义务向保险人提供其所能提供的资料和协助。
+</p>
+<p>
+    <strong>第十二条 </strong>
+    被保险人获悉可能发生诉讼、仲裁时，应立即以书面形式通知保险人；接到法院传票或其他法律文书后，应将其副本及时送交保险人。保险人有权以被保险人的名义处理有关诉讼或仲裁事宜，被保险人应提供有关文件，并给予必要的协助。
+</p>
+<p>
+    <strong>对因未及时提供上述通知或必要协助导致扩大的损失，保险人不承担赔偿责任。</strong>
+</p>
+<p align="center">
+    赔偿处理
+</p>
+<p>
+    <strong>第十三条 </strong>
+    保险人的赔偿以下列方式之一确定的被保险人的赔偿责任为基础：
+</p>
+<p>
+    （一）被保险人和向其提出损害赔偿请求的第三者受害方协商并经保险人书面确认；
+</p>
+<p>
+    （二）仲裁机构裁决；
+</p>
+<p>
+    （三）人民法院判决；
+</p>
+<p>
+    （四）保险人认可的其他方式。
+</p>
+<p>
+    <strong>第十四条 </strong>
+    保险人对被保险人给第三者造成的损害，可以依照法律的规定或者本附加险合同的约定，直接向该第三者赔偿保险金。
+</p>
+<p>
+    被保险人给第三者造成损害，被保险人对第三者应负的赔偿责任确定的，根据被保险人的请求，保险人应当直接向该第三者赔偿保险金。被保险人怠于请求的，第三者有权就其应获赔偿部分直接向保险人请求赔偿保险金。
+</p>
+<p>
+    <strong>被保险人给第三者造成损害，被保险人未向该第三者赔偿的，保险人不得向被保险人赔偿保险金。</strong>
+</p>
+<p>
+    <strong>第十五条 </strong>
+    发生保险责任范围内的损失，保险人按以下方式计算赔偿：
+</p>
+<p>
+    （一）对于每次事故造成的损失，保险人在每次事故责任（赔偿）限额内计算赔偿，其中对每次事故的赔偿金额不得超过每次事故（赔偿）限额；
+</p>
+<p>
+    （二）在依据本条第（一）项计算的基础上，保险人在扣除按本附加险合同载明的每次事故免赔额后进行赔偿，但对于人身伤亡的赔偿不扣除每次事故免赔额；
+</p>
+<p>
+    （三）在保险期间内，保险人对多次事故损失的累计赔偿金额不超过累计责任（赔偿）限额。
+</p>
+<p>
+    <strong>第十六条 </strong>
+    <strong>如果保险人希望通过接受责任、庭外和解或其他方式解决第三者索赔，但被保险人提出反对，则自被保险人提出反对之日起发生的一切额外费用，包括法律责任和法律费用金额和利息，保险人不承担赔偿责任。</strong>
+</p>
+<p>
+    <strong>第十七条 </strong>
+    发生保险事故时，如果被保险人的损失在有相同保障的其他保险项下也能够获得赔偿，则本保险人按照本保险合同的责任限额（赔偿限额）与其他保险合同及本附加险合同的责任限额（赔偿限额）总和的比例承担赔偿责任。
+</p>
+<p>
+    <strong>其他保险人应承担的赔偿金额，本保险人不负责垫付。</strong>
+    若被保险人未如实告知导致保险人多支付赔偿金的，保险人有权向被保险人追回多支付的部分。
+</p>
+<p>
+    <strong>第十八条 </strong>
+    发生保险责任范围内的损失，应由有关责任方负责赔偿的，保险人自向被保险人赔偿保险金之日起，在赔偿金额范围内代位行使被保险人对有关责任方请求赔偿的权利，被保险人应当向保险人提供必要的文件和所知道的有关情况。
+</p>
+<p>
+    被保险人已经从有关责任方取得赔偿的，保险人赔偿保险金时，可以相应扣减被保险人已从有关责任方取得的赔偿金额。
+</p>
+<p>
+    <strong>保险事故发生后，在保险人未赔偿保险金之前，被保险人放弃对有关责任方请求赔偿权利的，保险人不承担赔偿责任</strong>
+    ；保险人向被保险人赔偿保险金后，被保险人未经保险人同意放弃对有关责任方请求赔偿权利的，该行为无效；由于被保险人故意或者因重大过失致使保险人不能行使代位请求赔偿的权利的，保险人可以扣减或者要求返还相应的保险金。
+</p>
+<p align="center">
+    保险金申请与给付
+</p>
+<p>
+    <strong>第十九条 </strong>
+发生保险责任范围内的事故，保险金申请人请求赔偿时，应向保险人提交以下证明和资料。保险金申请人因特殊原因不能提供以下材料的，应提供其他合法有效的材料。<strong>保险金申请人未能提供有关材料，导致保险人无法核实的，保险人对无法核实部分不承担给付保险金的责任。</strong>    <strong></strong>
+</p>
+<p>
+    （1） 保险金申请人填具的索赔申请书；
+</p>
+<p>
+    （2） 保险单或其他保险凭证正本；
+</p>
+<p>
+    （3） 被保险人身份证明；
+</p>
+<p>
+    （4） 受害人向被保险人提出索赔的相关材料；
+</p>
+<p>
+    （5） 造成受害人人身伤害的，应包括：受害人的病历、诊断证明、医疗费等医疗原始单据；受害人的人身伤害程度证明：受害人伤残的，应当提供具备相关法律法规要求的伤残鉴定资格的医疗机构出具的伤残程度证明；受害人死亡的，公安机关或医疗机构出具的死亡证明书；
+</p>
+<p>
+    （6） 造成受害人财产损失的，应包括：损失、费用清单；
+</p>
+<p>
+    （7） 被保险人与受害人所签订的赔偿协议书或和解书；如通过诉讼程序解决被保险人与第三者之间赔偿事宜的，需提供判决书、裁决书或调解书；
+</p>
+<p>
+    （8） 赔偿给付凭证（如保险人直接向第三方支付赔偿金，则无需提供赔偿给付凭证）；
+</p>
+<p>
+    （9） 若是公务出差旅行，需被保险人的雇主提供的被保险人公务出差旅行的证明；
+</p>
+<p>
+    （10） 保险金申请人所能提供的与确认保险事故的性质、原因、损失程度等有关的其他证明和资料。
+</p>
+<p align="center">
+    <strong>释义</strong>
+</p>
+<p>
+    <strong>1、 </strong>
+    <strong>意外事故：</strong>
+</p>
+<p>
+    指非因故意造成的且不能预测其发生的事件。
+</p>
+<p>
+    <strong>2、 </strong>
+    <strong>每次事故/每次保险事故：</strong>
+</p>
+<p>
+    指不论一次事故或一个事件引起的一系列事故(不论是涉及一人或多人)。
+</p>
+<p>
+    <strong>3、 </strong>
+    <strong>直接财产损失：</strong>
+</p>
+<p>
+    指有形财产的直接损坏、损毁。
+</p>
+<p>
+    4、 <strong>惩罚性赔款：</strong>
+</p>
+<p>
+    指法院判决的、在赔偿性赔款之外被保险人应当支付给受害方的赔款，其目的一般是为了惩罚和警告被保险人的恶意作为或不作为。
+</p>
+<p>
+    <strong>本附加条款的未解释名词，均以主险的名词解释为准。</strong>
+</p>
+
+
+
+
+</div>
+<!--<div id="test" style="position: absolute;left:200px;top:40px">1</div>-->
+</body>
+</html>

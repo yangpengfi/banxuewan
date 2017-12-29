@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>详情页</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <link rel="stylesheet" href="css/ntv.css">
+    <link rel="stylesheet" href="css/base.css">
+    <style>
+        #contentLift{
+            position: absolute;
+            top:138px;
+            left: 105px;
+            width: 367px;
+            height: 345px;
+            padding:56px 30px 25px;
+            font-size: 24px;
+            text-align: center;
+            color:#f3f8fd;
+            background-color: rgba(255,255,255,.1);
+        }
+        #topic{
+            margin-bottom: 34px;
+        }
+        #knowledgePoint,#lecturer{
+            margin-bottom: 22px;
+        }
+        #contentRight{
+            position: absolute;
+            top:138px;
+            left: 580px;
+            width: 594px;
+            font-size: 24px;
+            text-align: left;
+            color:#f3f8fd;
+        }
+        #contentRight>img{
+            margin-bottom:24px;
+        }
+        .atcInfo{
+            font-size: 20px;
+            text-indent: 4em;
+        }
+        .actTitle{
+            padding:24px 0;border-bottom: 1px solid rgba(255,255,255,.1);margin-bottom: 24px;
+        }
+        .actTitle img{
+            vertical-align: middle;
+            margin-right:30px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="background: url('img/index/background.jpg') no-repeat;">
+    <img src="img/index/TVlogo.png" alt="筛选图标" style="position: absolute;top:60px;left:105px;"/>
+    <!--<div id="contentLift">
+        <p id="topic">课外古诗词诵读</p>
+        <p id="knowledgePoint">第一讲 XXXXXX</p>
+        <p id="lecturer">讲师 XXX</p>
+        <img src="img/index/sub_biologybig.png" alt="课程图标" id="courIcon"/>
+    </div>
+    <div id="contentRight">
+        <a href="#" onfocus="plays()"><img src="img/index/watchclass.png" alt="点击观看" id="playBtn"/></a>
+        <p class="actTitle">
+            <img src="img/index/microclassname.png" alt="课程名称"/>
+            <span>课程名称</span>
+        </p>
+        <p id="videoIntro" class="atcInfo">课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗词诵读</p>
+        <p class="actTitle">
+            <img src="img/index/teacherifo.png" alt="讲师介绍"/>
+            <span>讲师介绍</span>
+        </p>
+        <p id="lecturerIntro" class="atcInfo">课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗</p>
+    </div>-->
+    <div id="contentLift">
+        <p id="topic">一次函数</p>
+        <p id="knowledgePoint">第一讲 函数与变量</p>
+        <p id="lecturer">马春雨</p>
+        <img src="img/index/sub_mathbig.png" alt="课程图标" id="courIcon">
+    </div>
+    <div id="contentRight">
+        <a href="player.html"><img src="img/index/watchclass.png" alt="点击观看" id="playBtn" data-url="/wke/2/8/2/3245.mp4"></a>
+        <p class="actTitle">
+            <img src="img/index/microclassname.png" alt="课程名称">
+            <span>课程名称</span>
+        </p>
+        <p id="videoIntro" class="atcInfo">一次函数 第一讲 函数与变量</p>
+        <p class="actTitle">
+            <img src="img/index/teacherifo.png" alt="讲师介绍">
+            <span>讲师介绍</span>
+        </p>
+        <p id="lecturerIntro" class="atcInfo">马老师，现任教于河北省一所市级重点中学。自2009年参加工作以来，一直在教学第一线工作，任教初中数学和担任班主任工作，送过多届初三毕业班，有丰富的教学经验。</p>
+    </div>
+</div>
+
+<!--<script type="text/javascript" src="js/jquery-1.11.3.js"></script>-->
+<script type="text/javascript" src="js/ntv.js"></script>
+<!--<script type="text/javascript" src="js/config.js"></script>-->
+<script type="text/javascript">
+/*function plays(){
+    ntv.log.console('anjian');
+    /!*ntv.stb.ipanel.mediaplayer.play("HTTP", "http://10.215.0.40:86/wke/2/8/2/3245.mp4");
+    ntv.stb.ipanel.mediaplayer.pause();
+    ntv.stb.ipanel.mediaplayer.resume();
+    ntv.stb.ipanel.mediaplayer.stop();*!/
+}*/
+    (function(){
+
+        //ntv.log.debug = true;             // 是否开启调试模式。
+       /* var data=JSON.parse(sessionStorage.getItem('data'));
+        console.log(data)
+        $('#topic').html((data.topic=="全部")?'':data.topic);
+        $('#knowledgePoint').html(data.knowledgePoint);
+        $('#lecturer').html(data.lecturer);
+        $('#courIcon').attr('src','img/index/'+imgBigArr[data.subjectId-1]);
+        $('#videoIntro').html(data.videoIntro);
+        $('#lecturerIntro').html(data.lecturerIntro);
+        $('#playBtn').attr('data-url',data.videoUrl);
+        $('a').focus(function(){
+            sessionStorage.setItem('videoUrl',data.videoUrl);
+            location.href="player.html"
+        })
+        function plays(){
+            sessionStorage.setItem('videoUrl',data.videoUrl);
+            location.href="player.html"
+        }*/
+    })();
+</script>
+</body>
+</html>

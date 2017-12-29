@@ -1,0 +1,139 @@
+.filter{
+	width: 1280px;
+	height: 720px;
+	background-image:url("../images/filter_background.jpg");
+}
+.filter-title{
+	position: absolute;
+    top: 140px;
+    left: 260px;
+    vertical-align:text-bottom;
+	font-family: "Microsoft YaHei";
+	font-size:28px;
+	color: #c6d1e1;
+    z-index: 1;
+}
+.filter-top{
+	position:absolute;
+	top: 128px;
+	left: 218px;
+	width:839px;
+	height:452px;
+	background-image:url("../images/filter_2.png");				
+	background-repeat:no-repeat;
+}
+
+.border{
+	clear:left;
+	position:absolute;
+	width:840px;
+	height:1px;
+	left:218px;
+	z-index:1;
+	background-image:url("../images/filter_3.png"); 
+	background-repeat: no-repeat;
+}
+.filter-tops{
+	position:absolute;
+	height: 70px;
+	width:720px;
+	clear: both;
+	left: 115px;
+}
+.top1{
+    top: 78px;
+}
+
+.top2{
+	top:130px;
+}
+
+.top3{
+	top:210px;
+}
+
+.top4{
+	top:290px;
+}
+
+.filter-bottom{
+    clear: both;
+    position: absolute;
+    top: 500px;
+    left: 500px;
+}
+.filter-content-title{
+    font-family: "Microsoft YaHei";
+    font-size: 25px;
+    color: #c6d1e1;
+    left: 260px;
+    position: absolute;
+    z-index: 1;
+    height: 35px;
+    width: 100px;
+    line-height: 35px;
+}
+
+.title1{
+	top:206px;
+}
+.title2{
+	top:273px;
+}
+.title3{
+	top:353px;
+}
+.title4{
+	top:433px;
+}
+
+.filter-content{
+	float: left;
+	width:600px;
+}
+
+.filter-tops>div{
+	font-family: "Microsoft YaHei";
+	font-size:20px;
+	color: #9199a6;
+	float:left;
+	width:75px;
+	height:35px;
+	border-radius:15px;
+	text-align:center;
+	overflow:hidden;
+	line-height: 35px;  
+}
+.filter-all{
+    margin: 15px 0px;
+}
+.-selected{
+	color: #00a1fc !important;
+}
+.-on{
+	color: #FFFFFF !important;
+	background-image: url("../images/filter_6.png");
+	background-repeat: no-repeat;
+}
+.filter-bottom>div{
+	font-family: "Microsoft YaHei";
+	font-size:20px;
+	color: #9199a6;
+	height: 48px; 
+	text-align:center;
+	overflow:hidden;
+	position:absolute;
+	width:90px;
+	line-height: 48px; 
+	background-repeat: no-repeat;
+	
+}
+.filter-but{
+	background-image:url("../images/filter_4.png"); 
+}
+.filter-but-on{
+	background-image: url("../images/filter_5.png");
+	color: #ffffff !important;
+}
+
+

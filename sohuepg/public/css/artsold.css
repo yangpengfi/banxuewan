@@ -1,0 +1,285 @@
+@charset "utf-8";
+/* CSS public */
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+a,address,b,big,blockquote,body,center,cite,code,dd,del,div,dl,dt,em,fieldset,font,form,h1,h2,h3,h4,h5,h6,html,i,iframe,img,ins,label,legend,li,ol,p,pre,small,span,strong,u,ul,var,article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary
+	{
+	margin: 0;
+	padding: 0
+} /*兼容：清除所有标签的默认空隙*/
+ul {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+img {
+	border: 0;
+}
+
+input {
+	outline: none;
+}
+
+/* CSS body */
+body {
+	font-family: '微软雅黑';
+	-webkit-font-smoothing: antialiased;
+}
+
+.container {
+	position: relative;
+	width: 1280px;
+	height: 720px;
+	background: url("../images/arts/background.png");
+}
+
+/* CSS header */
+.header {
+	position: absolute;
+	left: 57px;
+	top: 40px;
+	width: 1065px;
+	height: 25px;
+}
+
+
+#header-back {
+	width: 25px;
+}
+
+#header-title {
+	text-indent: 8px;
+	color: #fff;
+}
+
+#header-score {
+	text-indent: 24px;
+	color: #e60012;
+}
+
+#header-new {
+	text-indent: 150px;
+	color: #fff;
+}
+#function{
+	/**
+		float: right;
+	*/
+	
+	//padding-right: 76px;
+	//padding-top: 39px;
+	//position:absolute;
+}
+
+#h_protal{
+	top:-50px;
+	left:970px;
+	position:absolute;
+	width:105px;
+	height:105px;
+}
+#h_main{
+	top:-50px;
+	left:1020px;
+	position:absolute;
+	width:105px;
+	height:105px;
+}
+#h_back{
+	top:-50px;
+	left:1070px;
+	position:absolute;
+	width:105px;
+	height:105px;
+}
+
+
+/* CSS poster */
+#poster {
+	position: absolute;
+	left: 89px;
+	top: 95px;
+	width: 482px;
+	height: 272px;
+	background:black;
+}
+
+#poster img{
+	width: 482px;
+	height: 272px;
+}
+
+#info {
+	position: absolute;
+	right: 82px;
+	top: 98px;
+	width: 574px;
+	height: 204px;
+	overflow: hidden;
+}
+
+#info-actor,#info-type {
+	color: #ecf0f1;
+	height: 24px;
+	line-height: 24px;
+	font-size: 16px;
+}
+
+#info-brief {
+	margin-top: 8px;
+	color: #9199a6;
+	font-size: 16px;
+	line-height: 24px;
+}
+
+#button {
+	position: absolute;
+	right: 82px;
+	top: 304px;
+	width: 580px;
+	height: 67px;
+}
+
+
+#button-play{
+	float: left;
+	background: url("../images/arts/button_bg_actived.png") no-repeat;
+	margin-right: 16px;
+	padding-top: 20px;
+	padding-bottom: 16px;
+	width: 124px;
+	height: 24px;
+	line-height: 24px;
+	font-size: 19px;
+	color: #ecf0f1;
+}
+
+
+#button-favorite {
+	float: left;
+	background: url("../images/arts/button_bg.png") no-repeat;
+	margin-right: 16px;
+	padding-top: 20px;
+	padding-bottom: 16px;
+	width: 124px;
+	height: 24px;
+	line-height: 24px;
+	font-size: 19px;
+	color: #ecf0f1;
+}
+
+
+#button-detail {
+	float: left;
+	background: url("../images/arts/button_bg.png") no-repeat;
+	margin-right: 16px;
+	padding-top: 20px;
+	padding-bottom: 16px;
+	width: 124px;
+	height: 24px;
+	line-height: 24px;
+	font-size: 19px;
+	color: #ecf0f1;
+}
+
+.button-pic {
+	float:left;
+	padding-left:22px;
+}
+
+#content {
+	position: absolute;
+	left: /*70px*/80px;
+	bottom: 60px;
+	padding-bottom: 15px;
+	padding-left: 10px;
+	padding-right: 10px;
+	width: 1106px;
+	height: 158px;
+}
+
+.content-video {
+	position: relative;
+	float: left;
+	background: #455a6d;
+	margin-left: 7px;
+	margin-bottom: 13px;
+	width: 151px;
+	/*height: 153px;*/
+	height: 174px;
+}
+
+.content-video-wrap {
+	position: absolute;
+	top: -12px;
+	left: -7px;
+	display: none;
+	width: 177px;
+	height: 198px;
+	background: url("../images/arts/content_bg_actived.png");
+}
+
+.content-video-pic {
+	width: 151px;
+	height: 100px;
+}
+
+
+.content-video-title {
+	margin-top: 6px;
+	height: /*38px*/44px;
+	line-height: 20px;
+	font-size: 13px;
+	color: #ecf0f1;
+	overflow: hidden; /* 内容超出宽度时隐藏超出部分的内容 */
+	text-overflow: ellipsis;
+}
+
+#pointer-left {
+	position: absolute;
+	left: 55px;
+	bottom: 138px;
+	width: 15px;
+	height: 28px;
+}
+
+#pointer-right {
+	position: absolute;
+	right: 60px;
+	bottom: 138px;
+	width: 15px;
+	height: 28px;
+}
+
+.alert-container {
+	width: 1280px;
+	height: 720px;
+	top: 0px;
+	position: absolute;
+	background: url("../images/movie/detailback.png") no-repeat;
+}
+
+.alert-header {
+	font-size: 22px;
+	color: #EAEBEC;
+	line-height: 26px;
+	margin-top: 162px;
+	margin-left: 220px;
+	margin-right: 220px;
+}
+
+.alert-text {
+	font-size: 18px;
+	color: #EAEBEC;
+	line-height: 26px;
+	height: 36px;
+	margin-top: 15px;
+	margin-left: 220px;
+	margin-right: 220px;
+}

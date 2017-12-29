@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title> 微课 </title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <link rel="stylesheet" href="css/ntv.css">
+</head>
+<body>
+<div class="container pos-abs">
+    <img src="img/index/TVlogo.png" id="rightLogo"/>
+    <ul id="nav">
+        <li><img src="img/index/microclassroomed.png"/></li>
+    </ul>
+    <div style="clear: both"></div>
+    <div id="idxCenter">
+        <img src="img/index/Math.png" alt="11,4" data-type="0"  style="position: absolute;top:0;left: 0;"/>
+        <img src="img/index/Synchronous.png" alt="12,15,22,5" data-type="1"  style="position: absolute;top:0;left: 360px;"/>
+        <img src="img/index/among.png" alt="13,6" data-type="2" style="position: absolute;top:0;left: 720px;" />
+        <img src="img/index/chinaesetest.png" alt="14,21" data-type="3" style="position: absolute;top:220px;left: 0;"/>
+        <img src="img/index/microClass.png" alt="16,23" data-type="4" style="position: absolute;top:220px;left: 720px;"/>
+        <img src="img/index/shadow.png" style="position: absolute;top:427px;left: -8px;"/>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="js/ntv.js"></script>
+<script type="text/javascript" src="js/myFunction.js"></script>
+<script type="text/javascript">
+    var dataType=0;
+    function pressOk(){
+        //console.log(typeof dataType);
+        switch (dataType){
+            case '0':
+                var params={
+                    token:token,
+                    gradeId:1,
+                    subjectId:2,
+                    themeId:1,
+                    pageSize:100
+                };
+                getSubList(params);
+                sessionStorage.setItem("title","奥数全能解法及解析");
+                break;
+            case '1':
+                var params={
+                    token:token
+                };
+                ajax({
+                    url:hostIp+'/app/microcourse/a/getUserData.do',
+                    method:'POST',
+                    data:params,
+                    success:function(data){
+                        var data=JSON.parse(data)
+                        //console.log(data);
+                        var paramData={
+                            token:token,
+                            gradeId:data.data.gradeId
+                        };
+                        getLeftList(paramData);
+                    }
+                });
+                //getReList(params);
+                setTimeout(function(){
+                    location.href="wkList.html";
+                },300)
+                sessionStorage.setItem("title","同步知识点微课");
+                break;
+            case '2':
+                var params={
+                    token:token,
+                    periodId:3,
+                    gradeId:6,
+                    cloumnId:2
+                };
+                showList(params);
+                sessionStorage.setItem("title","小升初知识点精讲");
+                break;
+            case '3':
+                var params={
+                    token:token,
+                    periodId:2,
+                    gradeId:9,
+                    cloumnId:3
+                };
+                showList(params);
+                sessionStorage.setItem("title","中考知识点精讲");
+                break;
+            case '4':
+                sessionStorage.setItem("title","小升初知识点精讲");
+                    console.log('点击了小升初')
+                break;
+            default:
+
+        }
+    }
+    var set_listen_handle = function(keycode){
+        var code = keycode.code;
+        switch(code)
+        {
+            case "KEY_UP":
+                // to do
+               // alert('按了上键');
+                break;
+            case "KEY_DOWN":
+                // to do
+               // alert('按了下键');
+                break;
+            case "KEY_LEFT":
+                // to do
+               // alert('按了左键');
+                break;
+            case "KEY_RIGHT":
+                // to do
+               // alert('按了右键');
+                    //console.log(ntv.navigation.coord)
+                break;
+            case "KEY_REFRESH":
+                // to do
+               // alert('按了刷新键');
+                break;
+            case "KEY_OK":
+                // to do
+               // alert('按了ok键');
+                pressOk();
+                break;
+        }
+    };
+    function conso_coordfunction(coord){
+       // ntv.log.console(coord)
+        var el=ntv.navigation.getElmByCoord(coord);
+        //console.log(el.getAttribute("data-type"))
+        dataType=el.getAttribute("data-type");
+    };
+    (function(){
+        //ntv.log.debug = true;             // 是否开启调试模式。
+        //ntv.profile.info();
+        ntv.key.keypress_handle = set_listen_handle;
+        ntv.navigation.move_done_callback = conso_coordfunction;
+    })();
+</script>
+</body>
+</html>

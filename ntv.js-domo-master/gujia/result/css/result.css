@@ -1,0 +1,114 @@
+body{font-family: '幼圆';}
+
+.page{
+	position: absolute;
+	width: 1280px;
+	height: 720px;
+	left: 0px;
+	top: 0px;
+}
+
+#iab_f{
+	position: absolute;
+	width: 90px;
+	height: 51px;
+	left: 87px;
+	top: 93px;
+	display: none;
+}
+
+#button{
+	position: absolute;
+	width: 452px;
+	height: 128px;
+	left: 411px;
+	top: 542px;
+}
+
+#price{
+	position: absolute;
+	width: 345px;
+	height: 70px;
+	left: 671px;
+	top: 262px;
+	text-align: center;
+	font-size: 46px;
+    color: #fe8f00;
+    line-height: 90px;
+    font-weight: bold;
+}
+
+#pic{
+	position: absolute;
+	width: 360px;
+	height: 360px;
+	left: 230px;
+	top: 144px;
+}
+
+#pic2{
+	position: absolute;
+	width: 360px;
+	height: 360px;
+	left: 230px;
+	top: 444px;
+}
+
+#w1{
+    position: absolute;
+	width: 200px;
+	height: 20px;
+	left: 394px;
+	top: 163px;	
+	color:#ffffff;
+}
+
+
+#w2{
+    position: absolute;
+	width: 200px;
+	height: 20px;
+	left: 256px;
+	top: 240px;	
+	color:#ffffff;
+}
+
+
+
+#w3{
+    position: absolute;
+	width: 200px;
+	height: 20px;
+	left: 256px;
+	top: 390px;	
+	color:#ffffff;
+}
+
+#w4{
+    position: absolute;
+	width: 200px;
+	height: 20px;
+	left: 394px;
+	top: 468px;	
+	color:#ffffff;
+}
+
+#w5{
+    position: absolute;
+	width: 200px;
+	height: 20px;
+	left: 534px;
+	top: 390px;	
+	color:#ffffff;
+}
+
+#w6{
+    position: absolute;
+	width: 200px;
+	height: 20px;
+	left: 534px;
+	top: 240px;	
+	color:#ffffff;
+}
+
+

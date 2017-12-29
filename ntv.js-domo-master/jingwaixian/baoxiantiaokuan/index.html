@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="page-view-size" content="1280*720">
+    <title>政府信息</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        
+    </style>
+
+    <script type="text/javascript">
+        var accessToken="526f2792f1bed15b683a989abcdac675";
+        var focused;
+        var stop=0;
+        var top = 0;
+        var ctop=3000;
+        var vvv1;
+
+
+        window.onload = function() {
+             document.getElementById("a1").focus();
+             var Request = new Object();  //取值时使用无需更改
+             Request = GetRequest();  //取值时使用无需更改 需保证GetRequest()存在;
+             vvv1 = Request['from'];    
+   
+        }
+
+        function gotoindex(){
+                if(vvv1=='shanghaiEstate'){
+                    window.location.href = '../../../shanghaiEstate/index.html';
+                }
+                else{
+                    window.location.href = '../../index.html';
+                }
+//			window.location.href = "../index.html";
+             }
+
+        function GetRequest(){    
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++){
+                theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    } 
+
+        function getNewsContentHeight(){
+            //setTimeout(function(){
+                ctop=document.getElementById("newscontent").clientHeight;
+               // document.getElementById("date").innerHTML=""+ctop+"";
+                ctop-=350;
+                ctop = 530;
+            //}, 0);
+            return ctop;
+        }
+document.onsystemevent = grabEvent;
+document.onkeypress = grabEvent;
+document.onirkeypress = grabEvent;
+document.onkeydown = grabEvent;
+//var E = iPanel.eventFrame;
+//var user = E.user;
+function grabEvent(event) {
+    var key_code = event.which;
+    switch(key_code)
+    {
+        case 1://shang
+        case 38:
+            if(focused==100){return false;}
+            if(focused==101){return false;}
+            if(focused==1){document.getElementById('back').focus();return false;}
+            if(focused==11){document.getElementById('back').focus();return false;}
+            if(focused==2){document.getElementById('a1').focus();return false;}
+            if(focused==3){document.getElementById('a2').focus();return false;}
+            if(focused==4){document.getElementById('a3').focus();return false;}
+            if(focused==5){document.getElementById('a4').focus();return false;}
+            if(focused==6){document.getElementById('a5').focus();return false;}
+            if(focused==7){document.getElementById('a6').focus();return false;}
+            if(focused==8){document.getElementById('a7').focus();return false;}
+            if(focused==9){document.getElementById('a8').focus();return false;}
+            if(focused==10){document.getElementById('a9').focus();return false;}
+            if(focused==12){document.getElementById('a11').focus();return false;}
+            if(focused==13){document.getElementById('a12').focus();return false;}
+            if(focused==14){document.getElementById('a13').focus();return false;}
+            if(focused==15){document.getElementById('a14').focus();return false;}
+            if(focused==16){document.getElementById('a15').focus();return false;}
+            if(focused==17){document.getElementById('a16').focus();return false;}
+            if(focused==18){document.getElementById('a17').focus();return false;}
+            if(focused==19){document.getElementById('a18').focus();return false;}
+            break;
+        case 2://xia
+        case 40:
+		    if(focused==100){document.getElementById('a1').focus();return false;}
+            if(focused==101){document.getElementById('a1').focus();return false;}
+            if(focused==1){document.getElementById('a2').focus();return false;}
+            if(focused==11){document.getElementById('a12').focus();return false;}
+            if(focused==2){document.getElementById('a3').focus();return false;}
+            if(focused==3){document.getElementById('a4').focus();return false;}
+            if(focused==4){document.getElementById('a5').focus();return false;}
+            if(focused==5){document.getElementById('a6').focus();return false;}
+            if(focused==6){document.getElementById('a7').focus();return false;}
+            if(focused==7){document.getElementById('a8').focus();return false;}
+            if(focused==8){document.getElementById('a9').focus();return false;}
+            if(focused==9){document.getElementById('a10').focus();return false;}
+            if(focused==10){document.getElementById('a11').focus();return false;}
+            if(focused==12){document.getElementById('a13').focus();return false;}
+            if(focused==13){document.getElementById('a14').focus();return false;}
+            if(focused==14){document.getElementById('a15').focus();return false;}
+            if(focused==15){document.getElementById('a16').focus();return false;}
+            if(focused==16){document.getElementById('a17').focus();return false;}
+            if(focused==17){document.getElementById('a18').focus();return false;}
+            if(focused==18){document.getElementById('a19').focus();return false;}
+            if(focused==19){return false;}
+            break;
+        case 3://zuo
+        case 37:
+            if(focused==100){return false;}
+            if(focused==101){document.getElementById('shouye').focus();return false;}
+            if(focused==11){document.getElementById('a1').focus();return false;}
+            if(focused==1){return false;}
+            if(focused==12){document.getElementById('a2').focus();return false;}
+            if(focused==13){document.getElementById('a3').focus();return false;}
+            if(focused==14){document.getElementById('a4').focus();return false;}
+            if(focused==15){document.getElementById('a5').focus();return false;}
+            if(focused==16){document.getElementById('a6').focus();return false;}
+            if(focused==17){document.getElementById('a7').focus();return false;}
+            if(focused==18){document.getElementById('a8').focus();return false;}
+            if(focused==19){document.getElementById('a9').focus();return false;}
+            if(focused==10){return false;}
+            if(focused==2){return false;}
+            if(focused==3){return false;}
+            if(focused==4){return false;}
+            if(focused==5){return false;}
+            if(focused==6){return false;}
+            if(focused==7){return false;}
+            if(focused==8){return false;}
+            if(focused==9){return false;}
+            break;
+        case 4://you
+        case 39:
+            if(focused==101){return false;}
+            if(focused==100){document.getElementById('back').focus();return false;}
+            
+            
+            if(focused==1){document.getElementById('a11').focus();return false;}
+            if(focused==11){return false;}
+            if(focused==2){document.getElementById('a12').focus();return false;}
+            if(focused==3){document.getElementById('a13').focus();return false;}
+            if(focused==4){document.getElementById('a14').focus();return false;}
+            if(focused==5){document.getElementById('a15').focus();return false;}
+            if(focused==6){document.getElementById('a16').focus();return false;}
+            if(focused==7){document.getElementById('a17').focus();return false;}
+            if(focused==8){document.getElementById('a18').focus();return false;}
+            if(focused==9){document.getElementById('a19').focus();return false;}
+            if(focused==10){document.getElementById('a11').focus();return false;}
+            if(focused==12){return false;}
+            if(focused==13){return false;}
+            if(focused==14){return false;}
+            if(focused==15){return false;}
+            if(focused==16){return false;}
+            if(focused==17){return false;}
+            if(focused==18){return false;}
+            if(focused==19){return false;}
+            break;
+        case 340:	
+			case 8:  //返回
+//			history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+			break;
+			case 4096:
+//          history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+            break;
+    }
+
+}
+function focuseD(id){
+	focused=id;
+}
+function displayIn(id){
+	document.getElementById(id).style.display="block";
+}
+function displayOut(id){
+	document.getElementById(id).style.display="none";
+}
+function fanhui(){
+	window.location.href = "../index.html?from="+vvv1;
+}
+function list(id){
+	window.location.href = "list/detail"+id+".html?from="+vvv1;
+}
+    </script>
+</head>
+<body style="width: 1280px;height: 720px;">
+<a id="shouye" href="javascript:gotoindex();" style="left: 10px;top: 40px;position: absolute;width: 5px" onfocus="focuseD(100);displayIn('shouyeF')" onblur="displayOut('shouyeF')">index</a>
+<a id="back" href="javascript:fanhui();" style="left: 70px;top: 40px;position: absolute;width: 5px" onfocus="focuseD(101);displayIn('backF')" onblur="displayOut('backF')">back</a>
+
+<a href="javascript:list(1);" id="a1" onfocus="focuseD(1);displayIn('img1')" onblur="displayOut('img1')" style="left: 10px;top: 10px;position: absolute;width: 10px">111</a>
+<a href="javascript:list(2);" id="a2" onfocus="focuseD(2);displayIn('img2')" onblur="displayOut('img2')" style="left: 50px;top: 10px;position: absolute;width: 10px">222</a>
+<a href="javascript:list(3);" id="a3" onfocus="focuseD(3);displayIn('img3')" onblur="displayOut('img3')" style="left: 90px;top: 10px;position: absolute;width: 10px">333</a>
+<a href="javascript:list(4);" id="a4" onfocus="focuseD(4);displayIn('img4')" onblur="displayOut('img4')" style="left: 140px;top: 10px;position: absolute;width: 10px">444</a>
+<a href="javascript:list(5);" id="a5" onfocus="focuseD(5);displayIn('img5')" onblur="displayOut('img5')" style="left: 180px;top: 10px;position: absolute;width: 10px">555</a>
+<a href="javascript:list(6);" id="a6" onfocus="focuseD(6);displayIn('img6')" onblur="displayOut('img6')" style="left: 220px;top: 10px;position: absolute;width: 10px">666</a>
+<a href="javascript:list(7);" id="a7" onfocus="focuseD(7);displayIn('img7')" onblur="displayOut('img7')" style="left: 260px;top: 10px;position: absolute;width: 10px">777</a>
+<a href="javascript:list(8);" id="a8" onfocus="focuseD(8);displayIn('img8')" onblur="displayOut('img8')" style="left: 300px;top: 10px;position: absolute;width: 10px">888</a>
+<a href="javascript:list(9);" id="a9" onfocus="focuseD(9);displayIn('img9')" onblur="displayOut('img9')" style="left: 340px;top: 10px;position: absolute;width: 10px">999</a>
+<a href="javascript:list(10);" id="a10" onfocus="focuseD(10);displayIn('img10')" onblur="displayOut('img10')" style="left: 380px;top: 10px;position: absolute;width: 10px">1010</a>
+<a href="javascript:list(11);" id="a11" onfocus="focuseD(11);displayIn('img11')" onblur="displayOut('img11')" style="left: 420px;top: 10px;position: absolute;width: 10px">1111</a>
+<a href="javascript:list(12);" id="a12" onfocus="focuseD(12);displayIn('img12')" onblur="displayOut('img12')" style="left: 460px;top: 10px;position: absolute;width: 10px">1212</a>
+<a href="javascript:list(13);" id="a13" onfocus="focuseD(13);displayIn('img13')" onblur="displayOut('img13')" style="left: 500px;top: 10px;position: absolute;width: 10px">1313</a>
+<a href="javascript:list(14);" id="a14" onfocus="focuseD(14);displayIn('img14')" onblur="displayOut('img14')" style="left: 540px;top: 10px;position: absolute;width: 10px">1414</a>
+<a href="javascript:list(15);" id="a15" onfocus="focuseD(15);displayIn('img15')" onblur="displayOut('img15')" style="left: 580px;top: 10px;position: absolute;width: 10px">1515</a>
+<a href="javascript:list(16);" id="a16" onfocus="focuseD(16);displayIn('img16')" onblur="displayOut('img16')" style="left: 620px;top: 10px;position: absolute;width: 10px">1616</a>
+<a href="javascript:list(17);" id="a17" onfocus="focuseD(17);displayIn('img17')" onblur="displayOut('img17')" style="left: 660px;top: 10px;position: absolute;width: 10px">1717</a>
+<a href="javascript:list(18);" id="a18" onfocus="focuseD(18);displayIn('img18')" onblur="displayOut('img18')" style="left: 700px;top: 10px;position: absolute;width: 10px">1818</a>
+<a href="javascript:list(19);" id="a19" onfocus="focuseD(19);displayIn('img19')" onblur="displayOut('img19')" style="left: 740px;top: 10px;position: absolute;width: 10px">1919</a>
+<div>
+	<img src="img/bg.png" style="width:1280px;height:720px;left:0px;top:0px;position: absolute">
+	<img src="img/index.png" alt="" id="indexBg" style="position: absolute;left:90px;top:100px;"/>
+	
+	<div id="content" style="font-size: 21px;color:#EEF4F9;font-weight: bold;">
+		<div id="list1" style="position:absolute;left:105px;top:162px;">1.乐悠悠境外旅行意外伤害保险条款（2014版）</div>
+		<div id="list2" style="position:absolute;left:105px;top:215px;">2.附加突发急性严重疾病身故保险条款（2013版）</div>
+		<div id="list3" style="position:absolute;left:105px;top:268px;">3.附加旅行交通意外伤害双倍给付保险条款（2011版）</div>
+		<div id="list4" style="position:absolute;left:105px;top:321px;">4.附加旅行医疗费用保险条款（2011版）</div>
+		<div id="list5" style="position:absolute;left:105px;top:374px;">5.附加旅行意外伤害住院津贴保险条款（2011版）</div>
+		<div id="list6" style="position:absolute;left:105px;top:427px;">6.附加旅行绑架及非法拘禁慰问补偿保险条款（2014版）</div>
+		<div id="list7" style="position:absolute;left:105px;top:480px;">7.附加境外紧急医疗救援保险条款（2014版）</div>
+		<div id="list8" style="position:absolute;left:105px;top:533px;">8.附加旅行个人行李及随身物品保险条款（2011版）</div>
+		<div id="list9" style="position:absolute;left:105px;top:586px;">9.附加行李延误保险条款（2011版）</div>
+		<div id="list10" style="position:absolute;left:105px;top:639px;">10.附加旅行个人钱财保险条款（2011版）</div>
+		<div id="list11" style="position:absolute;left:692px;top:162px;">11.附加旅行证件遗失保险条款（2011版）</div>
+		<div id="list12" style="position:absolute;left:692px;top:215px;">12.附加航班延误保险条款A款（2014版）</div>
+		<div id="list13" style="position:absolute;left:692px;top:268px;">13.附加旅程缩短保险条款（2011版）</div>
+		<div id="list14" style="position:absolute;left:692px;top:321px;">14.附加旅程取消保险条款（2011版）</div>
+		<div id="list15" style="position:absolute;left:692px;top:374px;">15.附加旅行个人第三者责任保险条款（2011版）</div>
+		<div id="list16" style="position:absolute;left:692px;top:427px;">16.附加旅行家庭财产保障保险条款（2011版）</div>
+		<div id="list17" style="position:absolute;left:692px;top:480px;">17.银行卡盗刷保险条款（2014版）</div>
+		<div id="list18" style="position:absolute;left:692px;top:533px;">18.附加旅行移动电话保险条款（2014版）</div>
+		<div id="list19" style="position:absolute;left:692px;top:586px;">19.附加高风险运动意外伤害保险条款（2011版）</div>
+	</div>
+	
+    <img id="shouyeF" src="img/newFo.png" style="top:96px;left:86px;position: absolute;display: none;z-index:555;">
+    <img id="backF" src="img/newFo.png" style="top:96px;left:147px;position: absolute;display: none;z-index: 555;">
+    <!--<div id="test" style="left: 50px;top: 100px;position: absolute">21341</div>-->
+    
+    <img src="img/left.png" alt="" id="img1" style="position: absolute;left:80px;top:139px;display: none;z-index: 555;"/>
+    <img src="img/left.png" alt="" id="img2" style="position: absolute;left:80px;top:192px;display: none;z-index: 555;"/>
+    <img src="img/left.png" alt="" id="img3" style="position: absolute;left:80px;top:245px;display: none;z-index: 555;"/>
+    <img src="img/left.png" alt="" id="img4" style="position: absolute;left:80px;top:298px;display: none;z-index: 555;"/>
+    <img src="img/left.png" alt="" id="img5" style="position: absolute;left:80px;top:351px;display: none;z-index: 555;"/>
+    <img src="img/left.png" alt="" id="img6" style="position: absolute;left:80px;top:404px;display: none;z-index: 555;"/>
+    <img src="img/left.png" alt="" id="img7" style="position: absolute;left:80px;top:457px;display: none;z-index: 555;"/>
+    <img src="img/left.png" alt="" id="img8" style="position: absolute;left:80px;top:510px;display: none;z-index: 555;"/>
+    <img src="img/left.png" alt="" id="img9" style="position: absolute;left:80px;top:563px;display: none;z-index: 555;"/>
+    <img src="img/left.png" alt="" id="img10" style="position: absolute;left:80px;top:616px;display: none;z-index: 555;"/>
+    <img src="img/right.png" alt="" id="img11" style="position: absolute;left:666px;top:139px;display: none;z-index: 555;"/>
+    <img src="img/right.png" alt="" id="img12" style="position: absolute;left:666px;top:192px;display: none;z-index: 555;"/>
+    <img src="img/right.png" alt="" id="img13" style="position: absolute;left:666px;top:245px;display: none;z-index: 555;"/>
+    <img src="img/right.png" alt="" id="img14" style="position: absolute;left:666px;top:298px;display: none;z-index: 555;"/>
+    <img src="img/right.png" alt="" id="img15" style="position: absolute;left:666px;top:351px;display: none;z-index: 555;"/>
+    <img src="img/right.png" alt="" id="img16" style="position: absolute;left:666px;top:404px;display: none;z-index: 555;"/>
+    <img src="img/right.png" alt="" id="img17" style="position: absolute;left:666px;top:457px;display: none;z-index: 555;"/>
+    <img src="img/right.png" alt="" id="img18" style="position: absolute;left:666px;top:510px;display: none;z-index: 555;"/>
+    <img src="img/right.png" alt="" id="img19" style="position: absolute;left:666px;top:563px;display: none;z-index: 555;"/>
+</div>
+
+<!--<div id="test" style="position: absolute;left:200px;top:40px">1</div>-->
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="page-view-size" content="1280*720">
+    <title>政府信息</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        #news-content{
+            left:115px;top:140px;position:absolute;color: white; font-family: 微软雅黑;font-size: 20px;width: 1050px;line-height: 30px;height: 530px;overflow: hidden;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var accessToken="526f2792f1bed15b683a989abcdac675";
+        var focused;
+        var stop=0;
+        var top = 0;
+        var ctop=3000;
+        var vvv1;
+
+
+        window.onload = function() {
+             document.getElementById("back").focus();
+             var Request = new Object();  //取值时使用无需更改
+             Request = GetRequest();  //取值时使用无需更改 需保证GetRequest()存在;
+             vvv1 = Request['from'];    
+   
+        }
+
+        function gotoindex(){
+ if(vvv1=='shanghaiEstate'){
+                    window.location.href = '../../../../shanghaiEstate/index.html';
+                }
+                else{
+                    window.location.href = '../../../index.html';
+                }
+             }
+
+        function GetRequest(){    
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++){
+                theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    } 
+
+        function getNewsContentHeight(){
+            //setTimeout(function(){
+                ctop=document.getElementById("newscontent").clientHeight;
+               // document.getElementById("date").innerHTML=""+ctop+"";
+                ctop-=350;
+                ctop = 530;
+            //}, 0);
+            return ctop;
+        }
+document.onsystemevent = grabEvent;
+document.onkeypress = grabEvent;
+document.onirkeypress = grabEvent;
+document.onkeydown = grabEvent;
+//var E = iPanel.eventFrame;
+//var user = E.user;
+function grabEvent(event) {
+    var key_code = event.which;
+    switch(key_code)
+    {
+        case 1:
+        case 38:
+            if(stop>=200){
+                stop-=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 372://shang yi ye
+        case 33:
+                if(stop>=400){
+                    stop-=400;
+                }else{
+                	stop = 0;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 2:
+        case 40:
+		    //document.getElementById("date").innerHTML = document.getElementById("newscontent").clientHeight;
+            if(stop<4200){
+                stop+=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 373://xia yi ye
+        case 34:
+                if(stop<4000){
+                    stop+=400;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//          document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 3:
+        case 37:
+            if(focused==1){
+                return false;
+            }
+            else{
+                document.getElementById("shouye").focus();
+            }
+              
+          stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;    
+            break;
+        case 4:
+        case 39:
+            if(focused==1){
+                document.getElementById("back").focus();
+            }
+            else{return false;}
+             stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;
+            break;
+        case 340:	
+			case 8:  //返回
+//			history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+			break;
+			case 4096:
+//          history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+            break;
+    }
+
+}
+function init(){
+    document.getElementById("shouyeF").style.display="none";
+    document.getElementById("backF").style.display="none";
+}
+    function over1(){
+        init();
+        focused=1;
+        document.getElementById("shouyeF").style.display="block";
+    }
+function over2(){
+    init();
+    focused=2;
+    document.getElementById("backF").style.display="block";
+}
+function fanhui(){
+	window.location.href = "../../index.html?from="+vvv1;
+}
+    </script>
+</head>
+<body style="width: 1280px;height: 720px;">
+<a id="shouye" href="javascript:gotoindex();" style="left: 100px;top: 100px;position: absolute;width: 5px" onfocus="over1()">&nbsp </a>
+<a id="back" href="javascript:fanhui();" style="left: 150px;top: 100px;position: absolute;width: 5px" onfocus="over2()">&nbsp </a>
+<div>
+    <div id="title" style="left:115px;top: 50px;position:absolute;color: white; font-family: 微软雅黑;font-size: 28px"></div>
+    <div id="date" style="right: 95px;top: 50px;position:absolute;color: white;opacity: 0.6;font-family: 微软雅黑;"></div>
+	<img src="img/bg.png" style="width:1280px;height:720px;left:0px;top:0px;position: absolute">
+	<img src="img/index.png" alt="" id="indexBg" style="position: absolute;left:90px;top:100px;"/>
+    <img id="shouyeF" src="img/newFo.png" style="top:96px;left:86px;position: absolute;display: none">
+    <img id="backF" src="img/newFo.png" style="top:96px;left:147px;position: absolute;display: none">
+    <!--<div id="test" style="left: 50px;top: 100px;position: absolute">21341</div>-->
+</div>
+<div id="news-content">
+ 
+<p align="center">
+    太平财产保险有限公司
+</p>
+<p align="center">
+    附加旅程缩短保险条款（2011版）
+</p>
+<p align="center">
+    总则
+</p>
+<p>
+    <strong>第一条 </strong>
+    本附加保险合同（以下简称附加险合同）依主险合同投保人的申请，经保险人同意而订立。本附加险合同作为主险合同的组成部分，主险合同效力终止，本附加险合同效力亦同时终止；主险合同无效，本附加险合同亦无效。本附加险合同与主险合同相抵触之处，以本附加险合同为准，本附加险合同未约定事项，以主险合同为准。
+</p>
+<p>
+    本保险合同由保险条款、投保单、保险单或其他保险凭证、批单等组成。凡涉及本保险合同的约定，均应采用书面形式。
+</p>
+<p>
+    <strong>第二条 </strong>
+    除另有约定外，本附加险合同保险金的受益人为被保险人本人。
+</p>
+<p align="center">
+    保险责任
+</p>
+<p>
+    <strong>第三条 </strong>
+    本附加险合同的保险责任分为基本保险责任和可选保险责任。投保人可单独投保基本保险责任，也可在投保基本保险责任的同时投保可选保险责任中的一项或多项保险责任（可选保险责任不可单独投保），由保险人和投保人在保险单上约定。
+</p>
+<p>
+    一、基本保险责任
+</p>
+<p>
+    在本附加险合同保险期间内，被保险人持有效证件在境内或境外旅行时，因发生下列事故之一直接导致被保险人提早结束旅程返回原出发地，保险人对被保险人已预先支付但未有使用且无法退回之交通费、住宿费或相关旅游产品的费用，在本附加险合同相应的保险金额限额内负赔偿责任：
+</p>
+<p>
+    1、 被保险人身故或遭遇严重意外伤害事故导致严重受伤或罹患突发性重病，经当地医院医生诊断不宜继续行程须立刻返回原出发地就医的；
+</p>
+<p>
+    2、 被保险人的配偶、父母或子女在本附加险合同生效后身故或遭遇严重意外伤害事故导致严重受伤或罹患突发性重病；
+</p>
+<p>
+    3、 被保险人遭受劫持。
+</p>
+<p>
+    二、可选保险责任
+</p>
+<p>
+    在本附加险合同保险期间内，被保险人持有效证件在境内或境外旅行时，旅行目的地因发生下列事故之一直接导致被保险人提早结束旅程返回原出发地，保险人对被保险人已预先支付但未有使用且无法退回之交通费、住宿费或相关旅游产品的预付费用，在本附加险合同相应的保险金额限额内负赔偿责任：
+</p>
+<p>
+    1、突发公共交通工具承运人雇员罢工、暴动；
+</p>
+<p>
+    2、已计划的旅行目的地突发传染病而不宜继续行程；
+</p>
+<p>
+    3、已计划的旅行目的地遭受自然灾害而不宜继续行程；
+</p>
+<p>
+    4、已计划的旅行目的地突发暴乱而不宜继续行程；
+</p>
+<p>
+    5、被保险人的家庭财产遭受火灾、爆炸、自然灾害或第三方犯罪行为导致严重财产损失，并且被保险人必须立即返回与警方合作进行调查或在场评估损失。
+</p>
+<p>
+    三<strong>、在本附加险合同生效前，被保险人身体状况必须适合旅行且被保险人没有意识到任何会导致原定旅程中断或缩短的状况。</strong>
+</p>
+<p align="center">
+    责任免除
+</p>
+<p>
+    <strong>第四条 </strong>
+    <strong>主保险合同列明的各项责任免除条款均适用于本附加险合同，若主险合同中责任免除条款与本条款有相抵触之处，则应以本条款为准。</strong>
+</p>
+<p>
+    <strong>第五条 </strong>
+    <strong>由于下列原因直接或间接导致被保险人行程缩短而造成被保险人损失的，保险人不承担给付保险金责任：</strong>
+</p>
+<p>
+    <strong>（一） </strong>
+    <strong>被保险人为其旅行预订酒店、公共交通工具或其他费用时已知且已存在的可能导致旅程中断或缩短的情况或条件，包括但不限于当时已经宣布或已经发生的任何罢工或其他工人抗议活动，和当时已经发生的任何自然灾害或旅行目的地已经宣布突发传染病；</strong>
+</p>
+<p>
+    <strong>（二） </strong>
+    <strong>任何可以在其他保险计划项下或从政府、酒店、航空公司、旅行社或其他旅行服务机构得到退还或赔偿的费用；</strong>
+</p>
+<p>
+    <strong>（三） </strong>
+    <strong>由政府法律规定引起的损失，或由于旅行服务机构和/或公共交通工具承运人的过失、疏忽、破产导致本次旅行无法继续进行；</strong>
+</p>
+<p>
+    <strong>（四） </strong>
+    <strong>被保险人不愿继续参加旅行或经济原因导致不能继续旅行；</strong>
+</p>
+<p>
+    <strong>（五） </strong>
+    <strong>任何违法犯罪行为；</strong>
+</p>
+<p>
+    <strong>（六） </strong>
+    <strong>被保险人或其配偶、父母、子女在投保前已患上的疾病和症状而导致死亡或患病；</strong>
+</p>
+<p>
+    <strong>（七） </strong>
+    <strong>被保险人旅行的目的是为了进行治疗或该旅行违背医嘱。</strong>
+</p>
+<p>
+    <strong>第六条 </strong>
+    <strong>下列损失和费用，保险人不承担赔偿责任：</strong>
+</p>
+<p>
+    <strong>（八） </strong>
+    <strong>当必须中断或缩短的行程时，被保险人未立即通知旅行社、导游、运输服务提供商或宾馆旅店等而造成的损失；</strong>
+</p>
+<p>
+    <strong>（九） </strong>
+    <strong>旅行社收取的用于缩短行程的手续费；</strong>
+</p>
+<p>
+    <strong>（十） </strong>
+    <strong>任何因第三者提供服务而被保险人不需负责给付的费用或任何已包含在旅行收费中的费用；</strong>
+</p>
+<p align="center">
+    保险金申请与给付
+</p>
+<p>
+    <strong>第七条 </strong>
+    发生保险责任范围内的事故，保险金申请人请求赔偿时，应向保险人提交以下证明和资料。保险金申请人因特殊原因不能提供以下材料的，应提供其他合法有效的材料。<strong>保险金申请人未能提供有关材料，导致保险人无法核实的，保险人对无法核实部分不承担给付保险金的责任。</strong>
+</p>
+<p>
+    （1) 保险金申请人填具的索赔申请书；
+</p>
+<p>
+    （2) 保险单原件或其他保险凭证正本；
+</p>
+<p>
+    （3) 被保险人身份证明；
+</p>
+<p>
+    （4) 公安部门或司法部门、二级以上（含二级）医院或保险人认可的医疗机构出具的被保险人或其配偶、父母、子女死亡证明或验尸报告；认可的医疗机构出具的有关被保险人或其配偶、父母、子女严重受伤或罹患重病的附有病理检查、化验检查及其他医疗仪器检查报告的医疗诊断证明、病历及医疗、医药费原始单据、结算明细表与处方正本；
+</p>
+<p>
+    （5) 被保险人与死者关系的证明文件复印件；
+</p>
+<p>
+    （6) 被保险人不适宜继续行程的医生证明文件正本；
+</p>
+<p>
+    （7) 已支付的交通费、住宿费及相关旅游产品的预付费用的清单及发票或收据原件；
+</p>
+<p>
+    （8) 旅行社、交通工具承运人、住宿承办人等单位出具的证明被保险人已支付但未有使用且无法退还的费用的清单；
+</p>
+<p>
+    （9) 已支付交通费但因旅程取消无法使用的原始机票、车票、船票；
+</p>
+<p>
+    （10) 保险事故发生地政府或其他有关部门出具的突发公共交通工具承运人雇员罢工、暴动的证明文件；
+</p>
+<p>
+    （11) 若是商务旅行，需被保险人的雇主提供的被保险人公务出差旅行的证明；
+</p>
+<p>
+    （12) 保险金申请人所能提供的的与确认保险事故的性质、原因、损失程度等有关的其他证明和资料。
+</p>
+<p>
+    <strong>第八条 </strong>
+    若被保险人的损失已从其他途径或其他保险公司获得赔偿的，保险人可根据有关单位或保险公司出具的相关单证或给付保险金证明，在本保险合同的保险金额内承担被保险人除前述赔偿额之外剩余部分的赔偿责任。
+</p>
+<p align="center">
+    <strong>释义</strong>
+</p>
+<p>
+    <strong>1、 </strong>
+    <strong>严重受伤:</strong>
+</p>
+<p>
+    指经医院医生诊断及证实被保险人所受的伤危及被保险人生命及不适宜继续原定行程。
+</p>
+<p>
+    <strong>2、 </strong>
+    <strong>突发性重病：</strong>
+</p>
+<p>
+    指被保险人在本附加险合同有效期间，在旅行时首次罹患的突发性疾病或出现的症状，并经医院医生诊断及证实被保险人罹患的疾病危及被保险人生命及不适宜继续原定行程，但不包括本附加险合同生效前罹患的任何疾病或出现的任何症状及任何慢性疾病。
+</p>
+<p>
+    <strong>3、 </strong>
+    <strong>配偶：</strong>
+</p>
+<p>
+    指保险事故发生时与被保险人存有合法婚姻关系的夫或妻。
+</p>
+<p>
+    <strong>4、 </strong>
+    <strong>公共交通工具:</strong>
+</p>
+<p>
+    指领有当地政府主管部分依法颁发的公共交通营运执照，以收费方式合法载客的以下交通工具：
+</p>
+<p>
+    1） 公共汽车、长途汽车 、出租车、渡船、气垫船、水翼船、轮船、火车、有轨电车、轨道列车（包括地铁、轻轨及磁悬浮列车）；
+</p>
+<p>
+    2） 经营固定航班的航空公司经营的来往商业客运机场的定翼飞机<strong>；</strong>
+</p>
+<p>
+    3） 航空公司所经营的且往来商业客运机场之间或有营运执照的直升机站之间营运的直升飞机；
+</p>
+<p>
+    4） 按固定路线和时间表营运的固定机场客车。
+</p>
+<p>
+    若上述所列的各种公共交通工具用于非公共交通工具的目的和用途，均不符合本附加条款中“公共交通工具”的定义。另政府、企业及私人包机亦不在公共交通工具定义之内。
+</p>
+<p>
+    <strong>5、 </strong>
+    <strong>投保前已患上的疾病和症状：</strong>
+</p>
+<p>
+    指在投保本附加险合同前六个月内曾出现任何症状而引致寻求诊断、医疗护理或医药治疗；或在本投保本附加险合同前六个月内曾经医生推荐接受医药治疗或医疗意见。
+</p>
+<p>
+    <strong>6、 </strong>
+    <strong>自然灾害：</strong>
+</p>
+<p>
+    是指雷击、飓风、台风、龙卷风、风暴、暴雨、洪水、冻灾、冰雹、地崩、山崩、雪崩、火山爆发、地面突然下沉下陷以及其他人力不可抗拒的破坏力强大的自然现象，<strong>但不包括地震、海啸。</strong>
+</p>
+<p>
+    <strong>7、 </strong>
+    <strong>严重的财产损失</strong>
+</p>
+<p>
+    是指住宅或家庭财产的全部或超过价值2/3的部分遭受损坏或损失。
+</p>
+<p>
+    <strong>本附加条款的未解释名词，均以主险的名词解释为准。</strong>
+    <strong></strong>
+</p>
+
+
+
+
+
+</div>
+<!--<div id="test" style="position: absolute;left:200px;top:40px">1</div>-->
+</body>
+</html>

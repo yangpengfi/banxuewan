@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title> 同步知识点微课 </title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <link rel="stylesheet" href="css/ntv.css">
+</head>
+<body>
+<div class="container pos-abs">
+    <div id="header">
+        <img src="img/index/screening.png" alt="1" style="vertical-align:middle;" data-type="0"/>
+        <span style="font-size: 24px;color:#f3f8fd;margin-left: 20px;" id="textCont" data-grade="8">初二年级</span>
+    </div>
+    <span id="title">微课</span>
+    <ul id="asideList">
+        <li data-id="1" data-gradeid="12" data-versionid="0">
+            <img src="img/sideList.png" alt="11" data-type="1" data-key="1">
+            <p>语文</p>
+        </li>
+        <li data-id="2" data-gradeid="12" data-versionid="0">
+            <img src="img/sideList.png" alt="21" data-type="1" data-key="2">
+            <p>数学</p>
+        </li>
+        <li data-id="3" data-gradeid="12" data-versionid="0">
+            <img src="img/sideList.png" alt="31" data-type="1" data-key="3">
+            <p>英语</p>
+        </li>
+        <li data-id="4" data-gradeid="12" data-versionid="0">
+            <img src="img/sideList.png" alt="41" data-type="1" data-key="4">
+            <p>物理</p>
+        </li>
+        <li data-id="5" data-gradeid="12" data-versionid="0">
+            <img src="img/sideList.png" alt="51" data-type="1" data-key="5">
+            <p>化学</p>
+        </li>
+        <li data-id="6" data-gradeid="12" data-versionid="0">
+            <img src="img/sideList.png" alt="61" data-type="1" data-key="6">
+            <p>地理</p>
+        </li>
+        <li data-id="7" data-gradeid="12" data-versionid="0">
+            <img src="img/sideList.png" alt="71" data-type="1" data-key="7"/>
+            <p>语文</p>
+        </li>
+        <li data-id="8" data-gradeid="12" data-versionid="0">
+            <img src="img/sideList.png" alt="81" data-type="1" data-key="8"><p>政治</p></li>
+        <li data-id="9" data-gradeid="12" data-versionid="0">
+            <img src="img/sideList.png" alt="91" data-type="1" data-key="9"><p>生物</p></li>
+    </ul>
+    <div id="centerList">
+        <ul>
+            <li data-topicid="150" data-subjectid="1" data-gradeid="8"><p>课外古诗词诵读</p><img src="img/index/sub_chinesesmall.png" alt="mathLogo" /></li>
+            <li data-topicid="151" data-subjectid="1" data-gradeid="8"><p>阅读鉴赏上</p><img src="img/index/sub_chinesesmall.png" alt="mathLogo" /></li>
+            <li data-topicid="152" data-subjectid="1" data-gradeid="8"><p>阅读鉴赏下</p><img src="img/index/sub_chinesesmall.png" alt="mathLogo" /></li>
+        </ul>
+    </div>
+    <div id="footer">
+        <ul>
+            <li>小学 <span>|</span></li>
+            <li>
+                <img src="img/footer.png" data-grade="1" alt="131" data-type="3"/>
+                一年级
+            </li>
+            <li>
+                <img src="img/footer.png" data-grade="2" alt="132"  data-type="3"/>
+                二年级
+            </li>
+            <li>
+                <img src="img/footer.png" data-grade="3" alt="133"  data-type="3"/>
+                三年级
+            </li>
+            <li>
+                <img src="img/footer.png" data-grade="4" alt="134"  data-type="3"/>
+                四年级
+            </li>
+            <li>
+                <img src="img/footer.png" data-grade="5" alt="135"  data-type="3"/>
+                五年级
+            </li>
+            <li>
+                <img src="img/footer.png" data-grade="6" alt="136" data-type="3"/>
+                六年级
+            </li>
+        </ul>
+        <ul>
+            <li>初中 <span>|</span></li>
+            <li>
+                <img src="img/footer.png" data-grade="7" alt="137"  data-type="3"/>
+                初一
+            </li>
+            <li>
+                <img src="img/footer.png" data-grade="8" alt="138"  data-type="3"/>
+                初二
+            </li>
+            <li>
+                <img src="img/footer.png" data-grade="9" alt="139"  data-type="3"/>
+                初三
+            </li>
+        </ul>
+        <ul>
+            <li>高中 <span>|</span></li>
+            <li>
+                <img src="img/footer.png" data-grade="10" alt="140"  data-type="3"/>
+                高一
+            </li>
+            <li>
+                <img src="img/footer.png" data-grade="11" alt="141"  data-type="3"/>
+                高二
+            </li>
+            <li>
+                <img src="img/footer.png" data-grade="12" alt="142"  data-type="3"/>
+                高三
+            </li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="js/ntv.js"></script>
+<script type="text/javascript" src="js/myFunction.js"></script>
+<script type="text/javascript">
+    /**
+     * clickType：0:头部点击事件，1：左侧点击事件，2：中间点击事件，3：footer点击事件
+     * */
+    var clickType=0;
+    function pressOkFun(){
+        switch (clickType){
+            case '0':
+                banxue('#header').trigger('click');  //主动触发*/
+                ntv.navigation.move_focus(131);
+                //banxue('#header').on('click',headerClick);
+                break;
+            case '1':
+                banxue('#asideList li').trigger('click');
+                break;
+            case '2':
+                banxue('#centerList>ul li').trigger('click');
+                break;
+            case '3':
+                banxue('#footer>ul li:gt(0)').trigger('click');
+                break;
+            default:
+
+        }
+    }
+    var set_listen_handle = function(keycode){
+        var code=keycode.code;
+        switch(code)
+        {
+            case "KEY_OK":
+                pressOkFun();
+                break;
+        }
+    };
+    function getClickfunction(coord){
+        var el=ntv.navigation.getElmByCoord(coord);
+        clickType=el.getAttribute("data-type");
+    };
+    (function(){
+        //ntv.log.debug = true;   // 是否开启调试模式。
+        ntv.key.keypress_handle = set_listen_handle;
+        ntv.navigation.move_done_callback = getClickfunction;
+        /*获取中间列表*/
+        banxue('#centerList ul').empty().append(sessionStorage.getItem('contentLi'));
+        /*初始化左侧列表*/
+        banxue('#asideList').empty().append(sessionStorage.getItem('leftList'));
+        /*获取默认年级*/
+        banxue("#title").text(sessionStorage.getItem('title'));
+        /*获取年纪id*/
+        var greadIds=sessionStorage.getItem("grade");
+        //console.log(banxue('#footer li[data-grade='+greadIds+']'));
+        banxue("#textCont").text(banxue('#footer img[data-grade='+greadIds+']').parent().text());
+        /**
+         * 测导航点击事件
+         * */
+        banxue("#asideList").on("click","li",asideLiClick);
+
+        /**
+         * 筛选弹出层
+         * */
+        banxue('#header').on('click',headerClick);
+        /**
+         * 筛选点击事件
+         * */
+        banxue('#footer>ul').on('click','li:gt(0)',footerLiClick)
+        /**
+         * 微课点击事件
+         * */
+        banxue('#centerList>ul').on('click','li',centerLiClick)
+    })();
+</script>
+</body>
+</html>

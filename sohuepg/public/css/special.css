@@ -1,0 +1,174 @@
+
+.body{background:url(../images/bg_default.jpg) no-repeat!important;}
+span{
+	font-family: "Microsoft YaHei";
+	color: white;
+	font-size: 20px;
+	vertical-align: middle;
+	text-align:center;
+}
+.specialList-no-data{
+	padding-top:160px;
+	font-size:40px;
+	color:#81a1b9;
+	text-align:center;
+	line-height:200px;
+}
+ .specialList-header{
+    position: absolute;
+    top: 50px;
+} 
+
+.specialList-title{
+    position: absolute;
+    top: 50px;
+    left: 78px;
+}
+
+.specialList-img{
+	vertical-align: middle;
+}
+
+.specialList-title1 {
+	font-size: 35px;
+}
+
+.specialList-title2 {
+	font-size: 30px;
+}
+
+.specialList-title3 {
+	font-size: 25px;
+}
+
+.specialList-sf {
+	top: -5px;
+	position: absolute;
+	width: 101px;
+	height: 40px;
+	padding-top: 9px;
+    padding-left: 11px;;
+	padding-bottom: 5px;
+	background-repeat: no-repeat;
+}
+.search {
+	left: 780px;
+}
+
+.filter {
+	left: 880px;
+}
+.sf-bg{
+	background-image: url("../images/6.png");
+}
+.sf-bg-on{
+	background-image: url("../images/5.png");
+}
+
+.specialList-main {
+	width: 105px;
+	height: 105px;
+	margin-top: -40px;
+	position: absolute;
+	left: 1065px;
+}
+
+.main{
+	background: url(../images/header/main.png) no-repeat !important;
+}
+
+.main-on {
+	background: url(../images/header/main_f.png) no-repeat !important;
+}
+.specialList-back {
+	width: 105px;
+	height: 105px;
+	margin-top: -40px;
+	position: absolute;
+	left: 1125px;
+}
+.back{
+	background: url(../images/header/back.png) no-repeat !important;
+}
+.back-on {
+	background: url(../images/header/back_f.png) no-repeat !important;
+}
+.specialList-page {
+	background-image: url("../images/8.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	position: absolute;
+	width: 1080px;
+	text-align: center;
+	top: 665px;
+	left: 100px;
+	font-size: 25px;
+	clear: both;
+}
+
+.specialList-turn-right {
+	width: 13px;
+	height: 35px;
+	position: absolute;
+	left: 1225px;
+	top: 450px;
+	background-repeat: no-repeat;
+	background-image: url("../images/7.png");
+}
+
+.specialList-turn-left {
+	width: 13px;
+	height: 35px;
+	position: absolute;
+    left: 35px;
+    top: 450px;
+	background-repeat: no-repeat;
+	background-image: url("../images/left.png");
+}
+.specialList-border {
+    position: absolute;
+    height: 267px;
+    width: 206px;
+    display: none;
+}
+
+.specialList-video {
+   	float: left;
+    padding-right: 23px;
+    padding-top: 10px;
+    padding-bottom:35px;
+    width: 168px;
+    height: 230px;
+}
+
+.specialList-poster {
+	width: 160px;
+	height: 215px;
+	padding:10px;
+}
+
+.specialList-poster-on {
+    width: 180px;
+    height: 240px;
+}
+
+.specialList-left{
+   	position: absolute;
+    top: 350px;
+    left: 70px;
+    width: 1150px;
+}
+
+.specialList-video-title{
+    color: white;
+    font-size: 17px;
+    width: 168px;
+    height: 32px;
+    line-height: 32px;
+    overflow: hidden;
+    text-align: center;
+    font-family: "Microsoft YaHei";
+}
+.specialList-pages{
+	font-size: 25px;
+}

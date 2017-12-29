@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/price.css">
+		<meta name="page-view-size" content="1280*720">
+		<meta http-equiv="pragma" content="no-cache"/>
+		<meta name="author" con tent="lin" />
+		<title>index</title>
+		<script src="../../env_info.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="js/price.js"></script>	
+    </head>
+
+
+	<body class="page" style="margin:0px;">	
+		<img src="img/bg.png" class="page">
+		<img src="img/bg2.png" class="bg2">
+		<a id="index" href="../../index.html" onfocus="fo(100)" onblur="bu(100)">&nbsp</a>
+		<a id="back" href="javascript:history.go(-1);" onfocus="fo(101)" onblur="bu(101)">&nbsp</a>
+		<img id="iab_f" src="img/iab_f.png">
+
+		<div id='record'>
+			<img id="recordimg1" src="img/bg_small.png" class="recordimg">
+			<img id="recordimg2" src="img/bg_small.png" class="recordimg">
+			<img id="recordimg3" src="img/bg_small.png" class="recordimg">
+			<img id="recordimg4" src="img/bg_small.png" class="recordimg">
+			<img id="recordimg5" src="img/bg_small.png" class="recordimg">
+			<div id="record1" class="records"></div>
+			<div id="record2" class="records"><span></span>/<span></span>/<span></span></div>
+			<div id="record3" class="records"><span></span>㎡</div>
+			<div id="record4" class="records"><span></span>/<span></span></div>
+			<div id="record5" class="records"></div>
+		</div>
+
+		<div id="part1">
+		    <img id="p1icon" src="img/part.png" class="particon">
+			<a id="a11" href="javascript:part1c(1)" onfocus="fo(11)" onblur="bu(11)">&nbsp</a>
+			<a id="a12" href="javascript:part1c(2)" onfocus="fo(12)" onblur="bu(12)">&nbsp</a>
+			<a id="a13" href="javascript:part1c(3)" onfocus="fo(13)" onblur="bu(13)">&nbsp</a>
+			<a id="a14" href="javascript:part1c(4)" onfocus="fo(14)" onblur="bu(14)">&nbsp</a>
+            <a id="a15" href="javascript:nextpage(2)" onfocus="fo(15)" onblur="bu(15)">&nbsp</a>
+            <div id="part1_1" class="part1_all">一般住宅</div>
+            <div id="part1_2" class="part1_all">独栋别墅</div>
+            <div id="part1_3" class="part1_all">双拼别墅</div>
+            <div id="part1_4" class="part1_all">联排别墅</div>
+            <img id="part1_f" src="img/part_f.png">
+            <img id="part1_next" src="img/next_d.png">
+		</div>
+
+		<div id="part2">
+		    <img id="part2_img1" src="img/input_n.png" class="part2_img_input">
+            <img id="part2_img2" src="img/input_n.png" class="part2_img_input">
+            <img id="part2_img3" src="img/input_n.png" class="part2_img_input">
+            <div id="part2word1" class="part2word">房</div>
+            <div id="part2word2" class="part2word">厅</div>
+            <div id="part2word3" class="part2word">卫</div>
+            <input id="part2_input1" maxlength="2" class="part_input" onfocus="fo(21)" onblur="bu(21)" onkeyup="inpu(21)"></input>
+            <input id="part2_input2" maxlength="2" class="part_input" onfocus="fo(22)" onblur="bu(22)" onkeyup="inpu(22)"></input>
+            <input id="part2_input3" maxlength="2" class="part_input" onfocus="fo(23)" onblur="bu(23)" onkeyup="inpu(23)"></input>
+            <a id="a24" href="javascript:prevpage(1)" onfocus="fo(24)" onblur="bu(24)">&nbsp</a>
+            <a id="a25" href="javascript:nextpage(3)" onfocus="fo(25)" onblur="bu(25)">&nbsp</a>
+            <img id="part2_previous" src="img/previous_n.png" class="part_previous">
+            <img id="part2_next" src="img/next_d.png" class="part_next">
+		</div>
+
+		<div id="part3">
+		    <img id="part3_img" src="img/input_n.png" class="part2_img_input">
+            <div id="part3word" class="part2word">平方米</div>
+            <input id="part3_input" class="part_input" onfocus="fo(31)" onblur="bu(31)" onkeyup="inpu(31)"></input>
+            <a id="a32" href="javascript:prevpage(2)" onfocus="fo(32)" onblur="bu(32)">&nbsp</a>
+            <a id="a33" href="javascript:nextpage(4)" onfocus="fo(33)" onblur="bu(33)">&nbsp</a>
+            <img id="part3_previous" src="img/previous_n.png" class="part_previous">
+            <img id="part3_next" src="img/next_d.png" class="part_next">
+		</div>
+        
+        <div id="part4">
+		    <img id="part4_img1" src="img/input_n.png" class="part2_img_input">
+            <img id="part4_img2" src="img/input_n.png" class="part2_img_input">
+            <div id="part4word1" class="part2word">所在楼层</div>
+            <div id="part4word2" class="part2word">总楼层</div> 
+            <input id="part4_input1" class="part_input" onfocus="fo(41)" onblur="bu(41)" onkeyup="inpu(41)"></input>
+            <input id="part4_input2" class="part_input" onfocus="fo(42)" onblur="bu(42)" onkeyup="inpu(42)"></input>        
+            <a id="a43" href="javascript:prevpage(3)" onfocus="fo(43)" onblur="bu(43)">&nbsp</a>
+            <a id="a44" href="javascript:nextpage(5)" onfocus="fo(44)" onblur="bu(44)">&nbsp</a>
+            <img id="part4_previous" src="img/previous_n.png" class="part_previous">
+            <img id="part4_next" src="img/next_d.png" class="part_next">
+            <img id="part4_info" src="img/hint2.png" >  
+		</div>
+
+		<div id="part5">
+		    <img id="p5icon" src="img/part.png" class="particon">
+			<a id="a51" href="javascript:part5c(1)" onfocus="fo(51)" onblur="bu(51)">&nbsp</a>
+			<a id="a52" href="javascript:part5c(2)" onfocus="fo(52)" onblur="bu(52)">&nbsp</a>
+			<a id="a53" href="javascript:part5c(3)" onfocus="fo(53)" onblur="bu(53)">&nbsp</a>
+			<a id="a54" href="javascript:part5c(4)" onfocus="fo(54)" onblur="bu(54)">&nbsp</a>
+            <a id="a55" href="javascript:prevpage(4)" onfocus="fo(55)" onblur="bu(55)">&nbsp</a>
+            <a id="a56" href="javascript:gujia()" onfocus="fo(56)" onblur="bu(56)">&nbsp</a>
+            <div id="part5_1" class="part1_all">不限</div>
+            <div id="part5_2" class="part1_all">平面</div>
+            <div id="part5_3" class="part1_all">跃层</div>
+            <div id="part5_4" class="part1_all">复式</div>
+            <img id="part5_f" src="img/part_f.png">
+            <img id="part5_previous" src="img/previous_n.png" class="part_previous">
+            <img id="part5_next" src="img/submit_d.png" class="part_next">
+            <img id="errorimg" src="img/popup.png">
+	        <a id="errora"  style="display:none;" href="javascript:history.go(-1);"></a>
+		</div>
+		
+
+		
+	</body>
+</html>
+

@@ -1,0 +1,516 @@
+* {
+	font-family: "Microsoft YaHei";
+	vertical-align: middle;
+}
+
+span {
+	color: white;
+	font-size: 20px;
+	text-align: center;
+}
+
+.seriesDetail {
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	width: 1280px;
+	height: 720px;
+}
+
+.seriesDetail-header {
+	position: absolute;
+	width: 100%;
+}
+
+.top-span {
+	position: absolute;
+	left: 18px;
+	top: 0px;
+}
+
+.top-img {
+	position: absolute;
+	top: 10px;
+	left: 65px;
+}
+
+.seriesDetail-main {
+	width: 105px;
+	height: 105px;
+	position: absolute;
+	left: 1065px;
+	background: url(../images/header/main.png) no-repeat !important;
+}
+
+.seriesDetail-main-on {
+	width: 105px;
+	height: 105px;
+	position: absolute;
+	left: 1065px;
+	background: url(../images/header/main_f.png) no-repeat !important;
+}
+
+.seriesDetail-back {
+	width: 105px;
+	height: 105px;
+	position: absolute;
+	left: 1125px;
+	background: url(../images/header/back.png) no-repeat !important;
+}
+
+.seriesDetail-back-on {
+	width: 105px;
+	height: 105px;
+	position: absolute;
+	left: 1125px;
+	background: url(../images/header/back_f.png) no-repeat !important;
+}
+
+.seriesDetail-title {
+    font-size: 36px;
+    position: absolute;
+    top: 35px;
+    left: 90px;
+    letter-spacing: 5px;
+    width:1100px;
+    text-align: left;
+}
+
+.seriesDetail-profile {
+	line-height: 34px;
+	color: #ecf0f1;
+	position: absolute;
+	top: 85px;
+	left: 383px;
+	width: 820px;
+}
+
+.seriesDetail-info {
+	color: rgb(236, 240, 241);
+	font-size: 25px;
+}
+
+.seriesDetail-description {
+	margin-top: 6px;
+	line-height: 30px;
+	font-size: 22px;
+	color: rgb(188, 193, 199);
+	overflow: hidden;
+	text-indent: 2em;
+}
+
+.seriesDetail-poster {
+	position: absolute;
+	left: 86px;
+	top: 86px;
+	width: 246px;
+	height: 337px;
+}
+
+.seriesDetail-top {
+	position: absolute;
+	top: 158px;
+	left: 326px
+}
+.seriesDetail-title-img {
+    position: absolute;
+    top: 40px;
+    left: 85px;
+    height: 26px;
+    width: 26px;
+}
+.seriesDetail-but {
+	top: 214px;
+	position: absolute;
+	width: 116px;
+	height: 49px;
+	font-size: 20px;
+	color: #ecf0f1;
+	text-align: center;
+	line-height: 49px;
+	background-repeat: no-repeat;
+}
+
+.but {
+	background: url("../images/tvseries/butBg.png");
+}
+
+.but-on {
+	background: url("../images/tvseries/butBgFocus.png");
+}
+
+.but-play {
+	left: 50px;
+}
+
+.but-collect {
+	left: 191px;
+}
+
+.but-brief {
+	left: 332px;
+}
+
+.seriesDetail-center {
+	position: absolute;
+	top: 452px;
+	left: 85px;
+	height: 200px;
+}
+
+.seriesDetail-bottom {
+    position: absolute;
+    top: 715px;
+    left: 85px;
+    height: 470px;
+    width: 1170px;
+}
+
+.series-ranges {
+	height: 70px;
+}
+
+.series-range {
+	float: left;
+	width: 114px;
+	height: 43px;
+	line-height: 36px;
+	text-align: center;
+	font-size: 17px;
+	color: #ecf0f1;
+	background-repeat: no-repeat;
+}
+
+.bg {
+	background: url("../images/tvseries/numberBg.png") no-repeat;
+	/* background-position:center center; */
+}
+
+.bg-selected {
+	background: url("../images/tvseries/numberBgSelected.png") no-repeat;
+	/* background-position:center center; */
+}
+
+.bg-on {
+	background: url("../images/tvseries/numberBgFocus.png") no-repeat;
+}
+
+.series-numbers {
+	clear: both;
+	width: 1160px;
+}
+
+.series-number {
+	float: left;
+	width: 114px;
+	height: 70px;
+	line-height: 36px;
+	text-align: center;
+}
+
+.series-span {
+	color: white;
+	font-size: 20px;
+	text-align: center;
+	width: 96px;
+	height: 43px;
+	text-align: center;
+	line-height:43px;
+}
+
+.series-mark {
+	position: absolute;
+	top: 44px;
+	left: 65px;
+}
+
+/* CSS content */
+.content {
+	position: absolute;
+	left: 82px;
+	top: 98px;
+	width: 1113px;
+	height: 532px;
+}
+
+#content-poster img {
+	width: 388px;
+	height: 532px;
+}
+
+#content-info {
+	position: absolute;
+	right: 0px;
+	top: 26px;
+	width: 674px;
+	height: 225px;
+	color: #ecf0f1;
+	line-height: 26px;
+}
+
+#content-info-actor {
+	font-size: 18px;
+}
+
+#content-info-type {
+	float: left;
+	margin-right: 28px;
+	font-size: 18px;;
+	width: 674px;
+}
+
+#content-info-time {
+	font-size: 18px;
+	float: left;
+	margin-top: 15px;
+}
+
+#content-info-brief {
+	position: absolute;
+	left: 4px;
+	top: 110px;
+	width: 664px;
+	height: 148px;
+	line-height: 25px;
+	font-size: 17px;
+	color: #9199a6;
+	overflow: hidden;
+}
+
+#content-buttons {
+	position: absolute;
+	left: 435px;
+	top: 286px;
+	width: 600px;
+	height: 67px;
+	line-height: 20px;
+	font-size: 19px;
+	color: #ecf0f1;
+}
+
+#content-button-play img, #content-button-favorite img,
+	#content-button-detail img {
+	width: 22px;
+	height: 24px; /*margin-left:22px;margin-top:22px;*/
+	margin-left: 20px;
+}
+
+#content-button-play div, #content-button-favorite div,
+	#content-button-detail div {
+	margin-left: 30px;
+	margin-top: -26px;
+}
+
+#content-button-play {
+	background: url("../images/tvseries/button_bg.png") no-repeat;
+	float: left;
+	margin-right: /*33px*/ 0px;
+	padding-left: 22px;
+	padding-right: 13px;
+	padding-top: 20px;
+	padding-bottom: 16px;
+	width: 124px;
+	height: 24px;
+	line-height: 24px;
+	text-indent: -25px;
+}
+
+#content-button-favorite, #content-button-detail {
+	background: url("../images/tvseries/button_bg.png") no-repeat;
+	float: left;
+	margin-right: 0px;
+	padding-left: 22px;
+	padding-right: 13px;
+	padding-top: 20px;
+	padding-bottom: 16px;
+	width: 124px;
+	height: 24px;
+	line-height: 24px;
+	text-indent: -25px;
+}
+
+#content-buttons .content-button-actived {
+	background: url("../images/tvseries/button_bg_actived.png") no-repeat;
+}
+
+.button-pic {
+	float: left;
+	padding-left: 22px;
+}
+
+#content-series {
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	width: 680px;
+	height: 141px;
+}
+
+#content-series-range {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	margin-bottom: 11px;
+	width: 680px;
+	height: 36px;
+	overflow: hidden;
+}
+
+#content-series-range .content-series-range {
+	background: url("../images/tvseries/series_bg.png");
+	float: left;
+	margin-left: 10px;
+	width: 58px;
+	height: 36px;
+	line-height: 36px;
+	text-align: center;
+	font-size: 19px;
+	color: #ecf0f1;
+}
+
+#content-series-range .content-series-range-selected {
+	/*background:url("../images/tvseries/series_bg.png");*/
+	float: left;
+	margin-left: 10px;
+	width: 58px;
+	height: 36px;
+	line-height: 36px;
+	text-align: center;
+	font-size: 19px;
+	/*color: #ecf0f1;*/
+	background: url("../images/tvseries/series_bg_selected.png");
+	color: #ecf0f1;
+}
+
+#content-series-range .content-series-range-actived {
+	color: #ecf0f1;
+	background: url("../images/tvseries/series_bg_actived.png");
+}
+
+#content-series-number {
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	width: 680px;
+	height: 94px;
+	overflow: hidden;
+}
+
+.content-series-number-div {
+	background: url("../images/tvseries/series_bg.png") no-repeat;
+	float: left;
+	margin-left: 10px;
+	margin-top: 11px;
+	padding-left: 5px;
+	width: 58px;
+	height: 36px;
+	line-height: 36px;
+	font-size: 19px;
+	color: #ecf0f1;
+	text-align: center;
+	position: relative;
+}
+
+#content-series-number div.actived {
+	background: url("../images/tvseries/series_bg_actived.png");
+}
+
+.hide {
+	display: none;
+}
+
+.content-series-number-div .fee-div {
+	position: absolute;
+	right: 5px;
+	top: 0;
+	width: 29px;
+	height: 29px;
+	background: blue;
+}
+
+.alert-container {
+	width: 1280px;
+	height: 720px;
+	top: 0px;
+	position: absolute;
+	background: url("../images/movie/detailback.png") no-repeat;
+}
+
+.alert-header {
+	font-size: 22px;
+	color: #EAEBEC;
+	line-height: 26px;
+	margin-top: 162px;
+	margin-left: 220px;
+	margin-right: 220px;
+}
+
+.alert-text {
+	font-size: 18px;
+	color: #EAEBEC;
+	line-height: 26px;
+	height: 36px;
+	margin-top: 15px;
+	margin-left: 220px;
+	margin-right: 220px;
+}
+
+.seriesDetail-bottom-logo {
+    width: 1180px;
+    height: 29px;
+    background: url("../images/tvseries/recommendLine.png");
+    color: #ffffff;
+    font-size: 24px;
+    line-height: 29px;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 660px;
+    left: 86px;
+    text-indent: 0.3em;
+}
+.seriesDetail-border {
+	position: absolute;
+	display: none;
+}
+
+.seriesDetail-video {
+	float: left;
+	width: 191px;
+	height: 250px;
+}
+.seriesDetail-poster-r {
+	width: 148px;
+	height: 206px;
+}
+ 
+.seriesDetail-mark {
+	position: absolute;
+	width: 52px;
+	height: 52px;
+}
+
+.seriesDetail-mark-fee {
+	position: absolute;
+	width: 49px;
+	height: 27px;
+}
+
+.seriesDetail-video-title {
+	color: white;
+	font-size: 25px;
+	width: 148px;
+	height: 32px;
+	line-height: 32px;
+	overflow: hidden;
+	text-align: center;
+	font-family: "Microsoft YaHei";
+}
+
+.content-up{
+	position: absolute;
+	top:0px;
+}
+
+.content-up_on{
+	position: absolute;
+	top:-600px;
+}

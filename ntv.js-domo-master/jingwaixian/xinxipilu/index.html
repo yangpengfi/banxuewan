@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="page-view-size" content="1280*720">
+    <title>政府信息</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        #news-content{
+            left:115px;top:140px;position:absolute;color: white; font-family: 微软雅黑;font-size: 20px;width: 1050px;line-height: 30px;height: 530px;overflow: hidden;
+        }
+    </style>
+    <script type="text/javascript" src="../../common.js"></script>
+    <script type="text/javascript">
+        var accessToken="526f2792f1bed15b683a989abcdac675";
+        var focused;
+        var stop=0;
+        var ctop=3000;
+        var vvv1;
+
+
+        window.onload = function() {
+            document.getElementById("back").focus();
+             var Request = new Object();  //取值时使用无需更改
+             Request = GetRequest();  //取值时使用无需更改 需保证GetRequest()存在;
+             vvv1 = Request['from'];    
+     
+        }
+
+         function gotoindex(){
+                if(vvv1=='shanghaiEstate'){
+                    window.location.href = '../../../shanghaiEstate/index.html';
+                }
+                else{
+                    window.location.href = '../../index.html';
+                }
+//				window.location.href = "../index.html"
+             }
+
+    
+
+
+        function getNewsContentHeight(){
+            //setTimeout(function(){
+                ctop=document.getElementById("newscontent").clientHeight;
+               // document.getElementById("date").innerHTML=""+ctop+"";
+                ctop-=350;
+                ctop = 530;
+            //}, 0);
+            return ctop;
+        }
+document.onsystemevent = grabEvent;
+document.onkeypress = grabEvent;
+document.onirkeypress = grabEvent;
+document.onkeydown = grabEvent;
+//var E = iPanel.eventFrame;
+//var user = E.user;
+function grabEvent(event) {
+    var key_code = event.which;
+//    iPanel.debug("key_code=" + key_code);
+    switch(key_code)
+    {
+        case 1:
+        case 38:
+            if(stop>=200){
+                stop-=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 372://shang yi ye
+        case 33:
+                if(stop>=400){
+                    stop-=400;
+                }else{
+                	stop = 0;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 2:
+        case 40:
+		    //document.getElementById("date").innerHTML = document.getElementById("newscontent").clientHeight;
+            if(stop<1600){
+                stop+=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 373:
+        case 34:
+                if(stop<1400){
+                    stop+=400;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 3:
+        case 37:
+            if(focused==1){
+                return false;
+            }
+            else{
+                document.getElementById("shouye").focus();
+            }
+              stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop; 
+//              
+            break;
+        case 4:
+        case 39:
+            if(focused==1){
+                document.getElementById("back").focus();
+            }
+            else{return false;}
+              stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;
+            break;
+         case 340:	
+			case 8:  //返回
+//			history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+			break;
+			case 4096:
+//          history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+            break;
+            }
+    	
+    }
+
+
+function init(){
+    document.getElementById("shouyeF").style.display="none";
+    document.getElementById("backF").style.display="none";
+}
+function over1(){
+        init();
+        focused=1;
+        document.getElementById("shouyeF").style.display="block";
+ }
+function over2(){
+    init();
+    focused=2;
+    document.getElementById("backF").style.display="block";
+}
+function fanhui(){
+	window.location.href = "../index.html?from="+vvv1;
+}
+    </script>
+</head>
+<body style="width: 1280px;height: 720px;">
+<a id="shouye" href="javascript:gotoindex();" style="left: 100px;top: 100px;position: absolute;width: 5px" onfocus="over1()">&nbsp </a>
+<a id="back" href="javascript:fanhui();" style="left: 150px;top: 100px;position: absolute;width: 5px" onfocus="over2()">&nbsp </a>
+<div>
+    <div id="title" style="left:115px;top: 50px;position:absolute;color: white; font-family: 微软雅黑;font-size: 28px"></div>
+    <div id="date" style="right: 95px;top: 50px;position:absolute;color: white;opacity: 0.6;font-family: 微软雅黑;"></div>
+	<img src="img/bg.png" style="width:1280px;height:720px;left:0px;top:0px;position: absolute">
+	<img src="img/index.png" id="indexBg" style="position: absolute;left:91px;top:100px;"/>
+    <img id="shouyeF" src="img/newFo.png" style="top:96px;left:85px;position: absolute;display: none">
+    <img id="backF" src="img/newFo.png" style="top:96px;left:149px;position: absolute;display: none">
+    <!--<div id="test" style="left: 50px;top: 100px;position: absolute">21341</div>-->
+</div>
+<div id="news-content">
+  <p align="center">
+    信息披露（东南亚）
+</p>
+<p>
+    销售区域：本产品为太平畅逸游境外旅行保险（东南亚地区）。
+    由太平财产保险有限公司承保，本公司在北京、上海、广东、深圳、大连、天津、江苏、苏州、浙江、河南、山东、湖北、四川、湖南、重庆、青岛、山西、陕西、福建、安徽、辽宁、河北、云南、贵州、宁波、黑龙江、广西、厦门、内蒙古与江西等地设有分公司。本产品面向全国销售，但对于本公司未设分公司的地区，您在非以上地区购买的，后续服务可能会受到影响。本产品由太平财产保险有限公司销售。
+</p>
+<p>
+    本产品报备文件编号为：
+</p>
+<p>
+    太平财险（备-意外）[2013]主54号-主险条款乐悠悠境外旅行意外伤害保险条款；
+</p>
+<p>
+    太平财险(备-意外)[2011]附164号-附加旅行医疗费用保险（2011版）条款
+</p>
+<p>
+    太平财险(备-意外)[2014]附197号-附加境外紧急医疗救援保险条款
+</p>
+<p>
+    太平财险(备-意外)[2011]附161号-附加旅行个人行李及随身物品保险（2011版）条款
+</p>
+<p>
+    太平财险(备-意外)[2014]附89号-附加航班延误保险A款条款
+</p>
+<p>
+    太平财险(备-意外)[2011]附156号-附加旅程取消保险（2011版）条款
+</p>
+<p>
+    太平财险(备-意外)[2011]附159号-附加旅行个人第三者责任保险（2011版）条款
+</p>
+<p>
+    太平财险(备-意外)[2011]附6号-附加高风险运动意外伤害保险条款（2011版）
+</p>
+<p>
+    如实告知义务：
+</p>
+<p>
+    我们就您和被保险人的有关情况提出询问，您应当如实告知。如果您故意或者因重大过失未履行规定的如实告知义务，足以影响我们决定是否同意承保或者提高保险费率的，我们有权解除本合同。
+</p>
+<p>
+    保单形式：
+</p>
+<p>
+    本合同采用电子保险单形式承保，您可以通过95589查询保单。如您需要纸质保单或发票，请拨打客服热线：95589。
+</p>
+<p>
+    信息安全：
+</p>
+<p>
+    我们严格遵守现行的关于个人信息、数据及隐私保护的法律法规，采取充分的技术手段和制度管理，保护您提供给我们的个人信息、数据和隐私不受到非法的泄露或披露给未获授权的第三方。
+</p>
+<p>
+    投诉渠道：
+</p>
+<p>
+    您在购买产品过程中，如发现本公司有关人员有违法、违规行为，或认为自身权益受到侵犯，请您保留相关证据并向本公司投诉，投诉电话：95589。
+</p>
+<p>
+    保全办理：
+</p>
+<p>
+    保全、退保的办理流程及保险赔款、退保金、保险金的支付方式请致电95589。
+</p>
+<p align="center">
+    信息披露（日韩、澳新、欧洲）
+</p>
+<p>
+    销售区域：本产品为太平畅逸游境外旅行保险（日韩、澳新、欧洲地区）。
+    由太平财产保险有限公司承保，本公司在北京、上海、广东、深圳、大连、天津、江苏、苏州、浙江、河南、山东、湖北、四川、湖南、重庆、青岛、山西、陕西、福建、安徽、辽宁、河北、云南、贵州、宁波、黑龙江、广西、厦门、内蒙古与江西等地设有分公司。本产品面向全国销售，但对于本公司未设分公司的地区，您在非以上地区购买的，后续服务可能会受到影响。本产品由太平财产保险有限公司销售。
+</p>
+<p>
+    本产品报备文件编号为：
+</p>
+<p>
+    太平财险（备-意外）[2013]主54号-主险条款为乐悠悠境外旅行意外伤害保险条款；
+</p>
+<p>
+    太平财险(备-意外)[2011]附164号-附加旅行医疗费用保险（2011版）条款
+</p>
+<p>
+    太平财险(备-意外)[2014]附197号-附加境外紧急医疗救援保险条款
+</p>
+<p>
+    太平财险(备-健康)[2013]附144号-附加突发急性严重疾病身故保险
+</p>
+<p>
+    太平财险(备-意外)[2011]附161号-附加旅行个人行李及随身物品保险（2011版）条款
+</p>
+<p>
+    太平财险(备-意外)[2014]附89号-附加航班延误保险A款条款
+</p>
+<p>
+    太平财险(备-意外)[2011]附156号-附加旅程取消保险（2011版）条款
+</p>
+<p>
+    太平财险(备-意外)[2011]附159号-附加旅行个人第三者责任保险（2011版）条款
+</p>
+<p>
+    太平财险(备-意外)[2011]附6号-附加高风险运动意外伤害保险条款（2011版）
+</p>
+<p>
+    太平财险(备-意外)[2011]附163号-附加旅行交通意外伤害双倍给付保险（2011版）条款
+</p>
+<p>
+    太平财险(备-意外)[2011]附166号-附加旅行意外伤害住院津贴保险（2011版）条款
+</p>
+<p>
+    太平财险(备-意外)[2014]附129号-附加旅行绑架及非法拘禁慰问补偿保险条款
+</p>
+<p>
+    太平财险(备-意外)[2011]附171号-附加行李延误保险条款
+</p>
+<p>
+    太平财险(备-意外)[2011]附160号-附加旅行个人钱财保险（2011版）条款
+</p>
+<p>
+    太平财险(备-意外)[2011]附167号-附加旅行证件遗失保险（2011版）条款
+</p>
+<p>
+    太平财险(备-意外)[2011]附157号-附加旅程缩短保险（2011版）条款
+</p>
+<p>
+    太平财险(备-意外)[2011]附162号-附加旅行家庭财产保障保险（2011版）条款
+</p>
+<p>
+    太平财险(备-家财)[2014]主12号-银行卡盗刷保险条款
+</p>
+<p>
+    太平财险(备-意外)[2014]附128号-附加旅行移动电话保险条款
+</p>
+<p>
+    如实告知义务：
+</p>
+<p>
+    我们就您和被保险人的有关情况提出询问，您应当如实告知。如果您故意或者因重大过失未履行规定的如实告知义务，足以影响我们决定是否同意承保或者提高保险费率的，我们有权解除本合同。
+</p>
+<p>
+    保单形式：
+</p>
+<p>
+    本合同采用电子保险单形式承保，您可以通过95589查询保单。如您需要纸质保单或发票，请拨打客服热线：95589。
+</p>
+<p>
+    信息安全：
+</p>
+<p>
+    我们严格遵守现行的关于个人信息、数据及隐私保护的法律法规，采取充分的技术手段和制度管理，保护您提供给我们的个人信息、数据和隐私不受到非法的泄露或披露给未获授权的第三方。
+</p>
+<p>
+    投诉渠道：
+</p>
+<p>
+    您在购买产品过程中，如发现本公司有关人员有违法、违规行为，或认为自身权益受到侵犯，请您保留相关证据并向本公司投诉，投诉电话：95589。
+</p>
+<p>
+    保全办理：
+</p>
+<p>
+    保全、退保的办理流程及保险赔款、退保金、保险金的支付方式请致电95589。
+</p>
+
+
+</div>
+<!--<div id="test" style="position: absolute;left:200px;top:40px">1</div>-->
+</body>
+</html>

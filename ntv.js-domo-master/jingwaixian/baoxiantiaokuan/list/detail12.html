@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="page-view-size" content="1280*720">
+    <title>政府信息</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        #news-content{
+            left:115px;top:140px;position:absolute;color: white; font-family: 微软雅黑;font-size: 20px;width: 1050px;line-height: 30px;height: 530px;overflow: hidden;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var accessToken="526f2792f1bed15b683a989abcdac675";
+        var focused;
+        var stop=0;
+        var top = 0;
+        var ctop=3000;
+        var vvv1;
+
+
+        window.onload = function() {
+             document.getElementById("back").focus();
+             var Request = new Object();  //取值时使用无需更改
+             Request = GetRequest();  //取值时使用无需更改 需保证GetRequest()存在;
+             vvv1 = Request['from'];    
+   
+        }
+
+        function gotoindex(){
+			 if(vvv1=='shanghaiEstate'){
+                    window.location.href = '../../../../shanghaiEstate/index.html';
+                }
+                else{
+                    window.location.href = '../../../index.html';
+                }
+             }
+
+        function GetRequest(){    
+        var url = location.search; //获取url中"?"符后的字串
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1){
+            var str = url.substr(1);
+            strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++){
+                theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    } 
+
+        function getNewsContentHeight(){
+            //setTimeout(function(){
+                ctop=document.getElementById("newscontent").clientHeight;
+               // document.getElementById("date").innerHTML=""+ctop+"";
+                ctop-=350;
+                ctop = 530;
+            //}, 0);
+            return ctop;
+        }
+document.onsystemevent = grabEvent;
+document.onkeypress = grabEvent;
+document.onirkeypress = grabEvent;
+document.onkeydown = grabEvent;
+//var E = iPanel.eventFrame;
+//var user = E.user;
+function grabEvent(event) {
+    var key_code = event.which;
+    switch(key_code)
+    {
+        case 1:
+        case 38:
+            if(stop>=200){
+                stop-=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 372://shang yi ye
+        case 33:
+                if(stop>=400){
+                    stop-=400;
+                }else{
+                	stop = 0;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 2:
+        case 40:
+		    //document.getElementById("date").innerHTML = document.getElementById("newscontent").clientHeight;
+            if(stop<2600){
+                stop+=200;
+            }
+
+            document.getElementById("news-content").scrollTop=stop;
+//            document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 373://xia yi ye
+        case 34:
+                if(stop<2400){
+                    stop+=400;
+                }
+
+            document.getElementById("news-content").scrollTop=stop;
+//          document.getElementById("test").innerHTML=stop+"";
+            return 0;
+            break;
+        case 3:
+        case 37:
+            if(focused==1){
+                return false;
+            }
+            else{
+                document.getElementById("shouye").focus();
+            }
+              
+          stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;    
+            break;
+        case 4:
+        case 39:
+            if(focused==1){
+                document.getElementById("back").focus();
+            }
+            else{return false;}
+             stop=0;
+//            document.getElementById("test").innerHTML=stop+"";
+            document.getElementById("news-content").scrollTop=stop;
+            break;
+        case 340:	
+			case 8:  //返回
+//			history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+			break;
+			case 4096:
+//          history.go(-1);
+			window.location.href = "../index.html?from="+vvv1;
+			return false;
+            break;
+    }
+
+}
+function init(){
+    document.getElementById("shouyeF").style.display="none";
+    document.getElementById("backF").style.display="none";
+}
+    function over1(){
+        init();
+        focused=1;
+        document.getElementById("shouyeF").style.display="block";
+    }
+function over2(){
+    init();
+    focused=2;
+    document.getElementById("backF").style.display="block";
+}
+function fanhui(){
+	window.location.href = "../../index.html?from="+vvv1;
+}
+    </script>
+</head>
+<body style="width: 1280px;height: 720px;">
+<a id="shouye" href="javascript:gotoindex();" style="left: 100px;top: 100px;position: absolute;width: 5px" onfocus="over1()">&nbsp </a>
+<a id="back" href="javascript:fanhui();" style="left: 150px;top: 100px;position: absolute;width: 5px" onfocus="over2()">&nbsp </a>
+<div>
+    <div id="title" style="left:115px;top: 50px;position:absolute;color: white; font-family: 微软雅黑;font-size: 28px"></div>
+    <div id="date" style="right: 95px;top: 50px;position:absolute;color: white;opacity: 0.6;font-family: 微软雅黑;"></div>
+	<img src="img/bg.png" style="width:1280px;height:720px;left:0px;top:0px;position: absolute">
+	<img src="img/index.png" alt="" id="indexBg" style="position: absolute;left:90px;top:100px;"/>
+    <img id="shouyeF" src="img/newFo.png" style="top:96px;left:86px;position: absolute;display: none">
+    <img id="backF" src="img/newFo.png" style="top:96px;left:147px;position: absolute;display: none">
+    <!--<div id="test" style="left: 50px;top: 100px;position: absolute">21341</div>-->
+</div>
+<div id="news-content">
+ 
+<p align="center">
+    太平财产保险有限公司
+</p>
+<p align="center">
+    附加航班延误保险条款A款（2014版）
+</p>
+<p align="center">
+    总则
+</p>
+<p>
+    <strong>第一条 </strong>
+    本附加保险合同（以下简称附加险合同）依主险合同投保人的申请，经保险人同意而订立。本附加险合同作为主险合同的组成部分，主险合同效力终止，本附加险合同效力亦同时终止；主险合同无效，本附加险合同亦无效。本附加险合同与主险合同相抵触之处，以本附加险合同为准，本附加险合同未约定事项，以主险合同为准。
+</p>
+<p>
+    本保险合同由保险条款、投保单、保险单或其他保险凭证、批单等组成。凡涉及本保险合同的约定，均应采用书面形式。
+</p>
+<p>
+    <strong>第二条 </strong>
+    除另有约定外，本附加险合同保险金的受益人为被保险人本人。
+</p>
+<p align="center">
+    保险责任
+</p>
+<p>
+    <strong>第三条 </strong>
+    被保险人在本附加险合同保险期间内开始其旅行行程，由于发生下列事故造成预定的航班延误时，保险人按照航班延误的连续时间段在本附加险合同对应的保险金额内向被保险人给付航班延误保险金：
+</p>
+<p>
+    （一）被保险人已定妥座位的航班被航空公司取消，且自该航班原定起飞时间之时起至本附加险合同约定的时间段之内同一机场内无其它航班可供被保险人搭乘；
+</p>
+<p>
+    （二）航空公司因超额定位致使被保险人无法登上其已定妥座位的航班，且自已定妥座位的航班原定起飞时间之时起至本附加险合同约定的时间段之内同一机场无其它航班可供被保险人搭乘；
+</p>
+<p>
+    （三）被保险人因航班延误导致错失已定妥座位的衔接航班，且于到达转运站后至本附加险合同约定的时间段之内同一机场无其它航班可供被保险人搭乘；
+</p>
+<p>
+    （四）由于自然灾害或者被保险人拟搭乘的航班发生交通意外事故或机械故障，导致航班延迟起飞时间已连续达到本附加险合同约定的时间段。
+</p>
+<p align="center">
+    责任免除
+</p>
+<p>
+    <strong>第四条 </strong>
+    <strong>主保险合同列明的各项责任免除条款均适用于本附加险合同，若主险合同中责任免除条款与本条款有相抵触之处，则应以本条款为准。</strong>
+</p>
+<p>
+    <strong>第五条 </strong>
+    <strong>由于下列原因直接或间接导致被保险人已定妥座位的航班延误，保险人不承担给付保险金责任：</strong>
+</p>
+<p>
+    <strong>（一） </strong>
+    <strong>被保险人非以缴费乘客身份搭乘民航航班；</strong>
+</p>
+<p>
+    <strong>（二） </strong>
+    <strong>国家机关的执法或司法行为；</strong>
+</p>
+<p>
+    <strong>（三） </strong>
+    <strong>被保险人搭乘航班所属的航空公司破产或倒闭；</strong>
+</p>
+<p>
+    <strong>（四） </strong>
+    <strong>被保险人主动放弃搭乘航空公司安排的在原定起飞时间之时起至本附加险合同中约定的时间之内出发的同一机场内其它航班；</strong>
+</p>
+<p>
+    <strong>（五） </strong>
+    <strong>被保险人未能按预定行程办理登记手续；被保险人办理完登记手续后，未能准时登乘航班（由于本附加条款保险责任事故而导致被保险人未能准时登乘除外）；</strong>
+</p>
+<p>
+    <strong>（六） </strong>
+    <strong>被保险人为该次旅程预订航班时已知已存在可能导致航班延误的情况或条件，包括但不限于当时已经宣布或已经发生的任何罢工或其他工人抗议活动，以及当时已经发生的任何恶劣天气或自然灾害</strong>
+    <strong>；</strong>
+    <strong></strong>
+</p>
+<p>
+    <strong>（七） </strong>
+    <strong>由于自然灾害或自然灾害以外的原因导致的机场关闭；</strong>
+</p>
+<p>
+    <strong>（八） </strong>
+    <strong>被保险人故意制造保险事故行为、隐瞒、欺诈行为或非法行为。</strong>
+</p>
+<p align="center">
+    保险金额和保险费
+</p>
+<p>
+    <strong>第六条 </strong>
+    保险金额是保险人承担给付保险金责任的最高限额。保险金额由投保人、保险人双方约定，并在保险单中载明。投保人应该按照合同约定向保险人交纳保险费。
+</p>
+<p>
+    本附加险合同的保险金额分每次事故赔偿限额和累计赔偿限额两种。每次事故赔偿限额是保险人对每次航班延误事故承担赔偿责任的最高限额。累计赔偿限额是保险人在保险期间内累计承担航班延误事故赔偿责任的最高限额。
+</p>
+<p align="center">
+    保险金申请与给付
+</p>
+<p>
+    <strong>第七条 </strong>
+    发生保险责任范围内的事故，保险金申请人请求赔偿时，应向保险人提交以下证明和资料。保险金申请人因特殊原因不能提供以下材料的，应提供其他合法有效的材料。<strong>保险金申请人未能提供有关材料，导致保险人无法核实的，保险人对无法核实部分不承担给付保险金的责任。</strong>
+</p>
+<p>
+    （1) 保险金申请人填具的索赔申请书；
+</p>
+<p>
+    （2) 保险单原件或其他保险凭证正本；
+</p>
+<p>
+    （3) 被保险人身份证明；
+</p>
+<p>
+    （4) 航空公司出具的保险事故证明文件正本，包括航班延误原因、航班延误时间及航空公司在同一机场安排的最早可供被保险人搭乘的其他航班的编号及时间；
+</p>
+<p>
+    （5) 延误航班飞机票；
+</p>
+<p>
+    （6) 保险金申请人所能提供的的与确认保险事故的性质、原因、损失程度等有关的其他证明和资料。
+</p>
+<p align="center">
+    <strong>释义</strong>
+</p>
+<p>
+    <strong>1、 </strong>
+    <strong>航班：</strong>
+</p>
+<p>
+    包含定期班机、加班机或包机。前项「定期班机」是指领有航空器营运及注册国相关单位核准其经营航空交通运输业务之证明、执照或相关许可航空公司，依据其出版之航行于固定机场间之时刻表及价目表，提供旅客服务之班机；「加班机或包机」是指非航空公司时刻表及价目表上记载之航班，但仅限由旅行社向航空公司承租之包机，用以招揽不特定团员报名參加，经当地政府登记许可行驶于固定航线之商用客机的定期包机及既有航线之加班机。但该包机及加班机排除政府包机及公民营企业或私人包机。
+</p>
+<p>
+    <strong>2、 </strong>
+    <strong>航班延误时间：</strong>
+</p>
+<p>
+    指自本附加险条款第三条所列各项保险事故发生之时起，至被保险人被安排搭乘另一航班的指定起飞时间或恢复预定的行程时间止，以最先发生者为准。
+</p>
+<p>
+    <strong>3、 </strong>
+    <strong>自然灾害：</strong>
+</p>
+<p>
+    是指雷击、飓风、台风、龙卷风、风暴、暴雨、洪水、冻灾、冰雹、地崩、山崩、雪崩、火山爆发、地面突然下沉下陷以及其他人力不可抗拒的破坏力强大的自然现象，<strong>但不包括地震、海啸；</strong>
+</p>
+<p>
+    <strong>4、 </strong>
+    <strong>已定妥座位：</strong>
+</p>
+<p>
+    按照承运人规定的手续定座，并在承运人规定的购票时限内交付票款，在承运人或者其授权代理人为旅客填开客票，并将该定座列入客票有关乘机联后，方能认为座位已经定妥和有效。<strong>旅客未在承运人规定的购票时限内交付票款、未经承运人或者其授权代理人记录认可的，均不得认为定座已确认。</strong>
+</p>
+<p>
+    <strong>本附加条款的未解释名词，均以主险的名词解释为准。</strong>
+    <strong></strong>
+</p>
+
+
+
+
+
+</div>
+<!--<div id="test" style="position: absolute;left:200px;top:40px">1</div>-->
+</body>
+</html>

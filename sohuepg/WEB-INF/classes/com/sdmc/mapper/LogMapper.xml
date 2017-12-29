@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"  
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">  
+<mapper namespace="com.sdmc.dao.ILogDao"> 
+<insert id="insert" parameterType="map">
+  insert into ott_action_log(canumber,categoryname,videoguid,videoname,visiturl,visittime,clientip)
+  values(#{canumber},#{categoryname},#{videoguid},#{videoname},#{visiturl},#{visittime},#{clientip})
+</insert> 
+</mapper>

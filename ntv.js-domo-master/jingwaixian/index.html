@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="page-view-size" content="1280*720">
+
+<title></title>
+
+<style>
+
+.c1 {
+	border:1px solid #000000;
+}
+
+#index_f{position:absolute;top:50px;left:241px;display:none;z-index:inherit;}
+#back_f{position:absolute;top:50px;left:302px;display:none;z-index:inherit;}
+#indexBg{position: absolute;left:245px;top:54px;}
+#index{position:absolute;top:0px;left:0px;}
+#back{position:absolute;top:0px;left:0px;}
+#a1{position:absolute;top:0px;left:0px;}
+#a2{position:absolute;top:0px;left:0px;}
+#a3{position:absolute;top:0px;left:0px;}
+#a4{position:absolute;top:0px;left:0px;}
+#submit{position:absolute;top:0px;left:0px;}
+.duration{-webkit-transition-duration:200ms;}
+
+.icons img{ position:relative; float:left;}
+
+.icons{top:335px;position:relative;left:85px; width:1150px;height:100px;}
+
+.icons2{top:370px;position:relative;left:0px;width:1200px;height:100px;}
+
+.icons3{top:388px;position:relative;left:0px;width:1200px;height:100px;z-index:999;}
+#banner{
+	position: absolute;
+	left:94px;
+	top:142px;
+	overflow: hidden;
+	 width:612px;
+	 height: 345px;
+	z-index:222;
+}
+#banner img{
+	position: absolute;
+	left:0;
+	display: block;
+	top:0;
+	 width:612px;
+	 height: 345px;
+}
+#banner #banner1{
+	left:0;
+}
+#banner #banner3{
+	left:-1090px;
+}
+#banner #banner2{
+	left:612px;
+}
+#boble{
+	position: absolute;
+	left:356px;
+	top:450px;
+	z-index:444;
+	width:100px;
+	height:100px;
+}
+#boble>img{
+	position: absolute;
+	top:0;
+	left:0;
+}
+
+</style>
+
+<script type="text/javascript" src="../env_info.js"></script>
+<script type="text/javascript" src="../common.js"></script>
+
+<script type="text/javascript">
+var partnow;
+var vvv1;
+
+function partNow(id){ //标记位置
+    partnow = id;	
+}
+ function gotoindex(){
+  	if(vvv1=='shanghaiEstate'){
+   		window.location.href = '../../shanghaiEstate/index.html';
+ 	}
+ 	else{
+   		window.location.href = '../index.html';
+ 	}
+ }
+
+
+   function nextpage1(){ 
+   	window.location.href = 'toubaoxuzhi/index.html?from='+vvv1;	
+ }//跳转
+   function nextpage2(){ 
+   	window.location.href = 'baoxiantiaokuan/index.html?from='+vvv1;	
+ }//跳转
+  function nextpage3(){ 
+   	window.location.href = 'lipeiliucheng/index.html?from='+vvv1;	
+ }	//跳转
+   function nextpage4(){
+   	window.location.href = 'xinxipilu/index.html?from='+vvv1;	
+ }//跳转
+   function nextpage5(){ 
+ 	window.location.href = 'lijigoumai.html?from='+vvv1;	
+ }//跳转
+
+</script>
+
+</head>
+
+<body style="background-color:transparent;"  leftmargin="0" topmargin="0">
+	<script type="text/javascript" src="../video_url.js"></script>
+	<script type="text/javascript">
+	var banner1;
+	var banner2;
+	var banner3;
+	var timer;
+	var isLeft = true;
+	function kpress(){
+             document.onkeypress = grabEvent1;
+             document.onirkeypress = grabEvent1; 
+			 document.onkeydown = grabEvent1;
+             function grabEvent1(event){
+		        var val = event || window.event || arguments.callee.caller.arguments[0];
+	//	        document.getElementById('test').innerHTML=val.keyCode;
+	//			alert(val.keyCode)
+		        switch(val.keyCode){	
+		        	case 1://shang
+		            case 38:
+				    if(partnow==1){document.getElementById('back').focus();return false;}
+					if(partnow==2){document.getElementById('back').focus();return false;}
+					if(partnow==3){document.getElementById('back').focus();return false;}
+					if(partnow==4){document.getElementById('back').focus();return false;}
+//					if(partnow==1){document.getElementById('a5').focus();return false;}
+//					if(partnow==2){document.getElementById('a5').focus();return false;}
+//					if(partnow==3){document.getElementById('a5').focus();return false;}
+//					if(partnow==4){document.getElementById('a5').focus();return false;}
+					if(partnow==5){document.getElementById('back').focus();return false;}
+					if(partnow==100){document.getElementById('index').focus();return false;}
+					if(partnow==101){document.getElementById('back').focus();return false;}
+					if(partnow==55){document.getElementById('back').focus();return false;}
+					if(partnow==66){document.getElementById('back').focus();return false;}
+		            break;
+            
+		    case 2://xia
+		    case 40:
+		    if(partnow==1){document.getElementById('submit').focus();return false;}
+			if(partnow==2){document.getElementById('submit').focus();return false;}
+			if(partnow==3){document.getElementById('submit').focus();return false;}
+			if(partnow==4){document.getElementById('submit').focus();return false;}
+			if(partnow==5){document.getElementById('submit').focus();return false;}
+			if(partnow==100){document.getElementById('a1').focus();return false;}
+			if(partnow==101){document.getElementById('a1').focus();return false;}
+			if(partnow==55){document.getElementById('a1').focus();return false;}
+			if(partnow==66){document.getElementById('a1').focus();return false;}
+            break;
+            			
+			case 3://zuo
+			case 37:
+			if(partnow==1){document.getElementById('a1').focus();return false;}
+			if(partnow==2){document.getElementById('a1').focus();return false;}
+			if(partnow==3){document.getElementById('a2').focus();return false;}
+			if(partnow==4){document.getElementById('a3').focus();return false;}
+			if(partnow==5){document.getElementById('submit').focus();return false;}
+			if(partnow==100){document.getElementById('index').focus();return false;}
+			if(partnow==101){document.getElementById('index').focus();return false;}
+			if(partnow==55){document.getElementById('a6').focus();return false;}
+			if(partnow==66){document.getElementById('a5').focus();return false;}
+			break;
+						
+			case 4:	//you
+			case 39:		
+			if(partnow==1){document.getElementById('a2').focus();return false;}
+			if(partnow==2){document.getElementById('a3').focus();return false;}
+			if(partnow==3){document.getElementById('a4').focus();return false;}
+			if(partnow==4){document.getElementById('a4').focus();return false;}
+			if(partnow==5){document.getElementById('submit').focus();return false;}
+			if(partnow==100){document.getElementById('back').focus();return false;}
+			if(partnow==101){document.getElementById('back').focus();return false;}
+			if(partnow==55){document.getElementById('a6').focus();return false;}
+			if(partnow==66){document.getElementById('a5').focus();return false;}
+			break;
+			case 8:
+			case 340://fanhui
+			case 4096:
+				window.location.href="../index.html?from="+vvv1;
+				return false;
+			break;
+			
+//			case 513://daoshi
+//			stopPlay();
+//			break;
+
+//			case 258://daiji
+//			stopPlay();
+//			break;
+
+//			case 339://tuichu
+//			stopPlay();
+//			break;
+//
+//			case 1038://dianshi
+//			stopPlay();
+//			break;
+		        }
+	        }
+    }
+  
+	window.onload = function(){
+		banner1 = document.getElementById("banner1");
+		banner2 = document.getElementById("banner2");
+		banner3 = document.getElementById("banner3");
+    	document.getElementById('a1').focus();
+    	var Request = new Object();  //取值时使用无需更改
+    	Request = GetRequest();  //取值时使用无需更改 需保证GetRequest()存在;
+    	vvv1 = Request['from'];
+    	accessRecord("insurance-ranqi.html");
+    	kpress();
+    	
+    	xunBanner();
+//		console.log(banner1.style.left);
+    	//document.getElementById('a1').focus();
+	}
+	function xunBanner(){
+		timer = setInterval(function(){
+    		banner();
+    	},8000);
+	}
+ 		function GetRequest(){    
+		var url = location.search; //获取url中"?"符后的字串
+		var theRequest = new Object();
+		if (url.indexOf("?") != -1){
+			var str = url.substr(1);
+			strs = str.split("&");
+			for(var i = 0; i < strs.length; i ++){
+				theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1]);
+			}
+		}
+		return theRequest;
+	} 
+	var indexs = 0;
+	var count = 0;
+	var arr=[];
+	for(var i=0;i<2;i++){
+		arr[i] = new Object;
+		arr[i].id = (i+1);
+	}
+	arr[0].pre = arr[1];
+	arr[0].next = arr[1];
+	arr[1].pre = arr[0];
+	arr[1].next = arr[0];
+	var Left1;
+	var Left2;
+	var timer1;
+	
+ 	function banner(){
+ 		document.getElementById("boble"+arr[indexs].id).src = "images/boble1.png";
+ 		timer1 = setInterval(function(){
+// 			console.log("banner"+indexs);
+ 			Left1 = document.getElementById("banner"+arr[indexs].id).style.left;
+// 			console.log(Left1)
+ 			Left2 = document.getElementById("banner"+arr[indexs].next.id).style.left;
+ 			document.getElementById("banner"+arr[indexs].id).style.left = (parseInt(Left1)-102)+"px";
+ 			
+ 			document.getElementById("banner"+arr[indexs].next.id).style.left =(parseInt(Left2)-102)+"px";
+ 			count++;
+ 			if(count >5){
+ 				document.getElementById("banner"+arr[indexs].id).style.left =612+"px";
+ 				document.getElementById("boble"+arr[indexs].id).src = "images/boble.png";
+ 				document.getElementById("boble"+arr[indexs].next.id).src = "images/boble1.png";
+ 				indexs++;
+ 				if(indexs >1){
+ 					indexs=0;
+ 				}
+// 				console.log(indexs);
+ 				clearInterval(timer1);
+ 				count =0;
+ 			}
+ 		},200);
+ 	}
+
+ 	var timer2;
+
+ 	 
+	function btnImgIn(id){
+		document.getElementById(id).src = "images/"+id+".png";
+	}
+	function btnImgOut(id){
+		document.getElementById(id).src = "images/"+id+"1.png";
+	}
+	function fanhui(){
+		window.location.href = "../index.html?from="+vvv1;
+	}
+</script>
+
+<div style="width:1280px;height:720px;position:absolute;top:0px;left:0px;">
+
+<a id="a1" href="javascript:nextpage1();"         onfocus="partNow(1);overdisplay('btn1_f');"  onblur="outdisplay('btn1_f')" >111 </a>  
+<a id="index" href="javascript:gotoindex();"      onfocus="partNow(100);overdisplay('index_f');"  onblur="outdisplay('index_f')" >index </a>  
+<a id="back" href="javascript:fanhui();"    onfocus="partNow(101);overdisplay('back_f');"  onblur="outdisplay('back_f')" >back </a>  
+<a id="a2" href="javascript:nextpage2();"         onfocus="partNow(2);overdisplay('btn2_f');"  onblur="outdisplay('btn2_f')" >222</a>
+<a id="a3" href="javascript:nextpage3();"         onfocus="partNow(3);overdisplay('btn3_f');"  onblur="outdisplay('btn3_f')" >333 </a>
+<a id="a4" href="javascript:nextpage4();"         onfocus="partNow(4);overdisplay('btn4_f');"  onblur="outdisplay('btn4_f')" >444 </a>
+<a id="submit" href="javascript:nextpage5();"     onfocus="partNow(5);overdisplay('submit_f');"  onblur="outdisplay('submit_f')">444 </a>
+<!--<a id="a5" href="javascript:btnLeft()"         onfocus="partNow(55);btnImgIn('left');"  onblur="btnImgOut('left')" >left </a>
+<a id="a6" href="javascript:btnRight();"         onfocus="partNow(66);btnImgIn('right');"  onblur="btnImgOut('right')" >right </a>-->
+<img style="width:1280px;height:720px;position:absolute;top:0px;left:0px;" src="images/bg3.png">
+
+
+<div id="banner">
+	<img src="images/bgban1.png" alt="" id="banner1" style="left:0px;"/>
+	<img src="images/bgban2.png" alt="" id="banner2" style="left:612px;"/>
+	
+</div>
+<div id="boble">
+	<img src="images/boble1.png" alt="" id="boble1" style="left:-40px;" />
+	<img src="images/boble.png" alt="" id="boble2" style="left:30px;" />
+</div>
+
+
+<img src="images/index.png" alt="" id="indexBg" />
+<img id="index_f"  src="images/iabf_agent.png"><!--首页按钮外发光-->
+<img id="back_f"  src="images/iabf_agent.png"><!--返回按钮外发光-->
+<img id="btn1_f" style="position:absolute;left:80px;top:492px;display:none;z-index:9999;" src="images/btn1.png">
+<img id="btn2_f" style="position:absolute;left:361px;top:492px;display:none;z-index:9999" src="images/btn2.png">
+<img id="btn3_f" style="position:absolute;left:640px;top:494px;display:none;z-index:9999" src="images/btn3.png">
+<img id="btn4_f" style="position:absolute;left:921px;top:496px;display:none;z-index:9999" src="images/btn4.png">
+<img id="submit_f" style="position:absolute;left:84px;top:588px;display:none;z-index:9999" src="images/btn_big_lqbx.png">
+
+<!--左右箭头-->
+<!--<img src="images/left1.png" alt="" id="left" style="position: absolute;left:100px;top:258px;z-index:555"/>
+<img src="images/right1.png" alt="" id="right" style="position: absolute;left:1082px;top:258px;z-index:555"/>-->
+</div>	
+
+<!--<div id="test" style="left:94px;top:142px;width:612px;height:345px;background: #ccc;position: absolute;">3311wer1333</div>-->
+</body>
+
+</html>
+
