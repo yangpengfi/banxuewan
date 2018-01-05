@@ -1,0 +1,866 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script src="ajax_tz.js"></script>
+<script src="global.js"></script>
+<script src="ktv.js"></script>
+<script>
+var focusArea = 0;
+
+document.onkeypress = grdEvent;
+document.onirkeypress = grdEvent;
+document.onsystemevent = grdEvent;
+function grdEvent(event){
+	var keycode = event.which;
+	iDebug("shichang grdEvent keycode="+keycode);
+	switch(keycode){
+		case 38://EIS_IRKEY_UP
+			if(buyTipsShowFlag){
+				return 0;
+			}
+			if(focusArea == 0){
+				//clearTimeout(changeVedioTimer);
+				changeListPos(-1);
+			}else if(focusArea == 1){
+				changeArea(2);
+			}else if(focusArea == 2){
+			}
+			return 0;
+			break; 
+		case 40://EIS_IRKEY_DOWN
+			if(buyTipsShowFlag){
+				return 0;
+			}
+			if(focusArea == 0){
+				//clearTimeout(changeVedioTimer);
+				changeListPos(1);
+			}else if(focusArea == 1){
+			}else if(focusArea == 2){
+				changeArea(1);
+			}
+			return 0;
+			break; 
+		case 372:										// page up
+		case 33:
+			if(buyTipsShowFlag){
+				return 0;
+			}
+			if(focusArea == 0){
+				changeListPage(-1);
+			}
+			return 0;
+			break;
+		case 373:										// page down
+		case 34:
+			if(buyTipsShowFlag){
+				return 0;
+			}
+			if(focusArea == 0){
+				changeListPage(1);
+			}
+			return 0;
+			break;
+		case 3:								// left
+		case 37:
+			if(buyTipsShowFlag){
+				//焦点在购买提示框
+				changeBuyTipsPos();
+				return 0;
+			}
+			if(focusArea == 0){
+			}else if(focusArea == 1){
+				changeArea(0);
+			}
+			return 0;
+			break;
+		case 4:								// right
+		case 39:
+			if(buyTipsShowFlag){
+				//焦点在购买提示框
+				changeBuyTipsPos();
+				return 0;
+			}
+			if(focusArea == 0){
+				changeArea(1);
+			}else if(focusArea == 1){
+			}
+			return 0;
+			break;
+		case 832:
+			return 0;
+			break;
+		case 833:
+			return 0;
+			break;
+		case 4097:
+		case 13:	
+			doSelect();
+			return 0;
+			break;
+		case 340:							// back
+		case 8:								// back
+		case 339:							// exit
+		case 27:							// exit
+			doBack();
+			return 0;
+			break;
+		case 512:
+		case 513:
+		case 4098:							// menu
+			window.location.href = GlobalVarManager.getItemStr("tvPortalUrl");
+			return 0;
+			break;
+		case 835:							//blue
+			return 0;
+			break;
+		case 48:
+		case 49:
+		case 50:
+		case 51:
+		case 52:
+		case 53:
+		case 54:
+		case 55:
+		case 56:
+		case 57:
+			/*if(keycode-48 == 1){
+				iPanel.setGlobalVar("index_focusArea",""+2);
+				iPanel.setGlobalVar("index_menuPos",""+0);
+				iPanel.setGlobalVar("index_btnPos",""+0);
+				iPanel.setGlobalVar("index_posterPos",""+0);
+				iPanel.setGlobalVar("index_posterCurrPage",""+0);
+				var from = window.location.href.split("?")[0];
+				window.location.href = "play.htm"+"?assetId="+listData[playListPos].assetId+"&from="+encodeURIComponent(from);
+			}*/
+			return 0;
+			break;
+		case 22201:
+			//clearTimeout(showNavTipsTimeout);
+			GlobalVarManager.setItemStr("vodNavCheck","true");
+			hidePlayTips();
+			var area_code = VOD.areaCode;
+			iDebug("shichang__22201__area_code=" + area_code);
+			if(area_code == ""){
+				area_code = VOD.server.regionId;
+			}
+			if(area_code == ""){
+				area_code = VOD.server.nodeGroupID;//serviceGroup
+			};
+			if(area_code == "" || area_code == "undefined" || typeof(area_code) == "undefined" || area_code < 200){
+				showPlayTips("获取点播信息失败");
+				return;
+			}
+			GlobalVarManager.setItemStr("vodNavCheck","true");
+			iDebug("shichang__22201__playUrl=" + playUrl + "__area_code=" + area_code);
+			var urls = playUrl.split("areacode=");
+			iDebug("shichang__22201__urls=" + urls.length);
+			var end = urls[1].indexOf(";");
+			var param = urls[1].substr(end)
+			iDebug("shichang__22201__param=" + param + "__url[0]=" + urls[0]);
+			playUrl = urls[0] + "areacode=" + area_code + param;
+			iDebug("shichang__22201__changed playUrl=" + playUrl);
+			setMediaSource();
+			iDebug("shichang__22201__setMediaSource has called");
+			return 0;
+			break;
+		case 22202:
+			iDebug("shichang__22202");
+			//clearTimeout(showNavTipsTimeout);
+			GlobalVarManager.setItemStr("vodNavCheck","false");
+			showPlayTips("获取点播信息失败!");
+			return 0;
+			break;
+		/*下面是vod消息处理部分*/	
+		
+		case 5202://EIS_VOD_PREPAREPLAY_SUCCESS
+			clearTimeout(linkTimeout);
+			media.AV.play();
+			return 0;
+			break;
+
+		case 5203://EIS_VOD_CONNECT_FAILED
+			linkTips = false; 
+			connectFail = true;
+			media.AV.close();
+			clearTimeout(linkTimeout);
+			clearTimeout(connectTimeout);
+			showPlayTips("连接失败!");
+			return 0;
+			break;
+
+		case 5205://VOD_PLAY_SUCCESS	
+		case 13001:
+			clearTimeout(connectTimeout);
+			linkTips = false;
+			hidePlayTips();
+			return 0;
+			break;
+
+		case 5206: //VOD_PLAY_FAILED播放失败,是否需要提示一把？ 
+			linkTips = false;
+			playFail = true;
+			showPlayTips("播放失败,退出键退出!");
+			return 0;
+			break;
+
+		case 5209://EIS_VOD_PROGRAM_BEGIN回退到头
+			playStart = true;
+			return 0;
+			break;
+
+		case 5210://EIS_VOD_PROGRAM_END播放到尾，前进到尾
+			playEnd = true;
+			if(playListPos >= listData.length-1){
+				//playListPos = 0;
+				getVideoAd();
+			}else{
+				playListPos++;
+				playSmallAV();
+			}
+			return 0;
+			break;
+	}
+}
+
+function init(){
+	createMediaPlayer();
+	getParams();
+	getlist();
+}
+
+var fromUrl = "";
+function getParams(){
+	var focus_Area = iPanel.getGlobalVar("shichang_focusArea");
+	var list_Pos = iPanel.getGlobalVar("shichang_listPos");
+	var list_CurrPage = iPanel.getGlobalVar("shichang_listCurrPage");
+	
+	var from_Url = getUrlParams("from",window.location.href);
+	if(focus_Area != "")focusArea = parseInt(focus_Area);	
+	if(listPos != "")listPos = parseInt(list_Pos);
+	if(list_CurrPage != "")listCurrPage = parseInt(list_CurrPage);
+	if(from_Url != "")fromUrl = decodeURIComponent(from_Url);
+}
+
+var videoAdAjaxObj = null;
+function getVideoAd(){//获取小视频广告显示
+	if(videoAdAjaxObj == null){
+		videoAdAjaxObj = new ajaxClass();
+		videoAdAjaxObj.frame = window;
+	}
+	else{
+		videoAdAjaxObj.requestAbort();
+	}
+	videoAdAjaxObj.successCallback = function(_xmlHttp, _params) {
+		iDebug("shichang getVideoAd _xmlHttp.responseText = "+_xmlHttp.responseText);
+		hideLoading();
+		var jsonData = eval("("+_xmlHttp.responseText+")");
+		if(typeof (jsonData)!= "object" || jsonData == null){
+			iDebug("shichang getVideoAd not jsonData!");
+			$("videoAd").src = "images/smallAVDefaultAd.jpg";
+			return;
+		}
+		iDebug("shichang getVideoAd code = "+jsonData.code);
+		if(jsonData.code == "000"){
+			var tmpAdList = jsonData.advertiseLs;
+			if(tmpAdList.length > 0){
+				var imgUrl = tmpAdList[0].adPoster;
+				iDebug("shichang getVideoAd imgUrl=" + imgUrl);
+				if(typeof(imgUrl) != "undefined" && imgUrl != ""){
+					$("videoAd").src = imgUrl;
+					return;
+				}
+			}
+		}
+		$("videoAd").src = "images/smallAVDefaultAd.jpg";
+	};
+	videoAdAjaxObj.failureCallback = function(_xmlHttp, _params) {
+		iDebug("shichang getVideoAd failed!");
+		$("videoAd").src = "images/smallAVDefaultAd.jpg";
+	};
+	var cardId = CA.card.cardId;
+	videoAdAjaxObj.urlParameters = "ca="+cardId+"&search=adNo&value=800";
+	videoAdAjaxObj.url = ["http://"+ip+":"+port+"/advertise/queryAdvertiseLs","data/poster.js"][DEBUG];
+	videoAdAjaxObj.requestData("POST");
+	iDebug("shichang getVideoAd urlParameters=" + videoAdAjaxObj.urlParameters);
+	iDebug("shichang getVideoAd url=" + videoAdAjaxObj.url);
+}
+
+var listPos = 0;
+var changeVedioTimer = -1;
+function changeListPos(_num){
+	if(listData.length<=0)return;
+	if(listPos == 0 && _num<0){
+		changeListPage(-1);
+		return;
+	}
+	var index = (currPage - 1) * listShowlen + listPos;
+	if((index == listData.length-1||listPos == listShowlen-1) && _num>0){
+		changeListPage(1);
+		return;
+	}
+	$("list"+listPos).style.backgroundColor = "transparent";
+	$("list"+listPos).style.color = "#dadada";
+	$("listBtn"+listPos).src = "images/icon_song.png";
+	listPos += _num;
+	$("list"+listPos).style.backgroundColor = "#efb608";
+	$("list"+listPos).style.color = "#000000";
+	$("listBtn"+listPos).src = "images/icon_song01.png";
+	/*clearTimeout(changeVedioTimer);
+	changeVedioTimer = setTimeout(function(){
+		exitPage();
+		playListPos = (currPage - 1) * listShowlen + listPos;
+		playSmallAV();
+	},200);*/
+}
+
+function changeListPage(_num){
+	if(currPage == 1 && _num < 0)return;
+	if(currPage == totalPage && _num > 0)return;
+	$("list"+listPos).style.backgroundColor = "transparent";
+	$("list"+listPos).style.color = "#dadada";
+	$("listBtn"+listPos).src = "images/icon_song.png";
+	currPage += _num;
+	listPos = 0;
+	showPageInfo();
+	initList();
+}
+
+function changeArea(_num){
+	focusArea = _num;
+	if(focusArea == 0){
+		$("list"+listPos).style.backgroundColor = "#efb608";
+		$("list"+listPos).style.color = "#000000";
+		$("listBtn"+listPos).src = "images/icon_song01.png";
+		$("orderBtn").style.backgroundImage = "url(images/btn_order01.png)";
+		$("backBtn").style.backgroundImage = "url(images/back_02.png)";
+	}else if(focusArea == 1){
+		$("list"+listPos).style.backgroundColor = "transparent";
+		$("list"+listPos).style.color = "#dadada";
+		$("listBtn"+listPos).src = "images/icon_song.png";
+		$("orderBtn").style.backgroundImage = "url(images/btn_order02.png)";
+		$("backBtn").style.backgroundImage = "url(images/back_02.png)";
+	}else if(focusArea == 2){
+		$("list"+listPos).style.backgroundColor = "transparent";
+		$("list"+listPos).style.color = "#dadada";
+		$("listBtn"+listPos).src = "images/icon_song.png";
+		$("orderBtn").style.backgroundImage = "url(images/btn_order01.png)";
+		$("backBtn").style.backgroundImage = "url(images/back_01.png)";
+	}
+}
+
+function showPageInfo(){
+	if (totalPage == 1){
+		$("scroll").style.top = "90px";
+	}
+	else if (totalPage > 1){
+		if (currPage == 1){	
+			$("scroll").style.top = "0px";
+		}
+		else if (currPage == totalPage){
+			$("scroll").style.top = "183px";
+		}
+		else{
+			$("scroll").style.top = (currPage - 1)/totalPage * 183 + currPage * (61/totalPage) +  "px";
+		}
+	}
+}
+
+var params = "";
+function doSelect(){
+	if(buyTipsShowFlag){    //焦点在购买提示框
+		if(buyTipsPos == 0){
+		  //进入营业厅
+		  window.location.href="http://10.215.0.13:80/dsyyt/index.htm";
+		}else{
+			hideBuyTips();
+		}
+		return;
+	}
+	if(focusArea == 0){
+		if(listData.length<=0)return;
+		var from = window.location.href.split("?")[0];
+		var back0 = fromUrl;
+		var index = (currPage - 1) * listShowlen + listPos;
+		/*if (specialStyle == "0"){
+			var title = listData[(currPage - 1) * listShowlen + listPos].titleFull;
+		}
+		else{
+			var title = listData[(currPage - 1) * listShowlen + listPos].displayName;
+		}*/
+		params = "boRes="+listData[index].assetId+"&musicName="+encodeURI(getName(listData[index]))+"&from="+encodeURIComponent(from)+"&back0="+encodeURIComponent(back0);
+		iDebug("shichang grdEvent 13 params="+params);
+		//gotoSing();
+		var backparams = params;
+		window.location.href = "play.htm"+"?"+backparams;
+	}else if(focusArea == 1){
+		window.location.href = "http://10.215.0.13:80/dsyyt/index.htm";
+	}else if(focusArea == 2){
+		doBack();
+	}
+}
+//获取影片名称
+function getName(_listObj){
+	var name = "";
+	if(typeof(_listObj.titleFull) != "undefined"){
+		name = _listObj.titleFull;
+	}else if(typeof(_listObj.displayName) != "undefined"){
+		name = _listObj.displayName;
+	}
+	//vod数据屏蔽title中的【民政频道】
+	var strReplace = /【.*】/g;
+	name = name.replace(strReplace,"");
+	return name;
+}
+function doBack(){
+	iPanel.setGlobalVar("shichang_focusArea","");
+	iPanel.setGlobalVar("shichang_listCurrPage","");
+	iPanel.setGlobalVar("shichang_listPos","");
+	window.location.href = fromUrl;
+}
+
+var specialStyle = "";
+var currPage = 1;
+var totalNumber = 8
+var totalPage = 0;
+var listData = [];
+var listAjaxObj = null;
+function getlist(){
+	showLoading();	
+	if (listAjaxObj == null) {
+		listAjaxObj = new ajaxClass_tz();
+		listAjaxObj.frame = window;
+	} else {
+		listAjaxObj.requestAbort();
+	}
+	listAjaxObj.successCallback = listDataSuccess;
+	listAjaxObj.failureCallback = listDataFail;
+	listAjaxObj.urlParameters = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><GetFolderContents assetId='MANU0000000000171768' portalId='1' client='" + CAManager.cardSerialNumber + "' account='" + account + "' startAt='1' maxItems='"+totalNumber+"' languageCode='Zh-CN' regionCode='1' includeFolderProperties='Y' includeSubFolder='Y' includeSelectableItem='Y' profile='1.0'/>";
+	listAjaxObj.url = ["http://"+tongzhouIp+":"+tongzhouPort+"/GetFolderContents?dataType=json","data/shichang.js"][DEBUG];
+	listAjaxObj.requestData("POST");
+	iDebug("shichang_getList_listAjaxObj_listAjaxObj.url = " + listAjaxObj.url);
+}
+function listDataSuccess(_xmlHttp, _params){
+	iDebug("shichang_listDataSuccess_success");
+	iDebug("shichang_listDataSuccess__xmlHttp.responseText = " + _xmlHttp.responseText);
+
+	var jsonData = eval("(" + _xmlHttp.responseText + ")");
+	if(typeof (jsonData)!= "object" || jsonData == null){
+		listDataFail(_xmlHttp,_params);
+	}else{
+		//据悉现场数据只有两种，要么单条，要么媒资包，所以这里能取到什么就是什么
+		if (jsonData.selectableItemList && jsonData.selectableItemList.length > 0){
+			var tmpList = jsonData.selectableItemList;
+			specialStyle = "0";
+		}
+		else if (jsonData.childFolderList && jsonData.childFolderList.length > 0){
+			var tmpList = jsonData.childFolderList;
+			specialStyle = "1";
+		}
+
+		if (tmpList && tmpList.length > 0){
+			if (tmpList.length > totalNumber){
+				tmpList.length = totalNumber;
+			}
+			totalPage = Math.ceil(tmpList.length / listShowlen);
+		
+			iDebug("shichang_listDataSuccess_success__totalPage = " + totalPage + "__currPage = " + currPage);
+			listData = tmpList;
+			playSmallAV();
+			initList();
+			showPageInfo();
+		}
+		else{
+			listDataFail(_xmlHttp,_params);
+		}
+	}
+	hideLoading();
+}
+
+function listDataFail(_xmlHttp, _params){
+	iDebug("shichang_listDataFail");
+	$("listText").innerText = "获取数据失败！";
+	$("listTips").style.visibility = "visible";
+	
+	clearTimeout(tipsTimeout);
+	tipsTimeout = setTimeout(function(){
+		$("listText").innerText = " ";
+		$("listTips").style.visibility = "hidden";
+	},2000);
+	hideLoading();
+}
+
+var listShowlen = 4;
+function initList(){
+	for (var i = 0; i < listShowlen; i++){
+		var index = (currPage - 1) * listShowlen + i;
+		if (index < listData.length){
+			var dataObj = listData[index];
+			$("listNum" + i).innerText = "0"+(index + 1);
+			/*if (specialStyle == "0"){
+				var title = listData[(currPage - 1) * listShowlen + i].titleFull;
+			}
+			else{
+				var title = listData[(currPage - 1) * listShowlen + i].displayName;
+			}*/
+			var title = getName(dataObj);
+			$("listTitle" + i).innerText = getStrChineseLen(title,10);
+			$("listName" + i).innerText = getStrChineseLen(dataObj.actorsDisplay,4); ;
+			$("listBtn" + i).src = "images/icon_song.png";
+			
+		}
+		else{
+			$("listNum" + i).innerText = "";
+			$("listTitle" + i).innerText = "";
+			$("listName" + i).innerText = "";
+			$("listBtn" + i).src = "";
+		}
+	}
+	changeArea(focusArea);
+}
+ 
+var assetId = "";
+var playListPos = 0;
+
+function playSmallAV(){
+	//firstPlay = false;
+	assetId = listData[playListPos].assetId;
+	getDetailData();
+}
+
+var playIp = "http://vod.fjgdwl.com:80/gldb/NEW_UI/vodPlay/";//"http://vod.fjgdwl.com:80/vod_portal/";//去vod播放的路径
+var playUrl = "";
+var gotoVodUrl = "";
+
+/*获取详细信息，接口：GetItemData*/
+var detailAjaxObj = null;
+var movieObj = null;
+function getDetailData(){
+	if(detailAjaxObj == null){
+		detailAjaxObj = new ajaxClass_tz();
+		detailAjaxObj.frame = window;
+	}
+	else{
+		detailAjaxObj.requestAbort();
+	}
+	//showLoading();
+	detailAjaxObj.successCallback = function(_xmlHttp, _params) {
+		iDebug("shichang getDetailData _xmlHttp.responseText = "+_xmlHttp.responseText);
+		//hideLoading();
+		var jsonData = eval("("+_xmlHttp.responseText+")");
+		if(typeof (jsonData)!= "object" || jsonData == null){
+			showTips("获取操作详细数据失败！");
+			return;
+		}
+		movieObj = jsonData.selectableItem;
+		getPlayParams();
+	};
+	detailAjaxObj.failureCallback = function(_xmlHttp, _params) {
+		iDebug("shichang getDetailData failed!");
+		//hideLoading();
+		showTips("获取操作详细数据失败！");
+	};
+	
+	detailAjaxObj.urlParameters = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><GetItemData titleAssetId='" + assetId + "' portalId='1' client='" + CAManager.cardSerialNumber + "' account='" + account + "' languageCode='Zh-CN' profile='1'/>";
+	detailAjaxObj.url = "http://"+tongzhouIp+":"+tongzhouPort+"/GetItemData?dataType=json";
+	detailAjaxObj.requestData("POST");
+	iDebug("shichang getDetailData urlParameters=" + detailAjaxObj.urlParameters);
+	iDebug("shichang getDetailData url=" + detailAjaxObj.url);
+}
+
+/*获取播放参数，接口：SelectionStart*/
+var playAjaxObj = null;
+function getPlayParams(){
+	if (playAjaxObj == null) {
+		playAjaxObj = new ajaxClass_tz();
+		playAjaxObj.frame = window;
+	} else {
+		playAjaxObj.requestAbort();
+	}
+	//showLoading();
+	playAjaxObj.successCallback = function(_xmlHttp, _params) {
+		iDebug("shichang getPlayParams _xmlHttp.responseText=" + _xmlHttp.responseText);
+		//hideLoading();
+		var jsonData = eval("(" + _xmlHttp.responseText + ")");
+
+		if(typeof(jsonData) != "object" || jsonData == null) {
+			showTips("获取播放数据失败！");
+			return;
+		}
+		if(jsonData.code){//服务器错误，
+			var code = jsonData.code;
+			if(code == "13000001" || code == "12011073"){
+				//showOpTips("客户您目前没有订购该栏目，请点击进入TV网厅，自助订购。");
+				//buyTipsShowFlag = true;
+				showBuyTips();
+			}else{
+				var text = "发生错误！错误码：" + code + "，请咨询客服96311。";
+				showTips(text);
+			}
+			return;
+		}
+		
+		var area_code = VOD.areaCode;
+		if(area_code == ""){
+			area_code = VOD.server.regionId;
+		}
+		if(area_code == ""){
+			area_code = VOD.server.nodeGroupID;
+		}
+		var rtsp = jsonData.rtsp.split(";");
+		var serverId = rtsp[2].split(":");
+		playUrl = rtsp[0] + ";" + rtsp[1] + ";" + serverId[0] + ":8080" + ";areacode=" + area_code + ";client=" + CAManager.cardSerialNumber;
+		//GlobalVarManager.setItemStr("vodPlayUrl",playUrl);
+		iDebug("shichang getPlayParams playUrl = " + playUrl);
+		
+		//var fromUrl = encodeURIComponent(window.location.href.split("?")[0]);
+
+		//gotoVodUrl = playIp + "vodPlay.htm?previewId=" + jsonData.previewAssetId + "&startTime=" + jsonData.startTime + "&purchaseToken=" + jsonData.purchaseToken + "&playCurrName=" + movieObj.titleFull + "&assetId=" + assetId + "&providerId=" + movieObj.providerId + "&displayRunTime=" + movieObj.displayRunTime + "&folderAssetId=" + movieObj.folderAssetId + "&resumePoint=0&from="+fromUrl ;
+
+		gotoPlay();
+	};
+
+	playAjaxObj.failureCallback = function(_xmlHttp,_params){
+		iDebug("shichang getPlayParams request failed");
+		//hideLoading();
+		showTips("获取播放数据失败！");
+	};
+
+	playAjaxObj.urlParameters = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><SelectionStart titleAssetId='" + assetId + "' folderAssetId='" + assetId + "' portalId='1'  client='" + CAManager.cardSerialNumber + "' account='" + account + "'/>";
+	playAjaxObj.url = "http://" + tongzhouIp + ":" + tongzhouPort + "/SelectionStart?dataType=json";
+	iDebug("shichang getPlayParams urlParameters=" + playAjaxObj.urlParameters);
+	iDebug("shichang getPlayParams ajaxUrl=" + playAjaxObj.url);
+	playAjaxObj.requestData("POST");
+}
+
+var showNavTipsTimeout = -1;
+function gotoPlay(){
+	var flag = checkNavCheck();
+	iDebug("shichang__init__flag=" + flag);
+	if(flag){
+		// 如果此时获取到的区域码为空的话，需要重新调用VOD.searchParams去认证
+		//$("load_nav_tips").style.visibility = "visible";
+		navCheck();
+		showNavTipsTimeout = setTimeout(function(){
+			showTips("获取点播信息失败");
+		},15000);
+		return ;
+	}
+	setMediaSource();
+}
+
+/*媒体播放对象*/
+var mediaPlayer = null;				 // 播放器对象
+var mediaID = null ;				 // 播放器实例ID
+var createPlayerSuccess = false;
+
+/*创建播放器对象*/
+function createMediaPlayer(){
+	mediaPlayer = new MediaPlayer();
+	mediaID = mediaPlayer.getPlayerInstanceID();
+	var flag = mediaPlayer.bindPlayerInstance(mediaID);
+	createPlayerSuccess = flag==0 ? true:false;
+	iDebug("shichang__createMediaPlayer__mediaID=" + mediaID + "__flag=" + flag + "__createPlayerSuccess=" + createPlayerSuccess);
+	if(createPlayerSuccess){
+		var rect = new Rectangle(80,108,532,300);
+		var flag1 = mediaPlayer.setVideoDisplayArea(rect);
+		var flag2 = mediaPlayer.setVideoDisplayMode(0);
+		var flag3 = mediaPlayer.refresh();
+		iDebug("shichang__createMediaPlayer rect=" + rect + "__flag1=" + flag1 + "__flag2=" + flag2 + "__flag3=" + flag3);
+	}else{
+		iDebug("shichang__createMediaPlayer__mediaPlayer create failed");
+	}
+}
+
+function checkNavCheck(){
+	var area_code = VOD.areaCode;
+	iDebug("shichang__checkNavCheck__area_code=" + area_code);
+	if(area_code == ""){
+		area_code = VOD.server.regionId;
+	}
+	if(area_code == ""){
+		area_code = VOD.server.nodeGroupID;
+	};
+	iDebug("shichang__checkNavCheck__area_code end=" + area_code);
+	//区域码小于200也要认证
+	if(area_code == "" || area_code == "undefined" || typeof(area_code) == "undefined" || area_code < 200){
+		return true;
+	}
+	return false;
+}
+
+function navCheck(){
+	var area_code = VOD.areaCode;
+	iDebug("shichang__navCheck__area_code=" + area_code);
+	if(area_code == ""){
+		area_code = VOD.server.regionId;
+	}
+	if(area_code == ""){
+		area_code = VOD.server.nodeGroupID;
+	};
+	iDebug("shichang__navCheck__area_code end=" + area_code);
+	
+	var currFreq = GlobalVarManager.getItemStr("frequency");
+	iDebug("shichang__navCheck__currFreq=" + currFreq);
+	if(currFreq == "" || currFreq == "undefined" || typeof(currFreq) == "undefined"){
+		clearTimeout(showNavTipsTimeout);
+		showTips("获取点播信息失败");
+		return ;
+	}
+	var str = "IPQAMPointList=" + currFreq + ",0;END";
+	iDebug("shichang__navCheck__str=" + str);
+	VOD.searchParams(str);
+	iDebug("shichang__navCheck__VOD.searchParams__has called");
+}
+
+var linkTips = false;
+var linkTimeout = -1;
+function setMediaSource(){
+	iDebug("shichang__setMediaSource__playUrl=" + playUrl);
+	if (typeof(playUrl)!="undefined" && playUrl != null){
+		if(createPlayerSuccess){
+			GlobalVarManager.setItemStr("playType","VOD");
+			mediaPlayer.setMediaSource(playUrl);
+		}	
+	}
+	linkTips = true;
+	if(linkTips){
+		clearTimeout(linkTimeout);
+		linkTimeout = setTimeout(function(){
+			showTips("连接失败！");
+		}, 15000);
+	}
+}
+
+function showPlayTips(_text){
+	$("playTips").innerHTML = _text;
+	$("playTips").style.visibility = "visible";
+}
+
+function hidePlayTips(){
+	$("playTips").innerHTML = "";
+	$("playTips").style.visibility = "hidden";
+}
+
+var loadingShow = false;
+function showLoading(){
+	$("loadingImg").style.visibility = "visible";
+	loadingShow = true;
+}
+
+function hideLoading(){
+	$("loadingImg").style.visibility = "hidden";
+	loadingShow = false;
+}
+
+var buyTipsShowFlag = false;    //提示购买框
+var buyTipsPos = 0;    //购买框焦点的位置
+function changeBuyTipsPos(){
+	buyTipsPos = buyTipsPos == 0 ? 1 : 0;
+	$("buyBtn0").style.background = ["#118bda","#323847"][buyTipsPos];
+	$("buyBtn1").style.background = ["#323847","#118bda"][buyTipsPos];
+}
+
+function showBuyTips(){
+	$("buyBtn0").style.background = ["#118bda","#323847"][buyTipsPos];
+	$("buyBtn1").style.background = ["#323847","#118bda"][buyTipsPos];
+	$("buyTips").style.visibility = "visible";
+	buyTipsShowFlag = true;
+}
+
+function hideBuyTips(){
+	buyTipsPos = 0;
+	$("buyTips").style.visibility = "hidden";
+	buyTipsShowFlag = false;
+}
+
+function exitPage(){
+	iDebug("shichang exitPage createPlayerSuccess = "+createPlayerSuccess);
+	if(createPlayerSuccess){
+		mediaPlayer.stop();
+		mediaPlayer.unbindPlayerInstance(mediaID);
+	}
+	if(playAjaxObj != null){
+		playAjaxObj.requestAbort();
+	}
+}
+</script>
+</head>
+
+<body bgcolor="transparent" leftmargin="0" topmargin="0" background="images/shichang_bg.png" onload="init()" onunload="exitPage()">
+<!--logo-->
+<div style="position:absolute; left:50px; top:50px; width:156px; height:29px; background:url(images/logo_shichang.png) no-repeat;"></div>
+<div id="backBtn" style="position:absolute; left:1105px; top:45px; width:85px; height:39px; background:url(images/back_02.png) no-repeat;"></div>
+<!--视频-->
+<div style="position:absolute; left:81px; top:109px; width:531px; height:298px;"></div>
+
+<!--歌单列表-->
+<!--分割线-->
+<div style="position:absolute; left:81px; top:478px; width:519px; height:1px; background:url(images/line01.png) no-repeat;"></div>
+<div style="position:absolute; left:81px; top:538px; width:519px; height:1px; background:url(images/line01.png) no-repeat;"></div>
+<div style="position:absolute; left:81px; top:598px; width:519px; height:1px; background:url(images/line01.png) no-repeat;"></div>
+<div style="position:absolute; left:81px; top:658px; width:519px; height:1px; background:url(images/line01.png) no-repeat;"></div>
+<div style="position:absolute; left:81px; top:418px; width:519px; height:240px;">
+  <table width="519" border="0" cellspacing="0" cellpadding="0" style="font-size:26px; color:#dadada;">
+      <tr id="list0">
+        <td width="20" height="60"></td>
+        <td id="listNum0" width="50"></td>
+        <td id="listTitle0" width="280"></td>
+        <td id="listName0"></td>
+        <td width="60" align="center"><img id="listBtn0" src="" width="45" height="45" /></td>
+      </tr>
+      <tr id="list1">
+        <td height="60"></td>
+        <td id="listNum1"></td>
+        <td id="listTitle1"></td>
+        <td id="listName1"></td>
+        <td align="center"><img id="listBtn1" src="" width="45" height="45" /></td>
+      </tr>
+      <tr id="list2">
+        <td height="60"></td>
+        <td id="listNum2"></td>
+        <td id="listTitle2"></td>
+        <td id="listName2"></td>
+        <td align="center"><img id="listBtn2" src="" width="45" height="45" /></td>
+      </tr>
+      <tr id="list3">
+        <td height="60"></td>
+        <td id="listNum3"></td>
+        <td id="listTitle3"></td>
+        <td id="listName3"></td>
+        <td align="center"><img id="listBtn3" src="" width="45" height="45" /></td>
+      </tr>
+    </table>
+</div>
+
+<!--滚动条-->
+<div style="position:absolute; left:609px; top:418px; width:2px; height:244px; background:url(images/scoll01.png) no-repeat;">
+  <div id="scroll" style="position:absolute; left:-1px; top:0px; width:4px; height:61px; background:url(images/scoll02.png) no-repeat;"></div>
+</div>
+
+<!--右侧海报-->
+<div style="position:absolute; left:624px; top:108px; width:567px; height:554px;"><img src="images/ad01.jpg" width="567" height="554" /></div>
+
+<!--小视频广告-->
+<div style="position: absolute; left: 80px; top: 108px;"><img id="videoAd" src="images/tm.gif" width="532" height="300"></div>
+
+<!--订购-->
+<div id="orderBtn" style="position: absolute; left: 782px; top: 535px; width: 255px; height: 112px; background: url(images/btn_order01.png) no-repeat;"></div>
+
+<div id="tips" style="position: absolute; left: 81px; top: 244px; width: 531px; height: 52px; line-height: 70px; background-color:#000000; font-size: 20px; color: #eeeded; text-indent: 9px; visibility:hidden;"></div>
+<!--加载图标-->
+<div id="loadingImg" style="position:absolute; left:579px; top:299px; width:121px; height:121px; visibility:hidden; z-index:3"><img src="images/loadingIcon.gif" width="121" height="121" /></div>
+
+<!-- 购买提示框 -->
+<div style="position:absolute; left:420px; top:160px; width:470px; height:291px; background:url(images/pop00.png) no-repeat;visibility:hidden;" id="buyTips">
+  <div style="position: absolute; left: 16px; top: 16px; width: 431px; height: 55px; line-height: 55px; color: #fff; font-size: 28px; text-align: center;" id="buyTitle">温馨提示</div>
+    
+  <div style="position: absolute; left: 16px; top: 100px; width: 431px; height: 55px; line-height: 55px; color: #fff; font-size: 28px; text-align: center;" id="buyContent">客户您目前没有订购该栏目，请点击进入TV网厅，自助订购。</div>
+    <div style="position: absolute; left: 16px; top: 222px; width: 431px; height: 46px; background:#323847;">
+      <div style="position:absolute; left:0px; top:0px; width:216px; height:46px; text-align:center; line-height:46px; color:#fff; font-size:24px; background:#118bda;"id="buyBtn0">是</div>
+        <div style="position:absolute; left:216px; top:0px; width:216px; height:46px; text-align:center; line-height:46px; color:#fff; font-size:24px;" id="buyBtn1">否</div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,2166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>vod单集播放页面</title>
+<script src="common.js"></script>
+<script src="vodErrorMsg.js"></script>
+<script>
+iDebug(">>>smile vodPlay.htm in...versiontime:2017/03/04 11:17");
+/*url传递数据*/
+var rootAssetId = "";				 // 根栏目的assetId
+var parentAssetId = "";				 // 二级栏目的assetId
+var providerId = "";				 // 栏目的providerId
+var assetId = "";					 // 二级分类海报assetId
+var preCurrPage = 0;				 // 二级分类海报页码
+var menuPos = 0;					 // 二级栏目的栏目焦点div位置
+var menuPosIndex = 0;				 // 首页的栏目焦点div位置
+var viewCurrPage = 0;				 // 观看记录的页码
+var purchaseToken = "";	
+var rentDateTime = "";				 // 影片购买时间
+var displayRunTime = 0;			 	 // 影片时长，单位s
+var folderAssetId = 0;				 // 影片的栏目ID(13)
+var resumePoint = 0;				 // 续播点
+var searchStr = "";					 // 搜索关键字
+var movieName = "";					 //影片名称
+var appName="";
+var backUrl = "";			 		 // 返回url
+var preUrl = "";					 // 进入播放页面时的url地址，用于重播
+var appFlag = "";	// 应用标示 
+
+/*开机连接*/
+var linkTips = false;				 // 从open->play成功 这个过程中提示的"正在连接"的提示的标记
+var loadPageTimeout = -1;
+var connectFailed = false; 		 // open连接失败
+var firstPlay=true; 				 // 是否第一次播放
+
+/*网络状态*/
+var netStatus = true;				 // 网线是否连上
+var socketError = false;             // 网络是否连通状态
+var cableTipsFlag = false;		     // cable线是否连上
+var errorFlag = false;				 // 发生错误
+var exitPageTimeout = null;
+
+/*媒体播放对象*/
+var mediaPlayer = null;				 // 播放器对象
+var mediaID = null ;				 // 播放器实例ID
+var createPlayerSuccess = false;	 // 创建播放器是否成功
+
+/*心跳时间设置*/
+var heartbeatCycle = 100;				// S1
+var controlHeartbeatCycle = 100;		// C1
+var heartbeatTimeout = 580;				// 心跳超时时间
+
+/*pf条信息*/
+var navigationFlag = false;		 // pf条是否显示标识
+var navigationTimeout = -1;			
+var navigationTimer = 6000;			 // pf条显示时间
+var processTimeout = -1;			 // 进度条的timeout
+var totalLength = 1017;				//进度条总长度
+
+/*选时信息*/
+var seekTipsFlag = false; 			 // 选时提示框
+var seekPos = 0;					 // seek提示框中焦点位置
+var seekDuration = 0;				 // 选时最大值
+var seekTimeout = -1;				 // 快速选时计时器
+var seekTimer = 1000;
+var seekFlag = false;				 // 是否seek的标识
+var currSeekTime = 0;				 // 当前seek的时间点
+var longDragNum = 0;				 //收到长按拖动进度条的按键次数
+var seekNums = ["0","0","0","0","0","0"];		 // 选时框中每位的数值
+var gotoSeekTimeout = -1;
+var gotoSeekTimer = 1000;				// 左右键拖动进度条自动播放时间
+
+/*快进快退信息*/
+var forwardTimeout = -1;
+var backwardTimeout = -1;
+var speedTimer = 200;
+var lastTime = 0;					 // 上次按键时间	
+
+/*暂停信息*/			
+var pauseTimer = -1;			//暂停计时器
+var pauseTimeout = -1;			//暂停超时计时器
+var pauseCount = 20;			//暂停超时退出倒计时时间
+var pauseFlag=false;			//是否暂停
+var pauseTimeoutFlag=false;	//是否暂停超时
+var pauseBtnPos = 1;			//暂停界面的焦点按钮位置
+var hidePauseADFlag = false;	//是否选过影藏暂停广告 true:简易的暂停按钮 false:带广告位的暂停框
+
+/*退出提示*/
+var exitTipsFlag = false;			 // 退出提示框
+var exitTipsPos = 0;				 // 退出提示框焦点位置
+var showTipsFlag = false;			 //	ajax请求提示框
+
+/*播放至开始时的提示信息*/
+var playStartFlag = false;			 // 快退播放到点播最初位置的标识
+var playStartTipsPos = 0;			 // 播放到点播最初位置的提示框焦点位置
+var showStartTipFlag = false;		 // 播放到点播最初位置的提示框标识
+
+/*播放至结束*/
+var playEndTimeout = -1;
+var endCount = 15;	
+var playEndFlag = false;			 // 播放结束的标志
+var isIgnoreKey = false;			//是否屏蔽按键 true:屏蔽 false:不屏蔽
+var delayShowPlayEndTipsTimer = -1;	//延迟处理播放结束提示框的计时器
+
+/*播放结束提示框信息*/
+var showPlayEndFlag = false;		 // 播放结束提示框显示标识
+var playEndTipsPos = 0;				 // 播放结束提示框焦点位置
+
+/*采集上报信息*/
+var error__code = false;//采集 是否操作失败
+var error_code_status = 0;	//采集 操作失败时上传的状态码，取不到时传空
+var isSeek = false;//采集需要，判断是否是seek状态
+var collectCI = 9999; // 主要用于第三方传入收视率采集需要的信息
+var collectCN = ""; // 主要用于第三方传入收视率采集需要的信息
+
+/*信息键显示区域码和频点*/
+var showInfoFlag = false;
+var areacode = VOD.areaCode;
+var frequency = "";
+var serviceId = "";
+var bit_error_rate ="";
+
+/*音量条信息*/
+var volumeTipsFlag = false;
+var volumeTimeout = -1;
+var volumeWidget = iPanel.pageWidgets.getByName("volumeWidget");	//ui里的音量控制widget
+
+/*声道信息*/
+var lang = 0;
+var audioModesValue = [
+		['立体声','左声道','右声道','混合声'],
+		['Stereo','Left','Right','mix']
+	];
+var audioModes = [0, 1, 2, 3];
+var soundSetFlag = 0;				//声音设置是否显示
+var soundSetPos = 0;				//声音设置的焦点位置
+var audioModPos = 0;				//记录声道位置
+
+var showNavTipsTimeout = -1;
+var exitFlag=false;
+var exit_key = "back";
+var ajaxObj = null;
+var bookMarkTimeout = -1;
+
+var account = GlobalVarManager.getItemStr("account");
+var ip = GlobalVarManager.getItemStr("ip");	 // ip
+var port = GlobalVarManager.getItemStr("port");	// 端口
+var tvPortalUrl =  GlobalVarManager.getItemStr("tvPortalUrl");
+var playUrl = GlobalVarManager.getItemStr("vodPlayUrl");
+iDebug(">>>smile vodPlay.htm account=" + account + ",ip=" + ip + ",port=" + port + ",tvPortalUrl=" + tvPortalUrl + ",playUrl=" + playUrl);
+
+
+/*document.onkeydown = grabEvent;
+document.onsystemevent = grabEvent;*/
+document.onkeypress = grabEvent;
+document.onirkeypress = grabEvent;
+document.onsystemevent = grabEvent;
+function grabEvent(event){
+	var keycode = event.which;
+	iDebug(">>>smile vodPlay.htm grabEvent keycode=" + keycode + ",linkTips=" + linkTips + ",errorFlag=" + errorFlag + ",isIgnoreKey=" + isIgnoreKey);
+	/*正在连接的过程，按退出键/返回键，则退出vod播放*/
+	if((linkTips || errorFlag) && (keycode == 339 || keycode == 27 || keycode == 340 || keycode == 8)){
+		preExit();
+		return EVENT.STOP;
+	}
+	if(isIgnoreKey){ // 屏蔽按键期间可以响应返回、退出键
+		if(keycode == 339 || keycode == 27 || keycode == 340 || keycode == 8){
+			preExit();
+		}
+		return EVENT.STOP;
+	}
+	switch(keycode){
+		case 1:
+		case 38://up
+			changeUD(-1);
+			return EVENT.STOP;
+			break;
+		case 2:
+		case 40://down
+			changeUD(1);
+			return EVENT.STOP;
+			break;
+		case 3:
+		case 37://left
+			changeLR(-1);
+			return EVENT.STOP;
+			break;
+		case 4:
+		case 39://right
+			changeLR(1);
+			return EVENT.STOP;
+			break;
+		case 4097:
+		case 13://ok
+			doSelect();
+			return EVENT.STOP;
+			break;
+		case 340:
+		case 8://back
+			doBack();
+			return EVENT.STOP;
+			break;
+		case 339:
+		case 27://exit
+			doExit();
+			return EVENT.STOP;
+			break;
+		case 48:
+		case 49:
+		case 50:
+		case 51:
+		case 52:
+		case 53:
+		case 54:
+		case 55:
+		case 56:
+		case 57:
+			iDebug(">>>smile vodPlay.htm grabEvent number__seekTipsFlag=" + seekTipsFlag);
+			if(seekTipsFlag){
+				inputSeekTime(keycode - 48);				
+			}
+			return EVENT.STOP;
+			break;
+		case 512:
+		case 513:
+		case 4098:// menu
+			exit_key = "menu";
+			iDebug(">>>smile vodPlay.htm grabEvent menu__playEndFlag=" + playEndFlag);
+			if(playEndFlag){// 如果播放结束后按菜单键就不用保存断点了，直接退出就好
+				gotoIndex();
+			}else{// 其他时候按菜单键的话，需要保存断点
+				preExit();	
+			}
+			return EVENT.STOP;
+			break;
+		case 834:										
+		case 2307:// 黄键
+			doYellow();	
+			return EVENT.STOP;		
+			break;
+		case 4168:
+		case 375:										
+		case 372:										
+		case 33:// 快进
+			if (cableTipsFlag || socketError || !netStatus || connectFailed || linkTips || errorFlag) return EVENT.STOP;
+			if(volumeTipsFlag){
+				hideVolume();
+			}
+			clearTimeout(forwardTimeout);
+			forwardTimeout = setTimeout(function (){
+				doFastForward();
+			},speedTimer);
+			return EVENT.STOP;
+			break;
+		case 4167:
+		case 374:										
+		case 373:										
+		case 34:// 快退
+			if (cableTipsFlag || socketError || !netStatus || connectFailed || linkTips || errorFlag) return EVENT.STOP;
+			if(volumeTipsFlag){
+				hideVolume();
+			}
+			clearTimeout(backwardTimeout);
+			backwardTimeout = setTimeout(function (){
+				doBackForward();
+			},speedTimer);
+			return EVENT.STOP;
+			break;
+		case 595:										// 音量加
+		case 4109:
+			if(navigationFlag){
+				hideNavigation();	
+			}
+			changeVolume(1);
+			return EVENT.STOP;
+			break;
+		case 596:										// 音量减
+		case 4110:
+			if(navigationFlag){
+				hideNavigation();	
+			}
+			changeVolume(-1);
+			return EVENT.STOP;
+			break;
+		case 597:										// 静音
+		case 4108:
+			if(navigationFlag){
+				hideNavigation();	
+			}
+			doMute(); 
+			return EVENT.STOP;
+			break;
+		case 4104:
+		case 802:
+		case 598:
+		case 833:								
+		case 2306://声道
+			if (!soundSetFlag){
+				showSoundSet();				
+			}else{
+				hideSoundSet();
+			}
+			return EVENT.STOP;
+			break;
+		case 835:						
+		case 572:
+		case 561://蓝键
+			if(showInfoFlag){
+				hideInfoTips();
+			}else{
+				showInfoTips();
+			}
+			return EVENT.STOP;
+			break;
+		/*下面是vod消息处理部分*/
+		case 5226:									
+		case 22201:
+			var area_code = VOD.areaCode;
+			if(area_code == ""){
+				area_code = VOD.server.regionId;
+			}
+			if(area_code == ""){
+				area_code = VOD.server.nodeGroupID;
+			}
+			iDebug(">>>smile vodPlay.htm 5226 area_code=" + area_code);
+			if(typeof(area_code) == "undefined" || area_code == "" || area_code == "undefined" ){
+				showNavTips();
+				return EVENT.STOP;	
+			}
+			areacode = area_code;
+			GlobalVarManager.setItemStr("vodNavCheck","true");
+			hidePublicTips(1);
+			var urls = playUrl.split("areacode=");
+			var end = urls[1].indexOf(";");
+			var param = urls[1].substr(end);
+			playUrl = urls[0] + "areacode=" + area_code + param;
+			iDebug(">>>smile vodPlay.htm 5226 playUrl=" + playUrl);
+			setMediaSource();
+			return EVENT.STOP;
+			break;
+		case 5227:									
+		case 22202:
+			showNavTips();	
+			return EVENT.STOP;
+			break;
+		case 5202:
+  		//case 13001:
+			iDebug(">>>smile vodPlay.htm 5202 resumePoint=" + resumePoint);
+			hide_load_tips();
+			if(resumePoint == 0){
+				mediaPlayer.play();
+			}else{
+				mediaPlayer.seek(1,secondToString(resumePoint));
+			}
+			return EVENT.STOP;
+			break;	
+		case 5203:											
+		//case 13002:										
+			hide_load_tips();
+			linkTips = false;
+			connectFailed = true;  
+			showPublicTips(7,"服务器连接失败，3秒后将退出点播,code=5203");
+			error__code=true;
+			error_code_status="85203";
+			getCaiJiData();
+			firstPlay = false;
+			clearTimeout(exitPageTimeout);
+			exitPageTimeout = setTimeout("preExit()", 3000);
+			return EVENT.STOP;
+			break;
+		case 5204:// EIS_VOD_DVB_SERACH_FAILED
+			hide_load_tips();
+			connectFailed = true;
+			showPublicTips(7,"无信号,按退出键退出点播,code=5204");
+			error__code=true;
+			error_code_status="85204";
+			getCaiJiData();
+			firstPlay = false;
+			return EVENT.STOP;
+			break;
+		case 5221:// EIS_VOD_START_FAILED
+			hide_load_tips();
+			connectFailed = true;
+			showPublicTips(7,"不能连接服务器,按退出键退出播放,code=5221");
+			error__code=true;
+			error_code_status="85221";
+			getCaiJiData();
+			firstPlay = false;
+			return EVENT.STOP;
+			break;
+		case 5205:// play success
+		case 13003:// NGB 开始播放成功
+		case 13005:// setPace(快退快进)成功
+		case 13007:// seek成功
+		case 13013:// stop停止播放成功
+		case 13009:// pause暂停播放成功
+		case 13011:// resume恢复播放成功
+			iDebug(">>>smile vodPlay.htm 5205__firstPlay=" + firstPlay + "__errorFlag=" + errorFlag);
+			clearTimeout(loadPageTimeout);
+			clearTimeout(exitPageTimeout);
+			connectFailed = false;
+			if(errorFlag){
+				errorFlag = false;
+				hidePublicTips(5);
+			}
+			if(firstPlay){
+				hide_load_tips();
+				linkTips = false;
+				seekDuration = secondToArrTime((displayRunTime - 5));
+				firstPlay = false;
+			}
+			showNavigation();
+			showPlayProcess(0);
+			var currStatus = mediaPlayer.getPlaybackMode();
+			if(currStatus.PlayMode.toLowerCase() == "normal"){
+				clearTimeout(navigationTimeout);
+				navigationTimeout = setTimeout(function(){
+					hideNavigation();	
+				},navigationTimer);
+			}
+			getCaiJiData();//播放、快进快退成功上报	
+			return EVENT.STOP;		
+			break;
+		case 5206:										// play fail
+		case 13004:										// NGB开始播放失败
+		case 13006:										// setPace(快退快进)失败
+		case 13008:										// seek失败
+		case 13010:										// pause暂停播放失败
+		case 13012:										// resume恢复播放失败
+		case 13014:										// stop停止播放失败
+			hide_load_tips();
+			connectFailed = true;
+			showPublicTips(7,"播放影片失败,按退出键退出播放,code=5206");
+			error__code=true;
+			error_code_status="85206";
+			getCaiJiData();
+			firstPlay = false;
+			return EVENT.STOP;
+			break;
+		case 5209:										
+			playStartFlag = true;
+			mediaPlayer.pause();
+			showPlayStartTips();
+			return EVENT.STOP;
+			break;
+		case 5210:	
+			hideNavigation();	
+			$("seekTips").style.visibility = "hidden";
+			seekTipsFlag = false;
+			seekFlag = false;
+			mediaPlayer.stop();
+			playEndFlag = true;
+			//要求延迟2s处理播放结束提示，在此期间不响应按键，以免出现其它异常，详见mantis：148103
+			clearTimeout(delayShowPlayEndTipsTimer);
+			isIgnoreKey = true;
+			delayShowPlayEndTipsTimer = setTimeout(function(){ 
+				iDebug(">>>smile vodPlay.htm 5210 begin to show palyEndTips!");
+				isIgnoreKey = false;
+				showPlayEndTips();
+				playEndToCount();	
+			},2000);
+			return EVENT.STOP;
+			break;
+		case 5211:										
+			hideNavigation();
+			return EVENT.STOP;
+			break;
+		case 5225:
+			var errorCode = event.modifiers;
+			iDebug(">>>smile vodPlay.htm 5525__errorCode="+errorCode);
+			var errorTip = checkErrorCode(errorCode);
+			if(errorTip == ""){
+				errorTip = "发生异常，errorCode=" + errorCode;
+			}
+			showPublicTips(5,errorTip);
+			errorFlag = true;
+			clearTimeout(exitPageTimeout);
+			exitPageTimeout = setTimeout(preExit,3000);
+			return EVENT.STOP;
+			break;
+		/*下面是网络消息处理部分*/
+		case 12057:	
+		case 5500: // EIS_IP_NETWORK_CONNECT
+			clearTimeout(exitPageTimeout);
+			netStatus = true;
+			socketError = false;	
+			hidePublicTips(5);	
+			return EVENT.STOP;
+			break;
+		case 12056:
+		case 5501:// 网线断开连接EIS_IP_NETWORK_DISCONNECT
+			netStatus = false;							
+			socketError = true;						
+			showPublicTips(5,"网络断开连接，请插上网线！");
+			clearTimeout(exitPageTimeout);
+			exitPageTimeout = setTimeout("preExit()", 780000);
+			return EVENT.STOP;
+			break;
+		case 12059:
+		case 5502:// 网络连接成功EIS_IP_NETWORK_READY
+			netStatus = true;
+			socketError = false ;						
+			hidePublicTips(5);
+			clearTimeout(exitPageTimeout);	
+			return EVENT.STOP;
+			break;
+		case 12058:
+		case 5503:// 网络连接失败EIS_IP_NETWORK_FAILED
+			netStatus = false;							
+			socketError = true;	
+			showPublicTips(5,"网络连接失败！");					
+			if (linkTips){	// 正在连接的过程中断开网络,直接退出	
+				clearTimeout(exitPageTimeout);
+				exitPageTimeout = setTimeout("preExit()", 780000);
+			}
+			return EVENT.STOP;
+			break;
+			
+		/*下面是cable消息处理部分*/
+		case 10001:	
+		case 5550: 										// cable线连接DVB_CABLE_CONNECT_SUCCESS
+			clearTimeout(exitPageTimeout);
+			var currStatus = mediaPlayer.getPlaybackMode();
+			iDebug(">>>smile vodPlay.htm 5550 currStatus.PlayMode=" + currStatus.PlayMode);
+			/*if (currStatus.PlayMode.toLowerCase() == "pause" && !linkTips){
+				mediaPlayer.resume();
+			}*///这样导致暂停后拔插cable线，视频自动恢复播放了，这个处理没必要，直接去掉 2016-6-7
+			hidePublicTips(6);
+			cableTipsFlag = false;
+			if (netStatus == false){
+				showPublicTips(5,"请插上网线");
+			}else{
+				hidePublicTips(5);
+			}
+			return EVENT.STOP;
+			break;
+		case 10002:
+		case 5551: 										// cable线失去连接DVB_CABLE_CONNECT_FAILED
+			if (linkTips){
+				hide_load_tips();
+			}
+			var currStatus = mediaPlayer.getPlaybackMode();
+			iDebug(">>>smile vodPlay.htm 5551 currStatus.PlayMode=" + currStatus.PlayMode);
+			/*if(currStatus.PlayMode.toLowerCase() != "pause" && !linkTips && netStatus != false && socketError != true){
+				mediaPlayer.pause();
+			}*///这样导致暂停后拔插cable线，视频自动恢复播放了，这个处理没必要，直接去掉 2016-6-7
+			showPublicTips(6,"cable线断开,插上cable继续播放！");
+			cableTipsFlag = true; 
+			return EVENT.STOP;
+			break;
+		/*不需要响应的键*/
+		case 514:	// key_epg
+		case 521:	// KEY_MAIL
+		case 562:	// KEY_BROADCAST
+			return EVENT.STOP;
+			break;
+	}	
+	return EVENT.DOWN;
+}	
+
+function init(){
+	iDebug(">>>smile vodPlay.htm init in111...");
+	getParams();	
+	createMediaPlayer();
+	setHeartBeat();
+	initFre(); //采集里需要用到频点信息，所以要在init里初始化fre
+	var flag = checkAreaCode();
+	iDebug(">>>smile vodPlay.htm init flag=" + flag);
+	if(flag){
+		setMediaSource();
+	}
+	var isMute = AudioSetting.isMute();
+	iDebug(">>>smile vodPlay.htm init isMute=" + isMute);
+	if(isMute){
+		$("muteTips").style.visibility = "visible";	
+		//影藏UI里的全局静音图标
+		volumeWidget.hideMute();
+		volumeWidget.minimize("delete-surface");
+	}
+}
+
+/*获取URL参数信息*/
+function getParams(){
+	var url = window.location.href;
+	iDebug(">>>smile vodPlay.htm getParams url=" + url);
+	appFlag = getUrlParams("appFlag",url);
+	//movieName = getUrlParams("playCurrName",iPanel.getDisplayString(url));
+	movieName = getUrlParams("playCurrName",url);
+	if(appFlag == "threeScreen"){//解决多屏互动切屏过来的乱码问题 2016-6-15
+		movieName = decodeURIComponent(movieName);
+	}
+	iDebug(">>>smile vodPlay.htm getParams movieName111=" + movieName + " appFlag=" + appFlag);
+	rootAssetId = getUrlParams("rootAssetId", url);
+	menuPosIndex = getUrlParams("menuPosIndex",url);
+	parentAssetId = getUrlParams("parentAssetId",url);
+	providerId = getUrlParams("providerId",url);
+	assetId = getUrlParams("assetId",url);
+	preCurrPage = getUrlParams("currPage",url);
+	menuPos = getUrlParams("menuPos",url);
+	viewCurrPage = getUrlParams("viewCurrPage",url);
+	purchaseToken = getUrlParams("purchaseToken",url); 
+	rentDateTime = getUrlParams("rentDateTime",url); 
+	displayRunTime = getUrlParams("displayRunTime",url); //serviceLength
+	folderAssetId = getUrlParams("folderAssetId",url); //columnID
+	resumePoint = getUrlParams("resumePoint",url);
+	searchStr = getUrlParams("searchStr",url);
+	//appName = getUrlParams("appName",iPanel.getDisplayString(url));
+	appName = getUrlParams("appName",url);
+	var from = getUrlParams("from",url);
+	
+	// 收视率采集
+	collectCI = getUrlParams("collectCI",url);
+	collectCN = getUrlParams("collectCN",url);
+	if(collectCI == ""){
+		if (folderAssetId != "") {
+			collectCI = folderAssetId;
+		} else {
+			collectCI = 9999;	
+		}
+	}
+	if(collectCN != ""){
+		collectCN = decodeURIComponent(collectCN);	
+	}
+	
+	if(getStrChineseLength(movieName.length) > 15){
+		$("movieName").innerHTML = "<marquee behavior='scroll' startposition='50%' width='350px'>" + movieName + "</marquee>";
+	}else{
+		$("movieName").innerText = movieName;
+	}
+	if(resumePoint != "" && resumePoint != "undefined" && typeof(resumePoint) != "undefined"){
+		resumePoint = parseInt(resumePoint,10);
+	}else{
+		resumePoint = 0;
+	}
+	if(typeof(displayRunTime) != "undefined" && displayRunTime != null && displayRunTime != "" && displayRunTime != "undefined"){
+		displayRunTime = parseInt(displayRunTime,10);
+	}else{
+		displayRunTime = 0;
+	}
+	$("endTime").innerText = secondToStringTime(displayRunTime);
+	if(resumePoint > displayRunTime){
+		resumePoint = 0;
+	}
+	if(from == ""){
+		backUrl = tvPortalUrl;
+	}else{
+		if(from == "ui://play.html"){
+			var tempChannelId = GlobalVarManager.getItemStr("channeld");
+			iDebug("vodplay.htm_tempChannelId="+tempChannelId);
+			backUrl = "ui://play.html?"+tempChannelId;
+		}else{
+			backUrl = decodeURIComponent(from);
+		}
+	}
+	if(url.indexOf("?") > -1){
+		var urls = url.split("?");
+		preUrl = urls[0] + "?resumePoint=0" + urls[1];
+	}else{
+		preUrl = url;	
+	}
+	iDebug(">>>smile vodPlay.htm getParams movieName=" + movieName + "__displayRunTime=" + displayRunTime + "__purchaseToken=" + purchaseToken + "__folderAssetId=" + folderAssetId + "__resumePoint=" + resumePoint + "_from=" + from + "__backUrl=" + backUrl + "__assetId=" + assetId + "__providerId=" + providerId + "__rentDateTime=" + rentDateTime + ",preUrl=" + preUrl);
+}
+
+/*创建播放器对象*/
+function createMediaPlayer(){
+	mediaPlayer = new MediaPlayer();
+	mediaID = mediaPlayer.getPlayerInstanceID();
+	var flag = mediaPlayer.bindPlayerInstance(mediaID);
+	createPlayerSuccess = flag==0 ? true:false;
+	if(createPlayerSuccess){
+		var flag2 = mediaPlayer.setVideoDisplayMode(1);
+		var flag3 = mediaPlayer.refresh();
+	}
+}
+
+/*设置心跳*/
+function setHeartBeat(){
+	var tableID = DataAccess.getUserPropertyTable("Heartbeat");
+	var Heartbeat =  heartbeatCycle + "&" + controlHeartbeatCycle + "&" + heartbeatTimeout;
+	iDebug(">>>smile vodPlay.htm setHeartBeat Heartbeat=" + Heartbeat);
+	var HeartbeatInfo = '{"Heartbeat":"'+  Heartbeat + '"}';
+	if(tableID < 0){
+		tableID = DataAccess.createUserPropertyTable("Heartbeat");
+		DataAccess.createItem(tableID, "Heartbeat", HeartbeatInfo);
+	}
+	DataAccess.setProperty(tableID, "Heartbeat", HeartbeatInfo);
+	DataAccess.saveToNvm(tableID);	
+}
+
+/*获取区域码,如获取不到则重新设置vod收取*/
+function checkAreaCode(){
+	var area_code = VOD.areaCode;
+	if(area_code == ""){
+		area_code = VOD.server.regionId;
+	}
+	if(area_code == ""){
+		area_code = VOD.server.nodeGroupID;
+	};
+	iDebug(">>>smile vodPlay.htm checkAreaCode area_code=" + area_code);
+	if(typeof(area_code) == "undefined" || area_code == "" || area_code == "undefined" ){
+		showPublicTips(1,"正在获取点播信息，请稍候");
+		showNavTipsTimeout = setTimeout("showNavTips()",15000);
+		var currFreq = GlobalVarManager.getItemStr("frequency");
+		iDebug(">>>smile vodPlay.htm checkAreaCode currFreq=" + currFreq);
+		if(typeof(currFreq) == "undefined" || currFreq == "" || currFreq == "undefined"){
+			showNavTips();
+		}else{
+			var str = "IPQAMPointList=" + currFreq + ",0;END";
+			VOD.searchParams(str);
+		}
+		return false;
+	}
+	areacode = area_code;
+	return true;
+}
+
+/*显示获取点播信息失败*/
+function showNavTips(){
+	clearTimeout(showNavTipsTimeout);
+	showPublicTips(2,"获取点播信息失败");
+	clearTimeout(exitPageTimeout);
+	exitPageTimeout = setTimeout(preExit, 2000);
+}
+
+/*给播放器设置播放路径*/
+function setMediaSource(){
+	iDebug(">>>smile vodPlay.htm setMediaSource playUrl=" + playUrl);
+	if (typeof(playUrl)!="undefined" && playUrl != null){
+		if(createPlayerSuccess){
+			GlobalVarManager.setItemStr("playType","VOD");
+			mediaPlayer.setMediaSource(playUrl);
+		}	
+	}
+	linkTips = true;
+	showPublicTips(3,"正在连接，请稍候……");
+	loadPageTimeout = setTimeout("show_page_load_timeout()", 15000);
+}
+
+/*显示连接失败提示*/
+function show_page_load_timeout() {
+	showPublicTips(4,"连接失败！");
+	clearTimeout(exitPageTimeout);
+	exitPageTimeout = setTimeout(preExit, 2000);
+}
+
+/*关闭连接提示框*/
+function hide_load_tips(){
+	clearTimeout(loadPageTimeout);
+	hidePublicTips(3);
+}
+
+/*将hhmmss这样格式的时间转换为s*/
+function timeTosecond(_time){
+	var _time = _time + "";	
+	var hour = _time.substr(0,2);
+	var minute = _time.substr(2,2);
+	var second = _time.substr(4,2);
+	var result = 0;
+	if(hour != ""){
+		hour = parseInt(hour,10);
+	}else {
+		hour = 0;
+	}
+	if(minute != ""){
+		minute = parseInt(minute,10);
+	}else{
+		minute = 0;
+	}
+	if(second != ""){
+		second = parseInt(second,10);
+	}else{
+		second = 0;
+	}
+	result = hour * 3600 + minute * 60 + second;
+	return result; 
+}
+
+/*将秒时间显示为字符串hh:mm:ss*/
+function secondToStringTime(__sec){
+	var hour = Math.floor(__sec/3600);
+	var minute = Math.floor((__sec - hour*3600)/60);
+	var second = __sec - hour*3600 - minute*60;
+	hour = hour>9?hour:"0"+hour;
+	minute = minute>9?minute:"0"+minute;
+	second = second>9?second:"0"+second;
+	return hour+":"+minute+":"+second;
+}
+
+/*将秒时间显示为字符串hhmmss*/
+function secondToString(__sec){
+	var hour = Math.floor(__sec/3600);
+	var minute = Math.floor((__sec - hour*3600)/60);
+	var second = __sec - hour*3600 - minute*60;
+	hour = hour>9?hour:"0"+hour;
+	minute = minute>9?minute:"0"+minute;
+	second = second>9?second:"0"+second;
+	return "" + hour + minute +second;
+}
+
+/*将秒时间转换为整型数值*/
+function secondToArrTime(__sec){
+	var hour = Math.floor(__sec/3600);
+	var minute = Math.floor((__sec - hour*3600)/60);
+	var second = __sec - hour*3600 - minute*60;
+	hour = hour>9?hour:"0"+hour;
+	minute = minute>9?minute:"0"+minute;
+	second = second>9?second:"0"+second;
+	return parseInt(""+hour+minute+second,10);
+}
+
+/*显示播放条*/
+function showNavigation(){
+	clearTimeout(navigationTimeout);
+	navigationFlag = true;
+	$("navDiv").style.visibility = "visible";
+}
+
+/*隐藏播放条*/
+function hideNavigation(){
+	clearTimeout(navigationTimeout);
+	clearTimeout(processTimeout);
+	navigationFlag = false;	
+	$("navDiv").style.visibility = "hidden";
+}
+
+/*延时隐藏播放条*/
+function delayHideNavigation(){
+	showPlayProcess(0);
+	clearTimeout(navigationTimeout);
+	navigationTimeout = setTimeout(function(){
+		hideNavigation();	
+	},navigationTimer);
+}
+
+/*显示播放时间和进度*/
+function showPlayProcess(_num){
+	iDebug(">>>smile vodPlay.htm showPlayProcess__playEndFlag=" + playEndFlag + "__playStartFlag=" + playStartFlag);
+	var elapsed = mediaPlayer.getCurrentPlayTime();//hhmmss
+	var second = timeTosecond(elapsed);
+	iDebug(">>>smile vodPlay.htm showPlayProcess elapsed=" + elapsed + ",second=" + second + ",displayRunTime=" + displayRunTime);
+	if(playEndFlag || (second > displayRunTime)){
+		second = displayRunTime;
+		_num = 1;
+	}else if(playStartFlag || second < 0){
+		second = 0;
+		_num = 1;
+	}
+	var barLen = Math.floor(second/displayRunTime*totalLength);
+	$("processBar").style.width = barLen;
+	$("processCursor").style.left = (barLen - 10) + "px";
+	var processTime = secondToStringTime(second);
+	$("processTime").innerText = processTime;
+	$("processTime").style.left = (barLen - 36) + "px";
+	clearTimeout(processTimeout);	
+	if(_num == 0){
+		processTimeout = setTimeout("showPlayProcess(0)",1000);
+	}
+}
+
+function changeUD(_num){
+	iDebug(">>>smile vodPlay.htm changeUD _num=" + _num + ",connectFailed=" + connectFailed + ",playEndFlag=" + playEndFlag + ",linkTips=" + linkTips + ",errorFlag=" + errorFlag + ",pauseFlag=" + pauseFlag);
+	if(connectFailed || playEndFlag || linkTips || errorFlag || pauseFlag) return;
+	iDebug(">>>smile vodPlay.htm volumeTipsFlag=" + volumeTipsFlag + ",seekTipsFlag=" + seekTipsFlag);
+	if(volumeTipsFlag){
+		hideVolume();
+	}
+	if(seekTipsFlag){
+		changeSeekUD(_num * -1);//上下键要就上加下减
+	}else if(seekFlag){//现场要求上下键能够取消按左右键产生的进度条拖动
+		clearTimeout(gotoSeekTimeout);
+		seekFlag = false;
+	}else{
+		if(_num < 0){
+			clearTimeout(forwardTimeout);
+			forwardTimeout = setTimeout(function (){
+				doFastForward();
+			},speedTimer);	
+		}else if(_num > 0){
+			clearTimeout(backwardTimeout);
+			backwardTimeout = setTimeout(function (){
+				doBackForward();
+			},speedTimer);
+		}
+	}
+}
+
+function changeLR(_num){
+	iDebug(">>>smile vodPlay.htm changeLR _num=" + _num + ",cableTipsFlag=" + cableTipsFlag + ",socketError=" + socketError + ",netStatus=" + netStatus + ",connectFailed=" + connectFailed + ",linkTips=" + linkTips + ",errorFlag=" + errorFlag);
+	if (cableTipsFlag || socketError || !netStatus || connectFailed || linkTips || errorFlag) return;
+	iDebug(">>>smile vodPlay.htm changeLR exitTipsFlag=" + exitTipsFlag + "__seekTipsFlag=" + seekTipsFlag + "__navigationFlag=" + navigationFlag + "__showPlayEndFlag=" + showPlayEndFlag + ",pauseFlag=" + pauseFlag + ",hidePauseADFlag=" + hidePauseADFlag);
+	if(pauseFlag){//暂停界面
+		if(!hidePauseADFlag){
+			changePauseBtnPos(_num);
+		}
+	}else if(showPlayEndFlag){// 播放结束提示框焦点移动
+		changePlayEndTipsPos(_num);
+	}else if(exitTipsFlag){
+		changeExitTipsFocus(_num);
+	}else if(seekTipsFlag){
+		changeSeekFocus(_num);
+	}else if(soundSetFlag){
+		switchMode(_num);
+	}else{
+		doSeekByKeyLR(_num);
+	}	
+}
+
+function doSelect(){
+	iDebug(">>>smile vodPlay.htm doSelect cableTipsFlag=" + cableTipsFlag + ",socketError=" + socketError + ",netStatus=" + netStatus + ",connectFailed=" + connectFailed + ",linkTips=" + linkTips + ",errorFlag=" + errorFlag);
+	if (cableTipsFlag || socketError || !netStatus || connectFailed || linkTips || errorFlag) return;
+	iDebug(">>>smile vodPlay.htm doSelect exitTipsFlag=" + exitTipsFlag + "__seekTipsFlag=" + seekTipsFlag + "__volumeTipsFlag=" + volumeTipsFlag + "__seekFlag=" + seekFlag + "__showPlayEndFlag=" + showPlayEndFlag + "__playEndTipsPos=" + playEndTipsPos + "__showStartTipFlag=" + showStartTipFlag + ",pauseFlag=" + pauseFlag);
+	if(volumeTipsFlag){
+		hideVolume();
+	}
+	if(pauseFlag){//暂停提示框
+		doPauseBtn();
+	}else if(exitTipsFlag){// 退出提示框
+		doExitTips();
+	}else if(showPlayEndFlag){// 播放结束提示框
+		doPlayEndTips();
+	}else if(showStartTipFlag){// 播放到头退出播放
+		doPlayStartTips();
+	}else if(seekTipsFlag){
+		doSeekTips();
+	}else if(seekFlag){
+		iDebug(">>>smile vodPlay.htm doSelect currSeekTime=" + currSeekTime);
+		clearTimeout(gotoSeekTimeout);
+		if (currSeekTime > displayRunTime - 5){
+			mediaPlayer.seek(1,secondToString(displayRunTime - 5));
+		}else {
+			mediaPlayer.seek(1,secondToString(currSeekTime));
+		}
+		seekFlag = false;
+	}else{
+		playOrPause();
+	}
+}
+
+function doBack(){
+	iDebug(">>>smile vodPlay.htm doSelect connectFailed=" + connectFailed + "__cableTipsFlag=" + cableTipsFlag + "__seekTipsFlag=" + seekTipsFlag + "__exitTipsFlag=" + exitTipsFlag + "__netStatus=" + netStatus + "__socketError=" + socketError + "__playStartFlag=" + playStartFlag + "__showStartTipFlag=" + showStartTipFlag);
+	if(volumeTipsFlag){
+		hideVolume();
+	}
+	if(pauseFlag){//暂停页面
+		playOrPause(1);
+	}else if(showTipsFlag){
+		hideTips();
+	}else if(playEndFlag){// 播放结束按返回键直接退出页面
+		hidePlayEndTips();
+		goExit();		
+	}else if(connectFailed || cableTipsFlag){
+		preExit();
+	}else if(showStartTipFlag){// 播放到头退出播放
+		doPlayStartTips();
+	}else if(seekTipsFlag){
+		$("seekTips").style.visibility = "hidden";
+		seekTipsFlag=false;
+	}else if(showInfoFlag){
+		hideInfoTips();
+	}else{
+		if(!exitTipsFlag){
+			hideNavigation();
+			mediaPlayer.pause();
+			$("speedTips").style.visibility = "hidden";//如果此前处于快进快退状态，返回时需影藏快进快退图标
+			if(exitTipsPos==1){
+				exitTipsPos = 0;
+				$("exitBtn0").style.backgroundColor = "#118bda";
+				$("exitBtn1").style.backgroundColor = "#323847";
+			}
+			$("exitTips").style.visibility = "visible";	
+			exitTipsFlag = true;
+		}else{
+			mediaPlayer.resume();
+			$("exitTips").style.visibility = "hidden";	
+			exitTipsFlag = false;
+		}
+	}
+}
+
+function doExit(){
+	iDebug(">>>smile vodPlay.htm grdEvent__exit__connectFailed=" + connectFailed + "__cableTipsFlag=" + cableTipsFlag + "__seekTipsFlag=" + seekTipsFlag + "__exitTipsFlag=" + exitTipsFlag + "__netStatus=" + netStatus + "__socketError=" + socketError + "__playStartFlag=" + playStartFlag + "__showStartTipFlag=" + showStartTipFlag);
+	if(volumeTipsFlag){
+		hideVolume();
+	}
+	if(pauseFlag){//暂停页面
+		
+	}else if(showTipsFlag){
+		hideTips();
+	}else if(playEndFlag){// 播放结束按退出键直接退出页面
+		hidePlayEndTips();
+		goExit();
+	}else if(connectFailed || cableTipsFlag || !netStatus || socketError || connectFailed){
+		preExit();
+	}else if(seekTipsFlag){
+		$("seekTips").style.visibility = "hidden";
+		seekTipsFlag=false;
+	}else if(showStartTipFlag){// 播放到头退出播放
+		doPlayStartTips();
+	}else if(showInfoFlag){
+		hideInfoTips();
+	}else if(navigationFlag){
+		hideNavigation();	
+	}else{
+		if(volumeTipsFlag){
+			hideVolume();
+		}
+		if(!exitTipsFlag){
+			hideNavigation();
+			mediaPlayer.pause();
+			$("speedTips").style.visibility = "hidden";//如果此前处于快进快退状态，退出时需影藏快进快退图标
+			if(exitTipsPos==1){
+				exitTipsPos = 0;
+				$("exitBtn0").style.backgroundColor = "#118bda";
+				$("exitBtn1").style.backgroundColor = "#323847";
+			}
+			$("exitTips").style.visibility = "visible";	
+			exitTipsFlag = true;
+		}else{
+			mediaPlayer.resume();
+			$("exitTips").style.visibility = "hidden";	
+			exitTipsFlag = false;
+		}	
+	}
+}
+
+/*按确定键时，播放状态变为暂停，其他状态变为播放*/
+function playOrPause(_flag){//_flag 0:需要暂停 1：需要播放
+	var needPlay = true;
+	if(typeof(_flag) != "undefined"){
+		if(_flag == 0){
+			needPlay = false;
+		}else{
+			needPlay = true;	
+		}
+	}else{
+		var currStatus = mediaPlayer.getPlaybackMode();
+		var currPlayMode = currStatus.PlayMode.toLowerCase();
+		iDebug(">>>smile vodPlay.htm playOrPause currPlayMode=" + currPlayMode);
+		switch(currPlayMode){
+			case "normal":
+			case "play":
+				needPlay = false;
+				break;
+			case "trickmode":
+			case "forward":
+			case "fastforward":
+			case "backward":
+			case "pause":
+				needPlay = true;
+				break;
+		}	
+	}
+	iDebug(">>>smile vodPlay.htm playOrPause needPlay=" + needPlay);
+	if(needPlay){
+		$("speedTips").style.visibility = "hidden";
+		$("moviePauseDiv").style.visibility = "hidden";
+		$("moviePauseIcon").style.visibility = "hidden";
+		mediaPlayer.resume();
+		delayHideNavigation();
+		hidePublicTips(8);
+		pauseFlag=false;
+		clearTimeout(pauseTimer);
+		clearTimeout(pauseTimeout);
+		pauseTimeoutFlag=false;
+	}else{
+		mediaPlayer.pause();
+		if(!hidePauseADFlag){//带广告的暂停框
+			$("moviePauseDiv").style.visibility = "visible";
+		}else{//简易的暂停按钮
+			$("moviePauseIcon").style.visibility = "visible";
+		}
+		showNavigation();
+		showPlayProcess(1);
+		pauseFlag=true;
+		clearTimeout(pauseTimer);
+		pauseTimer=setTimeout(function(){
+			showPublicTips(8,"暂停时间过长，确定键播放，不操作20秒后退出播放");
+			pauseTimeoutFlag=true;
+			pauseToCount();
+		},10*60*1000);
+		getCaiJiData();//暂停状态采集	
+	}
+}
+
+/*暂停超时退出倒计时*/
+function pauseToCount(){
+	clearTimeout(pauseTimeout);
+	iDebug(">>>smile vodPlay.htm pauseToCount endCount=" + endCount);
+	if(pauseCount == 0){
+		hidePublicTips(8);
+		pauseTimeoutFlag=false;
+		preExit();
+	}else{
+		showPublicTips(8,"暂停时间过长，确定键播放，不操作"+pauseCount + "秒后自动退出");
+		pauseCount--;
+		pauseTimeout = setTimeout("pauseToCount()",1000);	
+	}
+}
+
+/*暂停界面的按钮操作*/
+function doPauseBtn(){
+	iDebug(">>>smile vodPlay.htm doPauseBtn pauseFlag=" + pauseFlag + ",pauseBtnPos=" + pauseBtnPos);
+	if(!pauseFlag) return;
+	if(hidePauseADFlag){
+		playOrPause(1);
+	}else{
+		if(pauseBtnPos == 0){//隐藏广告
+			hidePauseADFlag = true;
+			$("moviePauseDiv").style.visibility = "hidden";
+			$("moviePauseIcon").style.visibility = "visible";
+		}else if(pauseBtnPos == 1){//播放
+			playOrPause(1);
+		}else if(pauseBtnPos == 2){//收藏
+			addBookMark();
+		}else if(pauseBtnPos == 3){//退出
+			preExit();	
+		}
+	}
+}
+
+/*暂停界面的按钮左右切换*/
+function changePauseBtnPos(_num){
+	iDebug(">>>smile vodPlay.htm changePauseBtnPos pauseFlag=" + pauseFlag + ",pauseBtnPos=" + pauseBtnPos);
+	if(!pauseFlag) return;
+	$("pauseBtn" + pauseBtnPos).style.backgroundImage = "url(image/playBtn01.png)";
+	$("pauseBtn" + pauseBtnPos).style.color = "#9c9c9c";
+	pauseBtnPos = (pauseBtnPos + _num + 4) % 4;
+	$("pauseBtn" + pauseBtnPos).style.backgroundImage = "url(image/playBtn02.png)";
+	$("pauseBtn" + pauseBtnPos).style.color = "#fff";
+}
+
+/*快进*/
+function doFastForward(){
+	var currStatus = mediaPlayer.getPlaybackMode();
+	var currSpeed = currStatus.Speed;
+	iDebug(">>>smile vodPlay.htm doFastForward currStatus=" + currStatus.PlayMode + "__currSpeed=" + currSpeed);
+	var speed = parseInt(currSpeed.substr(0,currSpeed.length - 1),10);
+	iDebug(">>>smile vodPlay.htm doFastForward speed="+speed);
+	if (speed <= 1){
+		speed = 8;
+	}else if (speed == 8){
+		speed = 16;
+	}else if (speed == 16){
+		speed = 32;
+	}else if (speed == 32){
+		speed = 8;
+	}
+	iDebug(">>>smile vodPlay.htm doFastForward new_speed="+speed);
+	mediaPlayer.setPace(speed);
+	$("speedImg").src = "image/ff_" + speed + ".png";
+	$("speedTips").style.visibility = "visible";
+}
+
+/*快退*/
+function doBackForward(){
+	var currStatus = mediaPlayer.getPlaybackMode();
+	var currSpeed = currStatus.Speed;
+	iDebug(">>>smile vodPlay.htm doBackForward currStatus=" + currStatus.PlayMode + "__currSpeed=" + currSpeed);
+	var speed = parseInt(currSpeed.substr(0,currSpeed.length - 1),10);
+	iDebug(">>>smile vodPlay.htm doBackForward speed="+speed);
+	if (speed >= 0){
+		speed = -8;
+	}else if (speed == -8){
+		speed = -16;
+	}else if (speed == -16){
+		speed = -32;
+	}else if (speed == -32){
+		speed = -8;
+	}
+	iDebug(">>>smile vodPlay.htm doBackForward new_speed="+speed);
+	mediaPlayer.setPace(speed);
+	speed = Math.abs(speed);				
+	$("speedImg").src = "image/fb_" + speed + ".png";
+	$("speedTips").style.visibility = "visible";
+}
+
+/*显示播放至开始位置的提示框*/
+function showPlayStartTips(){
+	$("playStartTips").style.visibility = "visible";
+	showStartTipFlag = true;
+}
+
+/*隐藏播放至开始位置的提示框*/
+function hidePlayStartTips(){
+	$("playStartTips").style.visibility = "hidden";
+	showStartTipFlag = false;
+	playStartFlag = false;
+	//mediaPlayer.resume();
+}
+
+/*播放至开始位置的提示框确定操作*/
+function doPlayStartTips(){
+	iDebug(">>>smile vodPlay.htm doPlayStartTips");
+	mediaPlayer.stop();
+	mediaPlayer.unbindPlayerInstance(mediaID);
+	hidePlayStartTips();
+	deleteSavedProgram();
+	goExit();
+}
+
+/*显示播放结束提示框*/
+function showPlayEndTips(){
+	$("playEndTips").style.visibility = "visible";
+	showPlayEndFlag = true;
+	$("playEndCount").innerText = "播放结束，" + endCount + "秒后自动退出";
+	playEndTipsPos = 0;
+	changePlayEndTipsPos(0);
+}
+
+/*播放结束提示框焦点移动*/
+function changePlayEndTipsPos(_num){
+	$("playEndBtn" + playEndTipsPos).style.backgroundColor = "#323847";
+	playEndTipsPos = (playEndTipsPos + _num + 2 ) % 2;
+	$("playEndBtn" + playEndTipsPos).style.backgroundColor = "#118bda";
+}
+
+/*播放至结束位置的提示框确定操作*/
+function doPlayEndTips(){
+	clearTimeout(playEndTimeout);
+	hidePlayEndTips();
+	if(playEndTipsPos == 0){// 退出
+		//goExit();
+		deleteSavedProgram();
+	}else{// 重播
+		iDebug(">>>smile vodPlay.htm doSelect playUrl=" + playUrl + "__preUrl=" + preUrl);
+		GlobalVarManager.setItemStr("vodPlayUrl",playUrl);
+		window.location.href = preUrl;
+		setTimeout(function (){
+			window.location.href = "ui://play.html";
+		},8000);
+	}	
+}
+
+/*隐藏播放结束提示框*/
+function hidePlayEndTips(){
+	$("playEndTips").style.visibility = "hidden";
+	showPlayEndFlag = false;
+}
+
+/*播放结束退出倒计时*/
+function playEndToCount(){
+	clearTimeout(playEndTimeout);
+	iDebug(">>>smile vodPlay.htm playEndToCount endCount=" + endCount);
+	if(endCount == 0){
+		hidePlayEndTips();
+		//goExit();	
+		deleteSavedProgram();
+	}else{
+		$("playEndCount").innerText = "播放结束，" + endCount + "秒后自动退出";
+		endCount--;
+		playEndTimeout = setTimeout("playEndToCount()",1000);	
+	}
+}
+
+/*退出提示框确定操作*/
+function doExitTips(){
+	iDebug(">>>smile vodPlay.htm  doExitTips__exitTipsPos=" + exitTipsPos);
+	if(exitTipsPos==0){//确定
+		$("exitTips").style.visibility = "hidden";	
+		saveProgram();
+	}else{//取消
+		mediaPlayer.resume();
+		exitTipsFlag = false;	
+		$("exitTips").style.visibility = "hidden";	
+	}
+}
+
+/*退出提示框的焦点移动*/
+function changeExitTipsFocus(_num){
+	if(exitTipsPos==0 && _num>0){
+		exitTipsPos = 1;
+		$("exitBtn1").style.backgroundColor = "#118bda";
+		$("exitBtn0").style.backgroundColor = "#323847";
+	}else if(exitTipsPos==1 && _num<0){
+		exitTipsPos = 0;
+		$("exitBtn0").style.backgroundColor = "#118bda";
+		$("exitBtn1").style.backgroundColor = "#323847";
+	}
+}
+
+/*按黄键时显示或者隐藏seek输入框*/
+function doYellow(){
+	iDebug(">>>smile vodPlay.htm doYellow cableTipsFlag=" + cableTipsFlag+ "__netStatus=" + netStatus + "__socketError=" + socketError + ",playEndFlag=" + playEndFlag + ",connectFailed=" + connectFailed + ",linkTips=" + linkTips + ",errorFlag=" + errorFlag + ",volumeTipsFlag=" + volumeTipsFlag + ",seekTipsFlag=" + seekTipsFlag + ",pauseFlag=" + pauseFlag);
+	if (cableTipsFlag || socketError || !netStatus || playEndFlag || connectFailed || linkTips || errorFlag || pauseFlag) return;
+	if(volumeTipsFlag){
+		hideVolume();
+	}
+	if(!seekTipsFlag){
+		seekTipsFlag=true;
+		if(seekPos!=0){
+			$("seek"+seekPos).style.backgroundImage = "url()";
+			seekPos = 0;
+		}
+		$("seek0").style.backgroundImage = "url(image/seekLine.png)";
+		$("seekArea").innerText = "请在00:00:00-"+secondToStringTime((displayRunTime - 5))+"区间选时";
+		for(var i=0; i<6; i++){
+			seekNums[i] = "0";
+			$("seek"+i).innerText = "0";
+		}
+		$("seekInfo").innerText = "";
+		$("seekTips").style.visibility = "visible";
+		isSeek=true;
+	}else{
+		seekTipsFlag=false;
+		$("seekTips").style.visibility = "hidden";	
+	}
+}
+
+/*输入选时时间*/
+function inputSeekTime(num){
+	$("seekInfo").innerText = "";
+	var currSeekTime = "";
+	for(var i=0; i<6; i++){
+		if(i==seekPos){
+			currSeekTime += num;
+		}else{
+			currSeekTime += seekNums[i];
+		}
+	}
+	var minutes = parseInt(currSeekTime.substring(2,4),10);
+	var seconds = parseInt(currSeekTime.substring(4,6),10);
+	currSeekTime = parseInt(currSeekTime,10);
+	iDebug(">>>smile vodPlay.htm inputSeekTime currSeekTime=" + currSeekTime + "__seekDuration=" + seekDuration + "__minutes=" + minutes + "__seconds=" + seconds);
+	if(currSeekTime <= seekDuration && minutes < 60 && seconds < 60){
+		$("seek"+seekPos).innerText = num;
+		seekNums[seekPos] = "" + num;
+		$("seekInfo").innerText = "";
+		changeSeekFocus(1);
+	}else{
+		$("seekInfo").innerText = "时间超出范围重新输入";
+	}
+}
+
+/*选时框按上下键时能够增加或减少焦点所在的数字大小*/
+function changeSeekUD(_num){
+	$("seekInfo").innerText = "";
+	var tmpSeekNums = [];
+	var numsLen = seekNums.length;
+	for(var i = 0; i < numsLen; i++){
+		tmpSeekNums[i] = seekNums[i];
+	}
+	iDebug(">>>smile vodPlay.htm changeSeekUD seekPos=" + seekPos + ",_num=" + _num + ",tmpSeekNums=" + tmpSeekNums.join());
+	switch(seekPos){
+		case 0://时 十位
+			var newVal = checkTime2(0,24,_num,seekNums[0],seekNums[1]);
+			tmpSeekNums[0] = newVal[0];
+			break;
+		case 1://时 个位
+			var newVal = checkTime1(0,24,_num,seekNums[0],seekNums[1]);
+			tmpSeekNums[0] = newVal[0];
+			tmpSeekNums[1] = newVal[1];
+			break;
+		case 2://分 十位
+			var newVal = checkTime2(0,59,_num,seekNums[2],seekNums[3]);
+			tmpSeekNums[2] = newVal[0];
+			break;
+		case 3://分 个位
+			var newVal = checkTime1(0,59,_num,seekNums[2],seekNums[3]);
+			tmpSeekNums[2] = newVal[0];
+			tmpSeekNums[3] = newVal[1];
+			break;
+		case 4://秒 十位
+			var newVal = checkTime2(0,59,_num,seekNums[4],seekNums[5]);
+			tmpSeekNums[4] = newVal[0];
+			break;
+		case 5://秒 个位
+			var newVal = checkTime1(0,59,_num,seekNums[4],seekNums[5]);
+			tmpSeekNums[4] = newVal[0];
+			tmpSeekNums[5] = newVal[1];
+			break;		
+	}
+	var currSeekTime = "";
+	for(var i=0; i<6; i++){
+		currSeekTime += tmpSeekNums[i];
+	}
+	iDebug(">>>smile vodPlay.htm changeSeekUD currSeekTime=" + currSeekTime);
+	currSeekTime = parseInt(currSeekTime,10); 
+	iDebug(">>>smile vodPlay.htm changeSeekUD currSeekTime=" + currSeekTime + "__seekDuration=" + seekDuration);
+	if(currSeekTime<=seekDuration){
+		for(i = 0; i < numsLen; i++){
+			seekNums[i] = tmpSeekNums[i] + "";
+			$("seek" + i).innerText = seekNums[i];
+		}
+		$("seekInfo").innerText = "";
+	}else{
+		$("seekInfo").innerText = "时间超出范围重新输入";
+	}
+}
+
+//针对两位数的个位进行退位和进位转换,返回两位数的数组
+function checkTime1(_min,_max,_adjustNum,_num1,_num2){
+	var ret = [];
+	var oldVal = parseInt(_num1,10) * 10 + parseInt(_num2,10);
+	var newVal = oldVal + _adjustNum;
+	if(newVal < _min){
+		newVal = _max;
+	}else if(newVal > _max){
+		newVal = _min;
+	}
+	var newStr = addZero(newVal,2);
+	ret = newStr.split("");
+	return ret;
+}
+
+//针对两位数的十位进行轮换,返回两位数的数组
+function checkTime2(_min,_max,_adjustNum,_num1,_num2){
+	var ret = [_num1,_num2];
+	var newVal = (parseInt(_num1,10) + _adjustNum) * 10 + parseInt(_num2,10);
+	if(newVal < _min){
+		ret[0] = getM(_max);
+	}else if(newVal > _max){
+		ret[0] = getM(_min);
+	}else{
+		ret[0] = parseInt(_num1,10) + _adjustNum;
+	}
+	return ret;
+}
+
+//获取一个数字的十位数
+function getM(_val){
+	var newStr = addZero(_val,2);
+	return parseInt(newStr.split("")[0]);
+}
+
+//数字前面补0
+function addZero(_num,_len){
+	var _str = _num + "";
+	for(var i = _str.length; i < _len; i++){
+		_str = "0"+_str;
+	}
+	return _str;
+}
+
+/*移动seek提示框焦点位置*/
+function changeSeekFocus(_num){
+	if((seekPos==0&&_num<0)||(seekPos==5&&_num>0)) return;
+	$("seek"+seekPos).style.backgroundImage = "url()";
+	seekPos += _num;
+	$("seek"+seekPos).style.backgroundImage = "url(image/seekLine.png)";
+}
+
+/*seek提示框确定操作*/
+function doSeekTips(){
+	var seekTime = "";
+	for(var i=0; i<6; i++){
+		seekTime += seekNums[i];
+	}
+	iDebug(">>>smile vodPlay.htm doSeekTips seekTime=" + seekTime);
+	mediaPlayer.seek(1,seekTime);// 仅在播放和暂停的时候可以调用
+	seekTipsFlag = false;
+	$("seekTips").style.visibility = "hidden";
+	$("speedTips").style.visibility = "hidden";//如果此前处于快进快退状态，选时时需影藏快进快退图标
+}
+
+/*通过左右键拖动进度条（选时播放）*/
+function doSeekByKeyLR(_num){
+	clearTimeout(pauseTimer);
+	clearTimeout(pauseTimeout);
+	
+	if(volumeTipsFlag){
+		hideVolume();
+	}		
+	clearTimeout(processTimeout);	
+	clearTimeout(navigationTimeout);
+	if(!navigationFlag){
+		showNavigation();
+	}
+	$("speedTips").style.visibility = "hidden";//如果此前处于快进快退状态，按左右键选时时需要影藏快进快退图标
+	
+	if(!seekFlag){
+		seekFlag = true;
+		isSeek=true;
+		currSeekTime = Math.floor(timeTosecond(mediaPlayer.getCurrentPlayTime()));//返回当前实时流播放的位置（离开始点的时间距离）
+	}
+	iDebug(">>>smile vodPlay.htm doSeekByKeyLR currSeekTime1="+currSeekTime);
+	var d = new Date();
+	var currTime = d.getTime();//ms
+	var dragStep = 10;
+	iDebug(">>>smile vodPlay.htm doSeekByKeyLR currTime="+currTime + "__lastTime=" + lastTime);
+	if(lastTime != 0){
+		iDebug(">>>smile vodPlay.htm doSeekByKeyLR currTime-lastTime="+(currTime-lastTime));
+		if((currTime-lastTime)<600){//长按时按30s渐增的方式拖动
+			dragStep = 30 * longDragNum;
+		}else{//短按时按10s的均速拖动
+			dragStep = 10; 
+			longDragNum = 0;
+		}
+	}else{
+		dragStep = 10; 
+	}
+	longDragNum++;
+	lastTime = currTime;
+	iDebug(">>>smile vodPlay.htm doSeekByKeyLR dragStep="+dragStep + "，longDragNum=" + longDragNum + ",_num=" + _num);
+	currSeekTime += _num * dragStep;
+	iDebug(">>>smile vodPlay.htm doSeekByKeyLR currSeekTime2="+currSeekTime);
+	if(currSeekTime < 0) currSeekTime = 0;
+	if(currSeekTime > displayRunTime) currSeekTime = displayRunTime;
+	iDebug(">>>smile vodPlay.htm doSeekByKeyLR currSeekTime3="+currSeekTime);
+	showSeekProgress();
+	
+	clearTimeout(gotoSeekTimeout);
+	gotoSeekTimeout = setTimeout(function(){
+		iDebug(">>>smile vodPlay.htm doSeekByKeyLR currSeekTime2=" + currSeekTime);
+		if (currSeekTime > displayRunTime - 5){
+			mediaPlayer.seek(1,secondToString(displayRunTime - 5));
+		}
+		else {
+			mediaPlayer.seek(1,secondToString(currSeekTime));
+		}
+		seekFlag = false;
+	},gotoSeekTimer);
+	clearTimeout(navigationTimeout);
+	navigationTimeout = setTimeout(function(){
+		hideNavigation();	
+		seekFlag = false;
+	},navigationTimer);	
+}
+
+function showSeekProgress(){
+	iDebug(">>>smile vodPlay.htm showSeekProgress currSeekTime=" + currSeekTime);
+	var barLen = Math.floor(currSeekTime/displayRunTime*totalLength);
+	$("processBar").style.width = barLen;
+	$("processCursor").style.left = (barLen - 10) + "px";
+	var processTime = secondToStringTime(currSeekTime);
+	$("processTime").innerText = processTime;
+	$("processTime").style.left = (barLen - 36) + "px";
+}
+
+/*音量条操作*/
+function changeVolume(_num){
+	volumeTipsFlag = true;
+	clearTimeout(volumeTimeout);
+	var isMute = AudioSetting.isMute();
+	iDebug(">>>smile vodPlay.htm changeVolume isMute="+isMute);
+	if(isMute){
+		AudioSetting.unMute();	
+	}
+	var currValue = AudioSetting.getOutputVolume();
+	currValue += 5*_num;
+	if(currValue>=100){
+		currValue=100;
+	}else if(currValue<=0) {
+		currValue=0;
+	}
+ 	$("volumeValue").innerText = Math.floor(currValue);
+	$("volumeFocus").style.left = -17 + Math.floor(currValue/100*700)+"px";
+	$("volumeBg").style.width = Math.floor(currValue/100*700)+"px";
+	var flag = AudioSetting.setOutputVolume(currValue);
+	$("muteTips").style.visibility = "hidden";
+	$("volumeTips").style.visibility = "visible";
+	volumeTimeout = setTimeout(function(){
+		hideVolume();
+	},5000);
+}
+
+/*隐藏音量条*/
+function hideVolume(){
+	$("volumeTips").style.visibility = "hidden";
+	volumeTipsFlag = false;
+}
+
+/*静音*/
+function doMute(){
+	var isMute = AudioSetting.isMute();
+	iDebug(">>>smile vodPlay.htm doMute__isMute="+isMute);
+	if(isMute == true){
+		clearTimeout(volumeTimeout);
+		var flag = AudioSetting.unMute();
+		iDebug(">>>smile vodPlay.htm doMute__isMute=true__flag=" + flag);
+		changeVolume(0);
+		$("muteTips").style.visibility = "hidden";
+	}else{
+		var flag = AudioSetting.mute();
+		iDebug(">>>smile vodPlay.htm doMute__isMute=false__flag=" + flag);
+		$("muteTips").style.visibility = "visible";
+		hideVolume();	
+	}
+}
+
+/*声道设置*/
+function showSoundSet(){//设置隐藏和显示
+	initAudioMode();
+	soundSetFlag = true;
+	$("soundSet").style.visibility = "visible";
+}
+
+function initAudioMode(){//声道初始化
+	var currModeValue = AudioSetting.getOutputChannelMode();
+	iDebug(">>>smile vodPlay.htm initAudioMode__currModeValue=" + currModeValue);
+	audioModPos = currModeValue;
+	iDebug(">>>smile vodPlay.htm initAudioMode__audioModPos=" + audioModPos);
+	$("mode_value").innerText = audioModesValue[lang][audioModPos];
+}
+
+function changeAudioMode(__num){//声道切换
+	audioModPos = (audioModPos + __num + audioModes.length) % audioModes.length;
+	iDebug(">>>smile vodPlay.htm changeAudioMode__audioModPos=" + audioModPos);
+	var flag = AudioSetting.setOutputChannelMode(audioModes[audioModPos]);
+	iDebug(">>>smile vodPlay.htm changeAudioMode__flag=" + flag);
+	$("mode_value").innerText = audioModesValue[lang][audioModPos];
+}
+
+function switchMode(__num){//左右按键
+	if(soundSetPos == 0){
+		changeAudioMode(__num);
+	}
+}
+
+function hideSoundSet(){
+	soundSetFlag = false;
+	soundSetPos = 0;
+	$("soundSet").style.visibility = "hidden";
+}
+
+/* 初始化频点信息，采集里需要用到 */
+function initFre(){
+	var delivery = DvbBroadcast.currentDvbTS;
+	frequency = delivery.frequency;//frequency
+	if(frequency == "undefined" || typeof(frequency )== "undefined"){
+		frequency = "";
+	}else{
+		frequency = frequency / 10000 + 'MHz';
+	}
+	iDebug(">>>smile vodPlay.htm initFre frequency=" + frequency);
+}
+
+/*显示频点符号率信息*/
+function showInfoTips(){
+	var ethernet=network.ethernets[0]
+	showInfoFlag = true;
+	$("infoTips").style.visibility = "visible";
+	var delivery = DVB.SI.currentDelivery;
+	frequency = delivery.frequency;//frequency
+	bit_error_rate = delivery.bitErrorRate;
+	if(frequency == "undefined" || typeof(frequency )== "undefined"){
+		frequency = "";
+	}else{
+		frequency = frequency / 10000 + 'MHz';
+	}
+	if(bit_error_rate == "undefined" || typeof(bit_error_rate)== "undefined"){
+		bit_error_rate = "";
+	}
+	var MiddlewareDate = software.middleware.releaseDate;
+	var MiddlewareVersion = software.middleware.version;
+	var CAcard = CAManager.cardSerialNumber;
+	var HardwareMaker = hardware.STB.hVersion;
+	var Ip = ethernet.IPs[0];
+	var ChipType = hardware.SOC.model;
+	var Signalstrength = delivery.signalStrength;
+	var Signalquality = delivery.signalQuality;
+	iDebug(">>>smile tvodPlay.htm showInfoTips__areacode=" + areacode + "__frequecy=" + frequency);
+	$("areaCode").innerText =  areacode;
+	$("frequency").innerText =  frequency;
+	$("bit_error_rate").innerText =  bit_error_rate;
+	$("MiddlewareDate").innerText =  MiddlewareDate;
+	$("MiddlewareVersion").innerText =  MiddlewareVersion;
+	$("CAcard").innerText =  CAcard;
+	$("HardwareMaker").innerText =  HardwareMaker;
+	$("Ip").innerText =  Ip.address;
+	$("ChipType").innerText =  ChipType;
+	$("Signalstrength").innerText =  Signalstrength;
+	$("Signalquality").innerText =  Signalquality;
+}
+
+function hideInfoTips(){
+	showInfoFlag = false;
+	$("infoTips").style.visibility = "hidden";
+	$("areacode").innerText = "";
+	$("frequency").innerText = "";
+	$("bit_error_rate").innerText = "";
+    $("MiddlewareDate").innerText =  "";
+	$("MiddlewareVersion").innerText =  "";
+	$("CAcard").innerText =  "";
+	$("HardwareMaker").innerText =  "";
+	$("Ip").innerText =  "";
+	$("ChipType").innerText =  "";
+	$("Signalstrength").innerText =  "";
+	$("Signalquality").innerText =  "";	
+}
+
+
+
+var showPublicTipsFlag = false;
+var showPublicTipsTimer = -1;
+var publicTipsIndex = -1;	//当前提示消息的编号，方便关闭对应的提示框 如果为-1，则表示不区分编号 1:loading 2:load fail 3:open 4:open fail 5:network 6:cable 7:failtoExit 8:pauseTimeout
+/*显示提示信息*/
+function showPublicTips(index,msg,flag){
+	showPublicTipsFlag = true;
+	publicTipsIndex = index;
+	$("tipsDiv").style.visibility = "visible";
+	$("tipsText").innerText = msg;
+	clearTimeout(showPublicTipsTimer);
+	if(typeof(flag) != "undefined"){	// 不传flag时表示不自动隐藏
+		showPublicTipsTimer = setTimeout(function(){hidePublicTips(index)},flag);
+	}
+}
+
+/*影藏提示信息*/
+function hidePublicTips(index,_fun){
+	if(index != -1 && index != publicTipsIndex) return;//如果不是对应的消息则不用执行隐藏
+	showPublicTipsFlag = false;
+	clearTimeout(showPublicTipsTimer);
+	$("tipsDiv").style.visibility = "hidden";
+	$("tipsText").innerText = "";
+	//影藏提示框时是否需要执行回调函数
+	if(typeof(_fun) != "undefined"){
+		_fun();	
+	}
+}
+
+function showTips(msg){
+	$("tips_text").innerText = msg;
+	$("playTips").style.visibility = "visible";
+	showTipsFlag = true;	
+}
+
+function hideTips(){
+	$("tips_text").innerText = "";
+	$("playTips").style.visibility = "hidden";
+	showTipsFlag = false;
+}
+
+var addBookMarkAjaxObj = null;
+/*收藏影片，接口AddBookmark*/
+function addBookMark(){
+	if (addBookMarkAjaxObj == null) {
+		addBookMarkAjaxObj = new AjaxClass();
+		addBookMarkAjaxObj.frame = window;
+	} else {
+		addBookMarkAjaxObj.requestAbort();
+	}
+	clearTimeout(tipsTimeout);
+	showTips("正在收藏影片，请稍等！");
+	addBookMarkAjaxObj.successCallback = function(_xmlHttp, _params) {
+		iDebug(">>>smile vodPlay.htm addBookmark successCallback _xmlHttp.responseText="+_xmlHttp.responseText);
+		var jsonData = eval("(" + _xmlHttp.responseText + ")");
+		var key = "bookmarkedId";
+		iDebug(">>>smile vodPlay.htm addBookmark successCallback__key=" + (key in jsonData) + "__key=" + key);
+		if(key in jsonData){
+			iDebug(">>>smile vodPlay.htm addBookmark successCallback__bookmarkedId=" + jsonData.bookmarkedId);
+			showTips("收藏影片成功！");			
+			clearTimeout(tipsTimeout);
+			bookMarkTimeout = setTimeout(function (){
+				hideTips();
+			},2000);
+		}else if("code" in jsonData){
+			var code = jsonData.code;
+			iPanel.debug(">>>smile vodPlay.htm addBookmark successCallback error! message="+jsonData.message+";code="+code);
+			if(code==1005){
+				showTips("该片已收藏！");	
+				clearTimeout(tipsTimeout);
+				bookMarkTimeout = setTimeout(function (){
+					hideTips();
+				},2000);			
+				return;
+			}
+			$("popText").innerText = "发生错误！错误码："+code+"，"+jsonData.message+"，请咨询客服96311。";
+			msgTimeout = setTimeout('$("popMsg").style.visibility = "hidden";tipShowFlag = false;',3000);
+			$("popMsg").style.visibility = "visible";
+		}
+	};
+	addBookMarkAjaxObj.failureCallback = function(_xmlHttp,_params){
+		iDebug(">>>smile vodPlay.htm addBookmark failureCallback!");
+		showTips("收藏影片失败！");
+		clearTimeout(tipsTimeout);
+		bookMarkTimeout = setTimeout(function (){
+			hideTips();
+		},2000);
+	};
+	addBookMarkAjaxObj.urlParameters = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><AddBookmark titleAssetId='" + assetId + "' custom='VOD' folderAssetId='" + folderAssetId + "' portalId='1' client='" + CAManager.cardSerialNumber + "' account='" + account + "'/>";
+	addBookMarkAjaxObj.url = "http://" + ip + ":" + port + "/AddBookmark?dataType=json";
+	iDebug(">>>smile vodPlay.htm addBookmark ajaxUrl = " + addBookMarkAjaxObj.url + "urlParameters = " + addBookMarkAjaxObj.urlParameters);
+	addBookMarkAjaxObj.requestData("POST");
+}
+
+var saveProgramAjaxObj = null;
+/*保存播放记录，接口 AddSavedProgram*/
+function saveProgram(){
+	showTips("正在退出，请稍候！");
+	if (saveProgramAjaxObj == null) {
+		saveProgramAjaxObj = new AjaxClass();
+		saveProgramAjaxObj.frame = window;
+	} else {
+		saveProgramAjaxObj.requestAbort();
+	}
+	saveProgramAjaxObj.successCallback = function(_xmlHttp, _params) {
+		iDebug(">>>smile vodPlay.htm saveProgram successCallback!");
+		hideTips();
+		goExit();
+	};
+	saveProgramAjaxObj.failureCallback = function(_xmlHttp,_params){
+		iDebug(">>>smile vodPlay.htm saveProgram failureCallback!");
+		hideTips();
+		goExit();
+	};
+	var elapsed = timeTosecond(mediaPlayer.getCurrentPlayTime());
+	iDebug(">>>smile vodPlay.htm saveProgram elapsed=" + elapsed + "__playEndFlag=" + playEndFlag);
+	if(playEndFlag){
+		elapsed = 0;
+	}
+	if(elapsed == "" || elapsed == "undefined" || typeof(elapsed) == "undefined"){
+		elapsed = 0;
+	}
+	iDebug(">>>smile vodPlay.htm saveProgram elapsed=" + elapsed);
+	saveProgramAjaxObj.urlParameters = "<?xml version='1.0' encoding='UTF-8' ?><AddSavedProgram portalId='1' client='" + CAManager.cardSerialNumber + "' account='" + account + "' providerId='" + providerId + "' assetId='" + assetId + "' folderAssetId='" + assetId + "' purchaseToken='" + purchaseToken + "' resumePointDisplay='" + elapsed + "'/>";
+	saveProgramAjaxObj.url = "http://" + ip + ":" + port + "/AddSavedProgram?dataType=json";
+	iDebug(">>>smile vodPlay.htm saveProgram ajaxUrl=" + saveProgramAjaxObj.url + ",urlParameters=" + saveProgramAjaxObj.urlParameters);
+	saveProgramAjaxObj.requestData("POST");
+}
+
+var deleteSavedProgramAjaxObj = null;
+/*删除播放记录，接口 DeleteSavedProgram*/
+function deleteSavedProgram(){
+	if (deleteSavedProgramAjaxObj == null) {
+		deleteSavedProgramAjaxObj = new AjaxClass();
+		deleteSavedProgramAjaxObj.frame = window;
+	} else {
+		deleteSavedProgramAjaxObj.requestAbort();
+	}
+	showTips("正在退出，请稍候！");
+	deleteSavedProgramAjaxObj.successCallback = function(_xmlHttp, _params) {
+		iDebug(">>>smile vodPlay.htm deleteSavedProgram successCallback!");
+		hideTips();
+		goExit();
+	};
+	deleteSavedProgramAjaxObj.failureCallback = function(_xmlHttp,_params){
+		iDebug(">>>smile vodPlay.htm deleteSavedProgram failureCallback!");
+		hideTips();
+		goExit();
+	};
+	iDebug(">>>smile vodPlay.htm deleteSavedProgram assetId=" + assetId);
+	deleteSavedProgramAjaxObj.urlParameters = "<?xml version='1.0' encoding='UTF-8' ?><DeleteSavedProgram assetId='" + assetId + "' client='" +  CAManager.cardSerialNumber + "' providerId='" + providerId + "' account='" + account + "' portalId='1' purchaseToken='" + purchaseToken + "'/>";
+	deleteSavedProgramAjaxObj.url = "http://" + ip + ":" + port + "/DeleteSavedProgram?dataType=json";
+	iDebug(">>>smile vodPlay.htm deleteSavedProgram ajaxUrl=" + deleteSavedProgramAjaxObj.url + ",urlParameters=" + deleteSavedProgramAjaxObj.urlParameters);
+	deleteSavedProgramAjaxObj.requestData("POST");
+}
+
+/*每次操作结果都需要上报*/
+function getCaiJiData() {
+    var currentTime = timeTosecond(mediaPlayer.getCurrentPlayTime()) || 0; //hhmmss//当前时间
+    var RestTime = displayRunTime - currentTime; //剩余时间
+    if (!RestTime || RestTime < 0) {
+        RestTime = 0;
+    }
+    iDebug(">>>smile vodPlay.htm getCaiJiData currentTime=" + currentTime + ",RestTime=" + RestTime + ",error__code=" + error__code + ",isSeek=" + isSeek + ",exitFlag=" + exitFlag);
+    var status = 0;
+	if (!error__code) {
+        var playstatus = (media.AV.status).toLowerCase();
+        iDebug(">>>smile vodPlay.htm getcaiji playstatus=" + playstatus);
+        if (playstatus == "play" && !isSeek) {
+            status = 0;
+        } else if (playstatus == "pause") {
+            status = 6;
+        } else if (playstatus.indexOf("forward") > -1) {
+            status = 3;
+        } else if (playstatus.indexOf("backward") > -1) {
+            status = 4;
+        } else if (playstatus == "play" && isSeek) { //选时
+            status = 5;
+        } else if (exitFlag) {
+            status = 7;
+        }
+    } else {
+		status = error_code_status;	
+	}
+    iDebug(">>>smile vodPlay.htm getCaiJiData movieName==" + movieName + ";;assetId==" + assetId + ";;displayRunTime==" + displayRunTime + ";;currentTime==" + currentTime + ";;RestTime==" + RestTime + ";;frequency==" + frequency + ";;area_code==" + area_code + ";;status==" + status + ";;collectCI==" + collectCI + ";;collectCN==" + collectCN);
+    $("testDiv").innerText = movieName; // 往隐藏div里随便插入一点文本，解决乱码问题
+    var keyList = ["SN", "SI", "D", "CT", "RT", "F", "G", "SX", "S", "CI", "CN"];
+    var valueList = [movieName, assetId, displayRunTime, currentTime, RestTime, frequency, areacode, 1, status, collectCI, collectCN];
+    Collect.put("0104", keyList, Collect.getGBKData(valueList));
+    error__code = false;
+    isSeek = false;
+}
+
+/*返回首页*/
+function gotoIndex(){
+	iDebug(">>>smile vodPlay.htm gotoIndex netStatus=" + netStatus + "__socketError=" + socketError + ",tvPortalUrl=" + tvPortalUrl);
+	if(netStatus == false || socketError == true){
+		window.location.href = "ui://index.htm";
+	}else{
+		setTimeout('window.location.href = "ui://index.htm";',8000);
+		window.location.href = tvPortalUrl;	
+	}
+}
+
+/*预退出,退出之前要先保存播放记录*/
+function preExit(){
+	hidePublicTips(-1);
+	//如果网络异常直接退出到直播或者首页，如果网络ok则需要先保存播放记录，等保存记录成功时会自动执行退出，无需再此处处理
+	iDebug(">>>smile vodPlay.htm preExit netStatus=" + netStatus + "__socketError=" + socketError);
+	if(netStatus == false || socketError == true){
+		var exitUrl = "ui://play.html";
+		if(exit_key == "menu"){
+			exitUrl = "ui://index.htm";
+		}
+		window.location.href = exitUrl;	
+	}else{
+		saveProgram();	
+	}
+}
+
+/*真正的返回退出操作*/
+function goExit(){
+	if(createPlayerSuccess){
+		mediaPlayer.stop();
+		mediaPlayer.unbindPlayerInstance(mediaID);
+	}
+	var isMute = AudioSetting.isMute();
+	iDebug(">>>smile vodPlay.htm goExit isMute="+isMute);
+	if(isMute){//还原UI里的全局静音图标
+		volumeWidget.initPage();
+		volumeWidget.showMute();
+		volumeWidget.show();
+	}
+	iDebug(">>>smile vodPlay.htm goExit netStatus=" + netStatus + "__socketError=" + socketError + "__exit_key=" + exit_key);
+	var exitUrl = "ui://play.html";
+	if(exit_key == "menu"){
+		exitUrl = "ui://index.htm";
+		backUrl = tvPortalUrl;
+	}
+	iDebug(">>>smile vodPlay.htm goExit exitUrl=" + exitUrl + ",backUrl=" + backUrl);
+	if(netStatus == false || socketError == true){
+		window.location.href = exitUrl;
+	}else{
+		window.location.href = backUrl;
+		setTimeout(function (){
+			iDebug(">>>smile vodPlay.htm goExit exitUrl=" + exitUrl);
+			window.location.href = exitUrl;
+		},8000);	
+	}
+}
+
+
+function exit(){
+	exitFlag=true;//caiji需要
+	getCaiJiData();
+	if(createPlayerSuccess){
+		mediaPlayer.stop();
+		mediaPlayer.unbindPlayerInstance(mediaID);
+	}
+}
+
+function getOttParameters(){
+	var elapsed = timeTosecond(mediaPlayer.getCurrentPlayTime());
+	iPanel.debug("vodplay.htm_getOttParameters_elapsed="+elapsed);
+	var result = elapsed + "&" + assetId + "&" + providerId;
+	Utility.println("vodPlay.htm__getOttParameters__result=" + result);
+	return result;
+}
+</script>
+</head>
+
+<body bgcolor="transparent" leftmargin="0" topmargin="0" onload="init()" onunload="exit()">
+
+<!--控制条-->
+<div id="navDiv" style="position:absolute; left:0px; top:572px; width:1280px; height:148px; background:url(image/pf_btm0.png) no-repeat left top;visibility:hidden; ">
+  <div id="startTime" style="position: absolute; left: 55px; top: 24px; width: 75px; height: 40px; font-size: 22px; color: #b6b6b6; line-height: 40px;">&nbsp;</div>
+  <div id="endTime" style="position:absolute; left:1147px; top:24px; width:75px; height:40px; font-size:22px; color:#b6b6b6; line-height:40px; text-align:right;">&nbsp;</div>
+  <div style="position:absolute; left:130px; top:24px; width:1017px; height:40px; background:url(image/slider_btm0.png) no-repeat left center;">
+    <div id="processBar" style="position:absolute; left:0px; top:15px; width:1px; height:10px; background-color:#118bda;"></div>
+    <div id="processCursor" style="position:absolute; left:-10px; top:4px; width:21px; height:32px; background:url(image/slider_cursor.png);"></div>
+    <div id="processTime" style="position:absolute; left:-36px; top:-34px; width:73px; height:38px; background:url(image/slider_timebtm.png) no-repeat; font-size:16px; color:#555555; line-height:32px; text-align:center;">&nbsp;</div>
+  </div>
+  <div id="movieName" style="position:absolute; left:55px; top:70px; width:auto; height:40px; font-size:28px; color:#d8d8d8; line-height:40px;">&nbsp;</div>
+  <div style="position: absolute; left: 938px; top: 70px; width: 284px; height: 40px;">
+    <table border="0" cellspacing="0" cellpadding="0" align="right" style="font-size:22px; color:#ffffff; line-height:40px;">
+      <tr>
+        <td align="right">选时按【</td>
+        <td width="42" align="center"><img src="image/tips_yellow.png" width="31" height="15" /></td>
+        <td>】键</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+ <!--电影的暂停界面-->
+<div id="moviePauseDiv" style="position:absolute; left: 338px; top: 117px;  width:598px; height:398px; background:url(image/pop_btm0.png) no-repeat left top; visibility:hidden;">
+  <div style="position: absolute; left: 32px; top: 26px; width: 529px; height: 273px;"><img src="image/ad_img0.jpg" width="529" height="273" /></div>
+  <div style="position: absolute; left: 32px; top: 314px; width: 200px; height: 40px; font-size: 22px; color: #ff981e; line-height: 40px; background: url(image/icon_pause.png) no-repeat 55px center;">暂停</div>
+  <div style="position: absolute; left: 218px; top: 319px; width: 344px; height: 33px;">
+    <table border="0" cellspacing="0" cellpadding="0" style="font-size:22px; color:#9c9c9c; line-height:33px; text-align:center;">
+      <tr>
+        <td id="pauseBtn0" width="110" style="background:url(image/playBtn01.png) no-repeat; background-size:100% 100%;">隐藏广告</td>
+        <td width="8"></td>
+        <td id="pauseBtn1" width="70" style="background:url(image/playBtn02.png) no-repeat; background-size:100% 100%; color:#fff;">播放</td>
+        <td width="8"></td>
+        <td id="pauseBtn2" width="70" style="background:url(image/playBtn01.png) no-repeat; background-size:100% 100%;">收藏</td>
+        <td width="8"></td>
+        <td id="pauseBtn3" width="70" style="background:url(image/playBtn01.png) no-repeat; background-size:100% 100%;">退出</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!--暂停按钮-->
+<div id="moviePauseIcon" style="position: absolute; left: 1150px; top: 50px; width: 69px; height: 69px; background: url(image/pause.png) no-repeat left top; visibility:hidden;"></div>
+
+<!--快进快退倍数-->
+<div id="speedTips" style="position:absolute; left:1025px; top:61px; width:168px; height:42px; visibility:hidden;"><img id="speedImg" src="image/ff_8.png" width="168" height="42" /></div>
+
+<!--选时输入框-->
+<div id="seekTips" style="position: absolute; left: 357px; top: 135px; width: 501px; height: 229px; background: url(image/pop_btm2.png) no-repeat; visibility:hidden;">
+	<div style="position: absolute; left: 0px; top: 4px; width: 495px; height: 50px; font-size: 24px; color: #fff; line-height: 50px; text-align: center;" id="seekArea">&nbsp;</div>
+	<div style="position: absolute; left: 32px; top: 77px; width: 424px; height: 58px;">
+		<table width="100%" height="58" border="0" cellspacing="0" cellpadding="0" style="font-size:58px; color:#fff; line-height:58px; ">
+			<tr>
+				<td width="58" align="center" id="seek0" style="background:url() no-repeat center bottom;">0</td>
+				<td width="8"></td>
+				<td width="58" align="center" id="seek1" style="background:url() no-repeat center bottom;">0</td>
+				<td width="26" valign="middle">:</td>
+				<td width="58" align="center" id="seek2" style="background:url() no-repeat center bottom;">0</td>
+				<td width="8"></td>
+				<td width="58" align="center" id="seek3" style="background:url() no-repeat center bottom;">0</td>
+				<td width="26" valign="middle">:</td>
+				<td width="58" align="center" id="seek4" style="background:url() no-repeat center bottom;">0</td>
+				<td width="8"></td>
+				<td width="58" align="center" id="seek5" style="background:url() no-repeat center bottom;">0</td>
+			</tr>
+		</table>
+	</div>
+	<div style="position: absolute; left: 3px; top: 157px; width: 260px; height: 40px; font-size: 20px; color: #4f576b; line-height: 40px; text-indent: 35px;">输入跳转时间请按数字键</div>
+	<div style="position: absolute; left: 256px; top: 157px; width: 241px; height: 39px; font-size: 20px; color: #4f576b; line-height: 40px; text-indent: 35px; color: #FF0000;" id="seekInfo"></div>
+</div>
+
+<!--音量条-->
+<div id="volumeTips" style="position:absolute; left:0px; top:572px; width:1280px; height:148px; background:url(image/volume_btm0.png) no-repeat left top; visibility:hidden;">
+  <div style="position:absolute; left:60px; top:55px; width:auto; height:40px; font-size:28px; color:#cccccc; line-height:40px;">音量</div>
+  <div id="volumeValue" style="position:absolute; left:838px; top:55px; width:78px; height:40px; font-size:28px; color:#c3bbbb; line-height:40px; text-align:center;">&nbsp;</div>
+  <div style="position:absolute; left:140px; top:55px; width:700px; height:40px; background:url(image/slider_btm1.png) no-repeat left center;">
+    <div id="volumeBg" style="position:absolute; left:0px; top:15px; width:1px; height:10px; background-color:#118bda;"></div>
+    <div style="position:absolute; left:0px; top:2px; width:35px; height:35px; background:url(image/volume_icon_close.png); visibility: hidden;"></div>
+    <div id="volumeFocus" style="position:absolute; left:-17px; top:2px; width:35px; height:35px; background:url(image/volume_icon_open.png);"></div>
+  </div>  
+  <div style="position: absolute; left: 977px; top: 1px; width: 281px; height: 131px;"><img src="image/ad_img2.jpg" width="281" height="131" /></div>
+</div>
+
+<!--静音图标-->
+<div id="muteTips" style="position:absolute; left:1115px; top:40px; width:92px; height:92px; visibility:hidden;"><img src="image/volume_close.png" width="92" height="92" /></div>
+
+<!--声道设置-->
+<div style="position:absolute; background-repeat:no-repeat; width:270px; height:227px; left:972px; top:55px; background:url(image/list_bg3.png); visibility:hidden;" id="soundSet">
+	<table width="229" height="175" border="0" align="center" cellpadding="0" cellspacing="0" style="font-size:20px; color:#FFFFFF">
+		<tr>
+			<td height="69" colspan="4" style="font-size:30px; color:#FFFFFF" id="c0" align="center" valign="middle">声道设置</td>
+		</tr>
+		<tr>
+			<td height="45" style="font-size:18px;" id="c1"></td>
+			<td align="center"><img src="image/list_dot_03.gif" width="14" height="15" id="left0" /></td>
+			<td align="center" style="color:#FFFFFF; font-size:18px;" id="mode_value" width="100"></td>
+			<td align="center"><img src="image/list_dot_05.gif" width="14" height="15" id="right0" /></td>
+		</tr>
+		<tr>
+			<td height="45" style="font-size:18px;" id="c2"></td>
+			<td><img src="image/global_tm.gif" width="14" height="15" id="left1" /></td>
+			<td align="center" style="color:#FFFFFF; font-size:18px;" id="complement_value"></td>
+			<td><img src="image/global_tm.gif" width="14" height="15" id="right1" /></td>
+		</tr>
+  </table>
+</div>
+
+<!--信息键显示当前频点和区域码-->
+<div id="infoTips" style="position:absolute; left:206px; top:143px; width:868px; height:434px; background:url(image/pop_bg.png) no-repeat center; visibility:hidden;">
+  <div style="position: absolute; left: 14px; top: 16px; width: 868px; height: 434px;">
+	<table width="100%" cellpadding="0" cellspacing="0">
+		<tr>
+      <td height="56" colspan="2" align="center" style="font-size:28px; color:#ffffff; ">温馨提示</td>
+    </tr>
+    <tr style="font-size:18px; color:#fff; line-height:46px;">
+      <td id="resumeBtn0" width="50%" height="50" align="left" style="padding-left:40px">互动区域码：<span id="areaCode"></span></td>
+      <td id="resumeBtn1" width="50%" align="left" style="padding-left:40px">中间件发布日期：<span id="MiddlewareDate"></span></td>
+    </tr>
+    <tr style="font-size:18px; color:#fff; line-height:46px;">
+      <td id="resumeBtn0" width="50%" height="50" align="left" style="padding-left:40px">点播频点：<span id="frequency"></span></td>
+      <td id="resumeBtn1" width="50%" align="left" style="padding-left:40px">中间版本：<span id="MiddlewareVersion">v2.0</span></td>
+    </tr>
+    <tr style="font-size:18px; color:#fff; line-height:46px;">
+      <td id="resumeBtn0" width="50%" height="50" align="left" style="padding-left:40px">CA卡号：<span id="CAcard"></span></td>
+      <td id="resumeBtn1" width="50%" align="left" style="padding-left:40px">硬件版本：<span id="HardwareMaker"></span></td>
+    </tr>
+    <tr style="font-size:18px; color:#fff; line-height:46px;">
+      <td id="resumeBtn0" width="50%" height="50" align="left" style="padding-left:40px">IP地址：<span id="Ip"></span></td>
+      <td id="resumeBtn1" width="50%" align="left" style="padding-left:40px">芯片型号：<span id="ChipType"></span></td>
+    </tr>
+    <tr style="font-size:18px; color:#fff; line-height:46px;">
+      <td id="resumeBtn0" width="50%" height="50" align="left" style="padding-left:40px">误码率：<span id="bit_error_rate"></span></td>
+      <td id="resumeBtn1" width="50%" align="left" style="padding-left:40px">信号强度：<span id="Signalstrength"></span></td>
+    </tr>
+    <tr style="font-size:18px; color:#fff; line-height:46px;">
+      <td id="resumeBtn0" width="50%" height="50" align="left" style="padding-left:40px"><span></span></td>
+      <td id="resumeBtn1" width="50%" align="left" style="padding-left:40px">信号质量：<span id="Signalquality"></span></td>
+    </tr>
+	</table>
+    </div>
+</div>
+
+<!--退出提示框-->
+<div id="exitTips" style="position: absolute; left: 338px; top: 117px;  width:598px; height:398px; background: url(image/pop_btm0.png) no-repeat left top; visibility:hidden;">
+  <div style="position: absolute; left: 32px; top: 26px; width: 529px; height: 273px;"><img src="image/ad_img0.jpg" width="529" height="273" /></div>
+  <div style="position: absolute; left: 31px; top: 319px; width: 527px; height: 53px;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr style="font-size:24px; color:#fff; line-height:46px;">
+    	<td width="60%" style="font-size:28px; color:#ffffff;">您确定要退出观看吗？</td>
+      <td id="exitBtn0" width="20%" height="50" align="center" style="background-color:#118bda;">退出观看</td>
+      <td id="exitBtn1" width="20%" align="center" style="background-color:#323847;">继续观看</td>
+    </tr>
+  </table>
+  </div>
+</div>
+
+<!--播放结束提示框-->
+<div id="playEndTips" style="position: absolute; left: 375px; top: 198px; width: 529px; height: 323px; background: url(image/pop_btm0.png) no-repeat center; visibility:hidden;">
+  <div style="position: absolute; left: 0px; top: 0px; width: 529px; height: 273px; background: url(image/ad_img1.jpg) no-repeat"></div>
+  <div style="position: absolute; left: 0px; top: 222px; width: 529px; height: 100px;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td id="playEndCount" height="50" colspan="2" align="center" style="font-size:26px; color:#ffffff; background-color:#000; opacity:0.65;">&nbsp;</td>
+      </tr>
+      <tr style="font-size:24px; color:#fff; line-height:46px;">
+        <td id="playEndBtn0" width="50%" height="50" align="center" style="background-color:#118bda;">退  出</td>
+        <td id="playEndBtn1" width="50%" align="center" style="background-color:#323847;">重  播</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!--播放到开始提示框-->
+<div id="playStartTips" style="position:absolute; left:420px; top:160px; width:470px; height:291px; background:url(image/pop_btm3.png) no-repeat center; visibility:hidden;">
+  <div style="position: absolute; left: 14px; top: 16px; width: 434px; height: 251px;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td height="56" align="center" style="font-size:28px; color:#ffffff; ">温馨提示</td>
+    </tr>
+    <tr>
+      <td  height="159" align="center" style="font-size:28px; color:#ffffff;">节目已播放至开始，请返回</td>
+    </tr>
+    <tr style="font-size:24px; color:#fff; line-height:46px;">
+      <td width="216" height="50" align="center" style="background-color:#118bda; color:#fff;">【确  定】 关  闭</td>
+    </tr>
+  </table>
+  </div>
+</div>
+
+<!--提示框-->
+<div id="playTips" style="position:absolute; left:420px; top:160px; width:470px; height:291px; background:url(image/pop_btm3.png) no-repeat center; visibility:hidden;">
+  <div style="position: absolute; left: 14px; top: 16px; width: 434px; height: 251px;">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td height="56" align="center" style="font-size:28px; color:#ffffff; ">温馨提示</td>
+    </tr>
+    <tr>
+      <td id="tips_text"  align="center" height="195" style="font-size:28px; color:#ffffff;">正在退出，请稍候！</td>
+    </tr>
+  </table>
+  </div>
+</div>
+
+<!--公共提示框-->
+<div id="tipsDiv" style="position: absolute; left:272px; top:208px; width:734px; height:122px;background:url(image/pop_btm4.png) no-repeat; visibility:hidden;">
+	<div id="tipsText" style="position: absolute; left: 2px; top: 22px; width: 718px; height: 48px; line-height: 48px; font-size: 28px; color: #FFFFFF; text-align:center;">&nbsp;</div>
+</div>
+
+<!--影藏div，用于解决乱码问题-->
+<div id="testDiv" style="visibility:hidden;"></div>
+</body>
+</html>
